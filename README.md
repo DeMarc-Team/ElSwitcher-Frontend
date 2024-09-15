@@ -89,6 +89,7 @@ ElSwitcher-Frontend
 1. Las **carpteas** siempre en minúsculas y separadas por guiones bajos "\_". Ej: carpeta_uno
 2. Los **archivos de logica** siempre en minúsculas y separados por guiones bajos "\_". Ej: archivo_uno.ts
 3. Los **archivos de componentes** se usa la notación camelCase. Ej: ComponenteUno.tsx
+    1. IMPORTANTE: El nombre de la funcion del componente debe ser el mismo que el nombre del archivo.
 
 ## Convenciones de commits
 
