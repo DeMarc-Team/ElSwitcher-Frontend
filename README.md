@@ -110,7 +110,7 @@ ELSW-1 feat: Se agrega componente de login
 Se debe seguir el siguiente formato para las branches:
 
 ```
-/<tag del issue en jira>-<descripcion>
+<tag del issue en jira>-<descripcion>
 ```
 
 > Idealmente, crear desde jiira la branch.
