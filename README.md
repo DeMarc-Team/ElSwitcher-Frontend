@@ -54,13 +54,13 @@ ElSwitcher-Frontend
     │  main.tsx => archivo principal.
     │  ...
     │
-    └───components
+    └───components => componentes reutilizables.
     │   │  Component1.tsx => componente 1.
     │   │  ...
     │   │  ComponentN.tsx => componente N.
     │   └───ui => componentes de de la libreria de componentes.
     │
-    └───components
+    └───containers => contenedores de las páginas.
     │   └───Page1
     │   │   │  Page1.tsx => pagina principal de la página 1.
     │   │   └───components => componentes específicos de la página 1.
