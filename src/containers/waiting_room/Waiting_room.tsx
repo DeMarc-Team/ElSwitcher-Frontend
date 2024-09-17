@@ -4,7 +4,7 @@ function Waiting_room() {
         <div className="flex h-[100vh] w-full items-center justify-center">
             <Room
                 title="Esperando a jugadores"
-                description="Los jugadores van a unirse en breve, se paciente idiota."
+                description="Los jugadores van a unirse en breve, se paciente"
             />
         </div> 
     );

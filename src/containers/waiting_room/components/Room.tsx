@@ -21,7 +21,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description }) => {
                 <CardDescription>{description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <Button>Presiona aquí para sacarte la ansiedad</Button>
+                <Button>Iniciar partida</Button>
             </CardContent>
         </Card>
     );
