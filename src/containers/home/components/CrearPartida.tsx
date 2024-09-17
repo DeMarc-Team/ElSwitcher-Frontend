@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -12,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
+import { crearPartida, type crearPartidaForm } from "@/services/api";
 import { useState, useEffect } from "react";
 
 function CrearPartida() {
@@ -87,10 +87,24 @@ function CrearPartida() {
         });
     };
 
+    // Cuando se cierra el componente que se cierren todos los toast
     const handleDialogClose = (isOpen: boolean) => {
         if (!isOpen) {
             dismiss();
         }
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const res = await crearPartida({
+            nombre_partida: partidaname,
+            nombre_creador: username,
+            max_jugadores: max,
+            min_jugadores: min,
+        } as crearPartidaForm);
+
+        // TODO: COMPLETAR FUNCIONALIDAD
     };
 
     return (
@@ -106,7 +120,7 @@ function CrearPartida() {
                         Crear <b className="uppercase">Nueva Partida !!</b>
                     </DialogTitle>
                 </DialogHeader>
-                <div /* TODO: COMPLETAR ACA y por un form */>
+                <form onSubmit={handleSubmit}>
                     <div className="mt-5 flex w-full flex-col gap-5">
                         <div className="w-full">
                             <Label htmlFor="partidaname">
@@ -191,7 +205,7 @@ function CrearPartida() {
                             Crear Partida
                         </Button>
                     </div>
-                </div>
+                </form>
             </DialogContent>
             <Toaster />
         </Dialog>
