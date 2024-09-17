@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Card,
     CardContent,
@@ -13,15 +12,17 @@ interface CardHomeProps {
     description: string;
 }
 
-const CardHome: React.FC<CardHomeProps> = ({ title, description }) => {
+function CardHome (card:CardHomeProps){
     return (
-        <Card className="w-96 text-center">
+        <Card className="max-w-80 max-h-40 text-center bg-red-400">
             <CardHeader>
-                <CardTitle>{title}</CardTitle>
-                <CardDescription>{description}</CardDescription>
+                <CardTitle>{card.title}</CardTitle>
+                <CardDescription>{card.description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <Button>No hago nada !</Button>
+                <Button variant="ghost" className="text-black-500 hover:bg-red-800 hover:text-white">
+                    Crear
+                </Button>
             </CardContent>
         </Card>
     );
