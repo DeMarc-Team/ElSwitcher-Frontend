@@ -18,7 +18,11 @@ export const useCrearPartida = () => {
     }, [partidaname, username, min, max]);
 
     const showToast = (message: string) => {
-        toast({ description: message, variant: "destructive" });
+        toast({
+            title: `CUIDADO:`,
+            description: message,
+            variant: "destructive",
+        });
     };
 
     const changePartidaName = (name: string) => {
