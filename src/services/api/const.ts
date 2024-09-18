@@ -1,3 +1,3 @@
-const API_HOST = "https://localhost:3000";
+const API_HOST = "http://localhost:3001";
 
-export {API_HOST};
+export { API_HOST };
