@@ -1,6 +1,6 @@
 import { API_HOST } from "./const";
 
-interface crearPartidaForm {
+interface CrearPartidaForm {
     nombre_partida: string;
     max_jugadores: number;
     min_jugadores: number;
@@ -8,14 +8,14 @@ interface crearPartidaForm {
 }
 
 // TODO: ESPECIFICAR LA SALIDA CORRECTAMENTE.
-interface crearPartidaResponse {
+interface CrearPartidaResponse {
     id_partida: string;
     token_creador: string;
 }
 
 const crearPartida = async (
-    form: crearPartidaForm
-): Promise<crearPartidaResponse> => {
+    form: CrearPartidaForm
+): Promise<CrearPartidaResponse> => {
     try {
         const response = await fetch(`${API_HOST}/partidas`, {
             method: "POST",
@@ -43,4 +43,4 @@ const crearPartida = async (
     }
 };
 
-export { crearPartida , type crearPartidaForm, type crearPartidaResponse};
+export { crearPartida, type CrearPartidaForm, type CrearPartidaResponse };

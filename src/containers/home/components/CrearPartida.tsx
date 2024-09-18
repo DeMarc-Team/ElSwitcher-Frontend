@@ -11,7 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import { crearPartida, type crearPartidaForm } from "@/services/api";
+import {
+    crearPartida,
+    type CrearPartidaForm,
+} from "@/services/api/crear_partida";
 import { useState, useEffect } from "react";
 
 function CrearPartida() {
@@ -102,8 +105,9 @@ function CrearPartida() {
             nombre_creador: username,
             max_jugadores: max,
             min_jugadores: min,
-        } as crearPartidaForm);
+        } as CrearPartidaForm);
 
+        console.log(res);
         // TODO: COMPLETAR FUNCIONALIDAD
     };
 
