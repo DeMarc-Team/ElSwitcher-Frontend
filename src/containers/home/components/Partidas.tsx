@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area"
+import FormUnirse from "./FormUnirse";
 
 type Partida = {
   id: number;
@@ -29,10 +29,8 @@ function Partidas () {
                 <div className="flex flex-col space-y-4 p-4">
                     <ul>
                         {partidas.map((partida) => (
-                            <li key={partida.id}>
-                                <Link className="redirigir" to={`/espera/${partida.id}`}>
-                                    <button className="w-full text-black font-black text-center p-2 rounded-md hover:bg-red-600">{partida.nombre}</button>
-                                </Link>
+                            <li key={partida.id}>                                
+                                    <FormUnirse partidaId={partida.id} partidaName={partida.nombre}/>
                             </li>
                         ))}
                     </ul>
@@ -43,3 +41,4 @@ function Partidas () {
 };
 
 export default Partidas;
+
