@@ -1,5 +1,4 @@
 import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -11,84 +10,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import {
-    crearPartida,
-    type CrearPartidaForm,
-} from "@/services/api/crear_partida";
-import { useState, useEffect } from "react";
+import { crearPartida } from "@/services/api/crear_partida";
+import { useCrearPartida } from "./useCrearPartida";
 
 function CrearPartida() {
-    const MAX_LENGTH_PARTIDA_NAME = 50;
-    const MAX_LENGTH_USERNAME = 50;
-    const { toast, dismiss } = useToast();
-    const [partidaname, setPartidaname] = useState("");
-    const [username, setUsername] = useState("");
-    const [min, setMin] = useState(2);
-    const [max, setMax] = useState(4);
-
-    useEffect(() => {
-        dismiss();
-    }, [partidaname, username, min, max]);
-
-    const changePartidaName = (e: string) => {
-        if (MAX_LENGTH_PARTIDA_NAME < e.length) {
-            showToast("El nombre de la partida es muy largo.");
-            return;
-        }
-        setPartidaname(e);
-    };
-    const changeUsername = (e: string) => {
-        if (MAX_LENGTH_USERNAME < e.length) {
-            showToast("El nombre de usuario es muy largo.");
-            return;
-        }
-        setUsername(e);
-    };
-    const changeMinJugadores = (e: number) => {
-        if (e < 2 || e > 4) {
-            showToast("El minimo de jugadores debe ser entre 2 y 4.");
-            return;
-        }
-        if (e > max) {
-            showToast("El minimo de jugadores no puede ser mayor al maximo.");
-            return;
-        }
-        setMin(e);
-    };
-    // Si el minimo es mayor al maximo, entonces el minimo se iguala al maximo
-    const changeMaxJugadores = (e: number) => {
-        if (e < 2 || e > 4) {
-            showToast("El maximo de jugadores debe ser entre 2 y 4.");
-            return;
-        }
-        if (min > e) {
-            setMin(e);
-        }
-        setMax(e);
-    };
-
-    const checkUsername = () => {
-        if (username === "") {
-            showToast("El nombre de usuario no puede estar vacio.");
-            return false;
-        }
-        return true;
-    };
-
-    const checkPartidaName = () => {
-        if (partidaname === "") {
-            showToast("El nombre de la partida no puede estar vacio.");
-            return false;
-        }
-        return true;
-    };
-
-    const showToast = (message: string) => {
-        toast({
-            description: message,
-            variant: "destructive",
-        });
-    };
+    const {
+        partidaname,
+        username,
+        min,
+        max,
+        dismiss,
+        changePartidaName,
+        changeUsername,
+        changeMinJugadores,
+        changeMaxJugadores,
+        checkFields,
+    } = useCrearPartida();
 
     // Cuando se cierra el componente que se cierren todos los toast
     const handleDialogClose = (isOpen: boolean) => {
@@ -99,13 +36,14 @@ function CrearPartida() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!checkFields()) return;
 
         const res = await crearPartida({
             nombre_partida: partidaname,
             nombre_creador: username,
             max_jugadores: max,
             min_jugadores: min,
-        } as CrearPartidaForm);
+        });
 
         console.log(res);
         // TODO: COMPLETAR FUNCIONALIDAD
@@ -198,14 +136,7 @@ function CrearPartida() {
                         </div>
                     </div>
                     <div>
-                        <Button
-                            onClick={() => {
-                                checkUsername();
-                                checkPartidaName();
-                            }}
-                            type="submit"
-                            className="mt-5 w-full"
-                        >
+                        <Button type="submit" className="mt-5 w-full">
                             Crear Partida
                         </Button>
                     </div>
