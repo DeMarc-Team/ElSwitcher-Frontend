@@ -1,27 +1,33 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
 import FormUnirse from "./FormUnirse";
-
-type Partida = {
-  id: number;
-  nombre: string;
-};
-
-
-function crearPartidas(cantidadPartidas:any) {
-    const partidas: Partida[] = [];
-  
-    for (let i = 1; i <= cantidadPartidas; i++) {
-      partidas.push({
-        id: i,
-        nombre: `Partida ${i}`
-      });
-    }
-  
-    return partidas;
-  }
+import { obtenerPartidas,type Partida } from "@/services/api/obtener-partidas";
+import { useEffect, useState } from "react";
 
 function Partidas () {
-    const partidas: Partida[] = crearPartidas(15)
+    const [partidas, setPartidas] = useState<Partida[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchPartidas = async () => {
+            try {
+                const data = await obtenerPartidas();
+                setPartidas(data);
+            } catch (err) {
+                setError('Error al cargar las partidas.');
+            }
+        };
+
+        fetchPartidas();
+
+        const intervalId = setInterval(() => {fetchPartidas();}, 7000); // Son ms
+
+      // Limpia el intervalo cuando ya no se renderiza el home
+      return () => clearInterval(intervalId);
+    }, []);
+
+    if (error) {
+        return <p>{error}</p>;
+    }
     return (
         <div>
             <ScrollArea className="w-96 h-48 overflow-auto rounded-md border bg-red-400 ">
@@ -30,7 +36,7 @@ function Partidas () {
                     <ul>
                         {partidas.map((partida) => (
                             <li key={partida.id}>                                
-                                    <FormUnirse partidaId={partida.id} partidaName={partida.nombre}/>
+                                    <FormUnirse partidaId={partida.id} partidaName={partida.nombre_partida}/>
                             </li>
                         ))}
                     </ul>
