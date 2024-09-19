@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
 import FormUnirse from "./FormUnirse";
-import { obtenerPartidas,type Partida } from "@/services/api/obtener-partidas";
+import { ObtenerPartidas,type Partida } from "@/services/api/ObtenerPartidas";
 import { useEffect, useState } from "react";
 
 function Partidas () {
@@ -10,7 +10,7 @@ function Partidas () {
     useEffect(() => {
         const fetchPartidas = async () => {
             try {
-                const data = await obtenerPartidas();
+                const data = await ObtenerPartidas();
                 setPartidas(data);
             } catch (err) {
                 setError('Error al cargar las partidas.');

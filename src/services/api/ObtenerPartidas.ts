@@ -5,7 +5,7 @@ interface Partida {
     nombre_partida: string;
 }
 
-const obtenerPartidas = async (): Promise<Partida[]> => {
+const ObtenerPartidas = async (): Promise<Partida[]> => {
     try {
         const response = await fetch(`${API_HOST}/partidas`, {
             method: "GET",
@@ -26,4 +26,4 @@ const obtenerPartidas = async (): Promise<Partida[]> => {
     }
 };
 
-export { obtenerPartidas, type Partida};
+export { ObtenerPartidas, type Partida};
