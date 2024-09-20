@@ -22,6 +22,7 @@ function CrearPartida() {
         changeUsername,
         checkFields,
         showToastSuccess,
+        showToastError,
     } = useCrearPartida();
 
     // Cuando se cierra el componente que se cierren todos los toast
@@ -35,13 +36,17 @@ function CrearPartida() {
         e.preventDefault();
         if (!checkFields()) return;
 
-        const res = await crearPartida({
-            nombre_partida: partidaname,
-            nombre_creador: username,
-        });
-        showToastSuccess("Partida creada con exito.");
-        console.log(res);
-        // TODO: COMPLETAR FUNCIONALIDAD
+        try {
+            const res = await crearPartida({
+                nombre_partida: partidaname,
+                nombre_creador: username,
+            });
+            showToastSuccess(
+                "Partida" + res.nombre_partida + " creada con exito."
+            );
+        } catch (error) {
+            showToastError("Error no se pudo crear la partida.");
+        }
     };
 
     return (

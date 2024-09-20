@@ -5,7 +5,6 @@ interface CrearPartidaForm {
     nombre_creador: string;
 }
 
-// TODO: ESPECIFICAR LA SALIDA CORRECTAMENTE.
 interface CrearPartidaResponse {
     id: number,
     nombre_creador: string,
@@ -28,14 +27,13 @@ const crearPartida = async (
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`Error al crear la partida: ${response.statusText}`);
         }
 
         const data = await response.json();
         return data;
     } catch (error) {
-        // TODO: MEJORAR EL MANEJO DE ERRORES.
-        console.error("Error creating partida:", error);
+        console.error("Error al crear la partida:", error);
         throw error;
     }
 };

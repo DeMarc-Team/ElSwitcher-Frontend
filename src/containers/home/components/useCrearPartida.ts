@@ -13,7 +13,7 @@ export const useCrearPartida = () => {
         dismiss();
     }, [partidaname, username]);
 
-    const showToast = (message: string) => {
+    const showToastError = (message: string) => {
         toast({
             title: `CUIDADO:`,
             description: message,
@@ -30,7 +30,7 @@ export const useCrearPartida = () => {
 
     const changePartidaName = (name: string) => {
         if (name.length > MAX_LENGTH_PARTIDA_NAME) {
-            showToast("El nombre de la partida es muy largo.");
+            showToastError("El nombre de la partida es muy largo.");
             return;
         }
         setPartidaname(name);
@@ -38,7 +38,7 @@ export const useCrearPartida = () => {
 
     const changeUsername = (name: string) => {
         if (name.length > MAX_LENGTH_USERNAME) {
-            showToast("El nombre de usuario es muy largo.");
+            showToastError("El nombre de usuario es muy largo.");
             return;
         }
         setUsername(name);
@@ -46,17 +46,17 @@ export const useCrearPartida = () => {
 
     const checkFields = () => {
         if (username === "" && partidaname === "") {
-            showToast(
+            showToastError(
                 "El nombre de usuario y el nombre de la partida no pueden estar vacios."
             );
             return false;
         }
         if (username === "") {
-            showToast("El nombre de usuario no puede estar vacio.");
+            showToastError("El nombre de usuario no puede estar vacio.");
             return false;
         }
         if (partidaname === "") {
-            showToast("El nombre de la partida no puede estar vacio.");
+            showToastError("El nombre de la partida no puede estar vacio.");
             return false;
         }
         return true;
@@ -69,6 +69,7 @@ export const useCrearPartida = () => {
         changePartidaName,
         changeUsername,
         checkFields,
+        showToastError,
         showToastSuccess,
     };
 };
