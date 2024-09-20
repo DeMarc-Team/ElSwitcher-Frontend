@@ -21,6 +21,13 @@ export const useCrearPartida = () => {
         });
     };
 
+    const showToastSuccess = (message: string) => {
+        toast({
+            title: `EXITO:`,
+            description: message,
+        });
+    }
+
     const changePartidaName = (name: string) => {
         if (name.length > MAX_LENGTH_PARTIDA_NAME) {
             showToast("El nombre de la partida es muy largo.");
@@ -62,5 +69,6 @@ export const useCrearPartida = () => {
         changePartidaName,
         changeUsername,
         checkFields,
+        showToastSuccess,
     };
 };

@@ -21,6 +21,7 @@ function CrearPartida() {
         changePartidaName,
         changeUsername,
         checkFields,
+        showToastSuccess,
     } = useCrearPartida();
 
     // Cuando se cierra el componente que se cierren todos los toast
@@ -38,7 +39,7 @@ function CrearPartida() {
             nombre_partida: partidaname,
             nombre_creador: username,
         });
-
+        showToastSuccess("Partida creada con exito.");
         console.log(res);
         // TODO: COMPLETAR FUNCIONALIDAD
     };
