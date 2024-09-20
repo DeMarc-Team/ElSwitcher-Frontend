@@ -3,12 +3,14 @@ import Home from "@/containers/home/Home";
 
 function App() {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path='/espera/:id_partida'/>
-            </Routes>
-        </Router>
+        <div className="px-16 py-5">
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/espera/:id_partida" />
+                </Routes>
+            </Router>
+        </div>
     );
 }
 

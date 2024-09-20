@@ -26,4 +26,4 @@ const ObtenerPartidas = async (): Promise<Partida[]> => {
     }
 };
 
-export { ObtenerPartidas, type Partida};
+export { ObtenerPartidas, type Partida };
