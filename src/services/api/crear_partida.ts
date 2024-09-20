@@ -2,8 +2,6 @@ import { API_HOST } from "./const";
 
 interface CrearPartidaForm {
     nombre_partida: string;
-    max_jugadores: number;
-    min_jugadores: number;
     nombre_creador: string;
 }
 
@@ -24,8 +22,6 @@ const crearPartida = async (
             },
             body: JSON.stringify({
                 nombre_partida: form.nombre_partida,
-                max_jugadores: form.max_jugadores,
-                min_jugadores: form.min_jugadores,
                 nombre_creador: form.nombre_creador,
             }),
         });

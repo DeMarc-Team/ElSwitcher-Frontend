@@ -17,13 +17,9 @@ function CrearPartida() {
     const {
         partidaname,
         username,
-        min,
-        max,
         dismiss,
         changePartidaName,
         changeUsername,
-        changeMinJugadores,
-        changeMaxJugadores,
         checkFields,
     } = useCrearPartida();
 
@@ -41,8 +37,6 @@ function CrearPartida() {
         const res = await crearPartida({
             nombre_partida: partidaname,
             nombre_creador: username,
-            max_jugadores: max,
-            min_jugadores: min,
         });
 
         console.log(res);
@@ -81,44 +75,6 @@ function CrearPartida() {
                                     changePartidaName(e.target.value)
                                 }
                             />
-                        </div>
-                        <div className="w-full">
-                            <Label>Cantidad de jugadores</Label>
-                            <div className="flex items-center gap-2">
-                                <small className="text-gray-500"></small>
-                                <Label htmlFor="minjugadores">Minimo</Label>
-                                <Input
-                                    className="mt-1"
-                                    type="number"
-                                    id="minjugadores"
-                                    autoFocus={false}
-                                    placeholder="Minimo"
-                                    autoComplete="off"
-                                    tabIndex={-1}
-                                    value={min}
-                                    onChange={(e) =>
-                                        changeMinJugadores(
-                                            Number(e.target.value)
-                                        )
-                                    }
-                                />
-                                <Label htmlFor="maxjugadores">Maximo</Label>
-                                <Input
-                                    className="mt-1"
-                                    type="number"
-                                    id="maxjugadores"
-                                    autoFocus={false}
-                                    placeholder="Maximo"
-                                    autoComplete="off"
-                                    tabIndex={-1}
-                                    value={max}
-                                    onChange={(e) =>
-                                        changeMaxJugadores(
-                                            Number(e.target.value)
-                                        )
-                                    }
-                                />
-                            </div>
                         </div>
                         <div className="w-full">
                             <Label htmlFor="username">Nombre de Usuario</Label>
