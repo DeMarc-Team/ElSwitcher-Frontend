@@ -7,8 +7,9 @@ interface CrearPartidaForm {
 
 // TODO: ESPECIFICAR LA SALIDA CORRECTAMENTE.
 interface CrearPartidaResponse {
-    id_partida: string;
-    token_creador: string;
+    id: number,
+    nombre_creador: string,
+    nombre_partida: string,
 }
 
 const crearPartida = async (
