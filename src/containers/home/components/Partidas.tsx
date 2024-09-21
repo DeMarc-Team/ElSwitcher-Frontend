@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FormUnirse from "./FormUnirse";
-import { ObtenerPartidas, type Partida } from "@/services/api/ObtenerPartidas";
+import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useEffect, useState } from "react";
 
 function Partidas() {

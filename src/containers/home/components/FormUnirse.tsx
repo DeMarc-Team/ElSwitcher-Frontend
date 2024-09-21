@@ -60,7 +60,7 @@ function FormUnirse({ partidaId, partidaName }: FormUnirseProps) {
             <DialogTrigger asChild>
                 <Button
                     variant="outline"
-                    className="my-2 w-full rounded-md border-black py-3 text-center"
+                    className="my-2 w-full rounded-md border-black bg-transparent py-3 text-center"
                 >
                     <span>
                         Unirse a <b>{partidaName}</b>
@@ -68,7 +68,7 @@ function FormUnirse({ partidaId, partidaName }: FormUnirseProps) {
                     <ArrowUpRight className="ml-5 w-4" />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white">
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
                         Unirse a la partida{" "}

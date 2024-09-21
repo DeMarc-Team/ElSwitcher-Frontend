@@ -15,13 +15,15 @@ const ObtenerPartidas = async (): Promise<Partida[]> => {
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(
+                `Error al obtener partidas: ${response.statusText}`
+            );
         }
 
         const data: Partida[] = await response.json();
         return data;
     } catch (error) {
-        console.error("Error fetching partidas:", error);
+        console.error("Error al obtener partidas:", error);
         throw error;
     }
 };
