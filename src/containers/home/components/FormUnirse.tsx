@@ -26,7 +26,7 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
 
     const changeUsername = (e: string) => {
         if (MAX_LENGTH_USERNAME < e.length) {
-            showToast("El nombre de usuario es muy largo.");
+            showToastError("El nombre de usuario es muy largo.");
             return;
         }
         setUsername(e);
@@ -34,16 +34,24 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
 
     const checkUsername = () => {
         if (username === "") {
-            showToast("El nombre de usuario no puede estar vacio.");
+            showToastError("El nombre de usuario no puede estar vacio.");
             return false;
         }
         return true;
     };
 
-    const showToast = (message: string) => {
+    const showToastError = (message: string) => {
         toast({
+            title: `ERROR:`,
             description: message,
             variant: "destructive",
+        });
+    };
+
+    const showToastSuccess = (message: string) => {
+        toast({
+            title: `EXITO:`,
+            description: message,
         });
     };
 
@@ -53,9 +61,11 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
 
         try {
             const res = await UnirsePartida(partidaId, username);
-            showToast(`Bienvenido ${res.nombre}`);
+            showToastSuccess(
+                `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
+            );
         } catch (error) {
-            showToast("Error al unirse a la partida.");
+            showToastError("Error al unirse a la partida.");
         }
     };
 
