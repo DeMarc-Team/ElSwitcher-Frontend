@@ -21,7 +21,7 @@ function Partidas() {
 
         const intervalId = setInterval(() => {
             fetchPartidas();
-        }, 7000); // Son ms
+        }, 2000); // Son ms
 
         // Limpia el intervalo cuando ya no se renderiza el home
         return () => clearInterval(intervalId);
