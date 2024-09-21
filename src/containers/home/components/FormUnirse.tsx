@@ -11,19 +11,18 @@ import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import { UnirsePartida } from "@/services/api/unirse_partida";
 
 interface FormUnirseProps {
     partidaId: number;
     partidaName: string;
 }
 
-function FormUnirse({ partidaId, partidaName }: FormUnirseProps) {
+function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
 
     const [username, setUsername] = useState("");
-    const navigate = useNavigate();
 
     const changeUsername = (e: string) => {
         if (MAX_LENGTH_USERNAME < e.length) {
@@ -38,7 +37,6 @@ function FormUnirse({ partidaId, partidaName }: FormUnirseProps) {
             showToast("El nombre de usuario no puede estar vacio.");
             return false;
         }
-        navigate(`/espera/${partidaId}`);
         return true;
     };
 
@@ -51,8 +49,14 @@ function FormUnirse({ partidaId, partidaName }: FormUnirseProps) {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!checkUsername()) return;
 
-        // TODO: COMPLETAR FUNCIONALIDAD
+        try {
+            const res = await UnirsePartida(partidaId, username);
+            showToast(`Bienvenido ${res.nombre}`);
+        } catch (error) {
+            showToast("Error al unirse a la partida.");
+        }
     };
 
     return (
