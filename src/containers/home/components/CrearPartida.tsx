@@ -12,8 +12,11 @@ import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { crearPartida } from "@/services/api/crear_partida";
 import { useCrearPartida } from "./useCrearPartida";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { useState } from "react";
 
 function CrearPartida() {
+    const [isOpen, setIsOpen] = useState(false);
     const {
         partidaname,
         username,
@@ -23,11 +26,13 @@ function CrearPartida() {
         checkFields,
         showToastSuccess,
         showToastError,
+        resetFields,
     } = useCrearPartida();
 
     // Cuando se cierra el componente que se cierren todos los toast
-    const handleDialogClose = (isOpen: boolean) => {
-        if (!isOpen) {
+    const handleDialogClose = () => {
+        setIsOpen(!isOpen);
+        if (isOpen) {
             dismiss();
         }
     };
@@ -42,15 +47,19 @@ function CrearPartida() {
                 nombre_creador: username,
             });
             showToastSuccess(
-                "Partida" + res.nombre_partida + " creada con exito."
+                "Partida '" + res.nombre_partida + "' creada con exito."
             );
+            setTimeout(() => {
+                handleDialogClose();
+                resetFields();
+            }, 1000);
         } catch (error) {
             showToastError("Error no se pudo crear la partida.");
         }
     };
 
     return (
-        <Dialog onOpenChange={handleDialogClose}>
+        <Dialog onOpenChange={handleDialogClose} open={isOpen}>
             <DialogTrigger asChild>
                 <Button className="flex items-center justify-center gap-1">
                     Crear Partida <Plus className="h-5 w-5" />
@@ -61,9 +70,10 @@ function CrearPartida() {
                     <DialogTitle>
                         Crear <b className="uppercase">Nueva Partida !!</b>
                     </DialogTitle>
+                    <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit}>
-                    <div className="mt-5 flex w-full flex-col gap-5">
+                    <div className="mt-1 flex w-full flex-col gap-5">
                         <div className="w-full">
                             <Label htmlFor="partidaname">
                                 Nombre de Partida

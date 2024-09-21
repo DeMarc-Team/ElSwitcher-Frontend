@@ -62,6 +62,11 @@ export const useCrearPartida = () => {
         return true;
     };
 
+    const resetFields = () => {
+        setPartidaname("");
+        setUsername("");
+    }
+
     return {
         partidaname,
         username,
@@ -71,5 +76,6 @@ export const useCrearPartida = () => {
         checkFields,
         showToastError,
         showToastSuccess,
+        resetFields,
     };
 };
