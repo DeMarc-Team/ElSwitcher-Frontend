@@ -46,6 +46,13 @@ function Partidas() {
                                     />
                                 </li>
                             ))}
+                            {partidas.length === 0 && (
+                                <div className="flex h-80 items-center justify-center">
+                                    <p className="text-center opacity-65">
+                                        No hay partidas creadas.
+                                    </p>
+                                </div>
+                            )}
                         </ul>
                     </div>
                 </ScrollArea>
