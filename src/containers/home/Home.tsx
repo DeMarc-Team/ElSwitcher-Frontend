@@ -6,7 +6,7 @@ function Home() {
                 title="El Switcher"
                 description="Esta es la pagina home"
             />
-        </div> 
+        </div>
     );
 }
 
