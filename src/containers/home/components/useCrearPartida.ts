@@ -26,7 +26,7 @@ export const useCrearPartida = () => {
             title: `EXITO:`,
             description: message,
         });
-    }
+    };
 
     const changePartidaName = (name: string) => {
         if (name.length > MAX_LENGTH_PARTIDA_NAME) {
@@ -65,7 +65,7 @@ export const useCrearPartida = () => {
     const resetFields = () => {
         setPartidaname("");
         setUsername("");
-    }
+    };
 
     return {
         partidaname,

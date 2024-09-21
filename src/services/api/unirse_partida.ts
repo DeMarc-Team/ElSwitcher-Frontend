@@ -5,17 +5,23 @@ interface UnirsePartidaResponse {
     id_jugador: number;
 }
 
-const UnirsePartida = async (partidaId: number, username: string): Promise<UnirsePartidaResponse> => {
+const UnirsePartida = async (
+    partidaId: number,
+    username: string
+): Promise<UnirsePartidaResponse> => {
     try {
-        const response = await fetch(`${API_HOST}/partidas/${partidaId}/jugadores`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                nombre: username,
-            })
-        });
+        const response = await fetch(
+            `${API_HOST}/partidas/${partidaId}/jugadores`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nombre: username,
+                }),
+            }
+        );
 
         if (!response.ok) {
             throw new Error(
@@ -27,6 +33,6 @@ const UnirsePartida = async (partidaId: number, username: string): Promise<Unirs
         console.error("Error al unirse a la partida:", error);
         throw error;
     }
-}
+};
 
 export { UnirsePartida, type UnirsePartidaResponse };

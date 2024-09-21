@@ -6,9 +6,9 @@ interface CrearPartidaForm {
 }
 
 interface CrearPartidaResponse {
-    id: number,
-    nombre_creador: string,
-    nombre_partida: string,
+    id: number;
+    nombre_creador: string;
+    nombre_partida: string;
 }
 
 const crearPartida = async (
@@ -27,7 +27,9 @@ const crearPartida = async (
         });
 
         if (!response.ok) {
-            throw new Error(`Error al crear la partida: ${response.statusText}`);
+            throw new Error(
+                `Error al crear la partida: ${response.statusText}`
+            );
         }
 
         const data = await response.json();

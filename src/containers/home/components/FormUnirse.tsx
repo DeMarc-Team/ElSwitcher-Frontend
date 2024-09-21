@@ -13,6 +13,7 @@ import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
+import { useNavigate } from "react-router-dom";
 
 interface FormUnirseProps {
     partidaId: number;
@@ -23,6 +24,7 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
 
     const [username, setUsername] = useState("");
+    const navigate = useNavigate();
 
     const changeUsername = (e: string) => {
         if (MAX_LENGTH_USERNAME < e.length) {
@@ -64,6 +66,9 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
             );
+            setTimeout(() => {
+                navigate(`/partidas/${partidaId}/sala-espera`);
+            }, 2000);
         } catch (error) {
             showToastError("Error al unirse a la partida.");
         }
