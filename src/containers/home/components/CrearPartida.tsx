@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,11 +13,13 @@ import {
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
 import { crearPartida } from "@/services/api/crear_partida";
+import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useCrearPartida } from "./useCrearPartida";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
     const {
         partidaname,
         username,
@@ -40,20 +43,43 @@ function CrearPartida() {
         e.preventDefault();
         if (!checkFields()) return;
 
+        let partidaId: number | undefined;
+        let unirsepartida = false;
+
         try {
             const res = await crearPartida({
                 nombre_partida: partidaname,
                 nombre_creador: username,
             });
+
             showToastSuccess(
-                "Partida '" + res.nombre_partida + "' creada con exito."
+                `Partida '${res.nombre_partida}' creada con éxito.`
             );
+            partidaId = res.id;
+            unirsepartida = true;
+
             setTimeout(() => {
                 handleDialogClose();
                 resetFields();
             }, 1000);
         } catch (error) {
-            showToastError("Error no se pudo crear la partida.");
+            console.error("Error creando partida:", error);
+            showToastError("Error: no se pudo crear la partida.");
+            return; // Sale de la función si hay error
+        }
+
+        if (unirsepartida && partidaId !== undefined) {
+            try {
+                const res = await UnirsePartida(partidaId, username);
+                showToastSuccess(
+                    `Bienvenido "${res.nombre}" a la partida "${partidaname}."`
+                );
+                setTimeout(() => {
+                    navigate(`/partidas/${partidaId}/sala-espera`);
+                }, 2000);
+            } catch (error) {
+                showToastError("Error al unirse a la partida.");
+            }
         }
     };
 

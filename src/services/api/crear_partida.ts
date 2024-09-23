@@ -15,7 +15,6 @@ const crearPartida = async (
     form: CrearPartidaForm
 ): Promise<CrearPartidaResponse> => {
     try {
-
         const response = await fetch(`${API_HOST}/partidas`, {
             method: "POST",
             headers: {

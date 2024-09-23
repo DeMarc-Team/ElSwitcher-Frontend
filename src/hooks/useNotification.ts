@@ -17,7 +17,7 @@ export const useNotification = () => {
             description: message,
             variant: "destructive",
         });
-    }
+    };
 
     const showToastSuccess = (message: string) => {
         toast({
@@ -32,7 +32,7 @@ export const useNotification = () => {
             title: `INFO:`,
             description: message,
         });
-    }
+    };
 
     const showToastWarning = (message: string) => {
         toast({
@@ -40,11 +40,11 @@ export const useNotification = () => {
             description: message,
             variant: "warning",
         });
-    }
+    };
 
     const closeToast = () => {
         dismiss();
-    }
+    };
 
     return {
         closeToast,

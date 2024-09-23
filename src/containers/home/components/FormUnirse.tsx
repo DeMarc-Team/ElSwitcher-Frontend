@@ -42,7 +42,6 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
         return true;
     };
 
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!checkUsername()) return;
