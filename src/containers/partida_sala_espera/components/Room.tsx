@@ -12,6 +12,9 @@ import {
     ObtenerInfoPartida,
     type Jugador,
 } from "@/services/api/obtener_info_partida";
+import { useNavigate } from "react-router-dom";
+import CronometroVisual from "../../dashboard/components/Cronometer";
+import Cronometer from "../../dashboard/components/Cronometer";
 
 interface CardHomeProps {
     title: string;
@@ -22,12 +25,31 @@ interface CardHomeProps {
 const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [jugadores, setJugadores] = useState<Jugador[]>([]);
     const [nombrePartida, setNombrePartida] = useState<string>("");
+    const [showMessage, setShowMessage] = useState(false);
+    const [isRedirecting, setIsRedirecting] = useState(false);
 
+    const navigate = useNavigate();
+
+    const handleRedirect = () => {
+        setShowMessage(true); // Muestra el mensaje de bienvenida
+        setIsRedirecting(true); // Indica que se está redirigiendo
+
+        // Temporizador para redirigir después de 2 segundos
+        /*setTimeout(() => {
+            navigate('/partidas/dashboard'); // Redirige a la ruta "/partidas/dashboard"
+        }, 2000); // 2000 ms = 2 segundos*/
+    };
+
+    const temporizador = () => {
+        setTimeout(() => {
+            navigate('/partidas/dashboard'); // Redirige a la ruta "/partidas/dashboard"
+        }, 2000); // 2000 ms = 2 segundos*/
+    }
     useEffect(() => {
         info_partida();
         const intervalId = setInterval(() => {
             info_partida();
-        }, 2000); // Son ms
+        }, 5000); // Son ms
         return () => clearInterval(intervalId);
     }, []);
 
@@ -41,29 +63,32 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
             throw error;
         }
     };
-    if (!nombrePartida) {
-        return <Loading></Loading>;
-    }
-    return (
-        <p>
-            <Card className="w-96 text-center">
-                <CardHeader>
-                    <CardTitle>
-                        <span>{title}</span>
-                        <br />
-                        <span>"{nombrePartida}"</span>
-                    </CardTitle>
 
-                    {jugadores.length < 4 && (
-                        <CardDescription className="h-fit">
-                            <Loading></Loading>
+    return (
+        <div>
+            {isRedirecting ? (
+                <div>
+                    <h1>¡La partida comenzará en!</h1>
+                    <Cronometer initialSeconds={5} onComplete={temporizador} />
+                </div>
+            ) : (
+                <Card className="w-96 text-center">
+                    <CardHeader>
+                        <CardTitle>
+                            <span>{title}</span>
                             <br />
-                            <span>{description}</span>
-                        </CardDescription>
-                    )}
-                </CardHeader>
-                <CardContent>
-                    {
+                            <span>{nombrePartida}</span>
+                        </CardTitle>
+
+                        {jugadores.length < 4 && (
+                            <CardDescription className="h-fit">
+                                <Loading />
+                                <br />
+                                <span>{description}</span>
+                            </CardDescription>
+                        )}
+                    </CardHeader>
+                    <CardContent>
                         <div className="overflow-x-auto">
                             <table className="min-w-full border-collapse border-2 border-black bg-green-300">
                                 <thead>
@@ -92,16 +117,16 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                                 </tbody>
                             </table>
                         </div>
-                    }
-                    {jugadores.length >= 4 && (
-                        <div className="mt-4 gap-10 opacity-65">
-                            Se completó la cantidad de jugadores.
-                        </div>
-                    )}
-                    <Button className="mt-4 gap-10">Iniciar partida</Button>
-                </CardContent>
-            </Card>
-        </p>
+                        {jugadores.length >= 4 && (
+                            <div className="mt-4 gap-10 opacity-65">
+                                Se completó la cantidad de jugadores.
+                            </div>
+                        )}
+                        <Button onClick={handleRedirect} className="mt-4 gap-10">Iniciar partida</Button>
+                    </CardContent>
+                </Card>
+            )}
+        </div>
     );
 };
 
