@@ -16,6 +16,7 @@ import { crearPartida } from "@/services/api/crear_partida";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useCrearPartida } from "./useCrearPartida";
+import { time } from "console";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
@@ -57,30 +58,29 @@ function CrearPartida() {
             );
             partidaId = res.id;
             unirsepartida = true;
-
-            setTimeout(() => {
-                handleDialogClose();
-                resetFields();
-            }, 1000);
         } catch (error) {
             console.error("Error creando partida:", error);
             showToastError("Error: no se pudo crear la partida.");
             return; // Sale de la función si hay error
         }
 
-        if (unirsepartida && partidaId !== undefined) {
-            try {
-                const res = await UnirsePartida(partidaId, username);
-                showToastSuccess(
-                    `Bienvenido "${res.nombre}" a la partida "${partidaname}."`
-                );
-                setTimeout(() => {
-                    navigate(`/partidas/${partidaId}/sala-espera`);
-                }, 2000);
-            } catch (error) {
-                showToastError("Error al unirse a la partida.");
+        setTimeout(async () => {
+            if (unirsepartida && partidaId !== undefined) {
+                try {
+                    const res = await UnirsePartida(partidaId, username);
+                    showToastSuccess(
+                        `Bienvenido "${res.nombre}" a la partida "${partidaname}."`
+                    );
+                    setTimeout(() => {
+                        handleDialogClose();
+                        resetFields();
+                        navigate(`/partidas/${partidaId}/sala-espera`);
+                    }, 2000);
+                } catch (error) {
+                    showToastError("Error al unirse a la partida.");
+                }
             }
-        }
+        }, 2000);
     };
 
     return (
