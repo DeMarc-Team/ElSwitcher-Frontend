@@ -8,24 +8,23 @@ function Partidas() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchPartidas = async () => {
-            try {
-                const data = await ObtenerPartidas();
-                setPartidas(data);
-            } catch (err) {
-                setError("No se pudieron obtener las partidas.");
-            }
-        };
-
         fetchPartidas();
-
-        const intervalId = setInterval(() => {
+        const intervalId = setInterval(async () => {
             fetchPartidas();
         }, 2000); // Son ms
 
         // Limpia el intervalo cuando ya no se renderiza el home
         return () => clearInterval(intervalId);
     }, []);
+
+    const fetchPartidas = async () => {
+        try {
+            const data = await ObtenerPartidas();
+            setPartidas(data);
+        } catch (err) {
+            setError("No se pudieron obtener las partidas.");
+        }
+    };
 
     return (
         <div className="flex flex-col items-center justify-center">

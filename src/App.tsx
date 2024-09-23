@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
 import Home from "@/containers/home/Home";
 import SalaEspera from "./containers/partida_sala_espera/SalaEspera";
 
@@ -14,6 +15,7 @@ function App() {
                     />
                 </Routes>
             </Router>
+            <Toaster />
         </div>
     );
 }

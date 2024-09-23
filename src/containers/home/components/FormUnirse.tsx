@@ -8,11 +8,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Toaster } from "@/components/ui/toaster";
-import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
+import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
 
 interface FormUnirseProps {
@@ -25,10 +24,11 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
 
     const [username, setUsername] = useState("");
     const navigate = useNavigate();
+    const { showToastAlert, showToastSuccess, closeToast } = useNotification();
 
     const changeUsername = (e: string) => {
         if (MAX_LENGTH_USERNAME < e.length) {
-            showToastError("El nombre de usuario es muy largo.");
+            showToastAlert("El nombre de usuario es muy largo.");
             return;
         }
         setUsername(e);
@@ -36,26 +36,12 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
 
     const checkUsername = () => {
         if (username === "") {
-            showToastError("El nombre de usuario no puede estar vacio.");
+            showToastAlert("El nombre de usuario no puede estar vacio.");
             return false;
         }
         return true;
     };
 
-    const showToastError = (message: string) => {
-        toast({
-            title: `ERROR:`,
-            description: message,
-            variant: "destructive",
-        });
-    };
-
-    const showToastSuccess = (message: string) => {
-        toast({
-            title: `EXITO:`,
-            description: message,
-        });
-    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -68,9 +54,10 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
             );
             setTimeout(() => {
                 navigate(`/partidas/${partidaId}/sala-espera`);
+                closeToast();
             }, 2000);
         } catch (error) {
-            showToastError("Error al unirse a la partida.");
+            showToastAlert("Error al unirse a la partida.");
         }
     };
 
@@ -124,7 +111,6 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
                     </div>
                 </form>
             </DialogContent>
-            <Toaster />
         </Dialog>
     );
 }

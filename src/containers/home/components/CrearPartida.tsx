@@ -1,39 +1,38 @@
-import { Toaster } from "@/components/ui/toaster";
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
+    DialogDescription,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { crearPartida } from "@/services/api/crear_partida";
+import { useNotification } from "@/hooks/useNotification";
 import { useCrearPartida } from "./useCrearPartida";
-import { DialogDescription } from "@radix-ui/react-dialog";
-import { useState } from "react";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
     const {
         partidaname,
         username,
-        dismiss,
         changePartidaName,
         changeUsername,
         checkFields,
-        showToastSuccess,
-        showToastError,
         resetFields,
     } = useCrearPartida();
+
+    const { showToastSuccess, showToastError, closeToast } = useNotification();
 
     // Cuando se cierra el componente que se cierren todos los toast
     const handleDialogClose = () => {
         setIsOpen(!isOpen);
         if (isOpen) {
-            dismiss();
+            closeToast();
         }
     };
 
@@ -114,7 +113,6 @@ function CrearPartida() {
                     </div>
                 </form>
             </DialogContent>
-            <Toaster />
         </Dialog>
     );
 }
