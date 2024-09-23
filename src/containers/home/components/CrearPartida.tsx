@@ -65,11 +65,10 @@ function CrearPartida() {
         }
 
         setTimeout(async () => {
-            if (unirsepartida && partidaId !== undefined) {
+            if (unirsepartida) {
                 try {
-                    const res = await UnirsePartida(partidaId, username);
                     showToastSuccess(
-                        `Bienvenido "${res.nombre}" a la partida "${partidaname}."`
+                        `Bienvenido a la partida "${partidaname}."`
                     );
                     setTimeout(() => {
                         handleDialogClose();
