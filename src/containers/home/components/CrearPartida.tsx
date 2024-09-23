@@ -14,9 +14,12 @@ import { crearPartida } from "@/services/api/crear_partida";
 import { useCrearPartida } from "./useCrearPartida";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useState } from "react";
+import { UnirsePartida } from "@/services/api/unirse_partida";
+import { useNavigate } from "react-router-dom";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate()
     const {
         partidaname,
         username,
@@ -40,21 +43,44 @@ function CrearPartida() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!checkFields()) return;
-
+    
+        let partidaId: number | undefined;
+        let unirsepartida = false;        
+    
         try {
             const res = await crearPartida({
                 nombre_partida: partidaname,
                 nombre_creador: username,
             });
-            showToastSuccess(
-                "Partida '" + res.nombre_partida + "' creada con exito."
-            );
+    
+            showToastSuccess(`Partida '${res.nombre_partida}' creada con éxito.`);
+            partidaId = res.id;
+            unirsepartida = true;
+    
             setTimeout(() => {
                 handleDialogClose();
                 resetFields();
             }, 1000);
         } catch (error) {
-            showToastError("Error no se pudo crear la partida.");
+            console.error("Error creando partida:", error);
+            showToastError("Error: no se pudo crear la partida.");
+            return; // Sale de la función si hay error
+        }
+    
+        if (unirsepartida && partidaId !== undefined) {
+            try {
+                const res = await UnirsePartida(partidaId, username);
+                showToastSuccess(`Bienvenido "${res.nombre}" a la partida "${partidaname}."`);
+                setTimeout(() => {
+                    navigate(`/partidas/${partidaId}/sala-espera`);
+                    // console.log("Unirsepartida")
+                    // console.log(unirsepartida)
+                    // console.log("PartidaID")
+                    // console.log(partidaId)
+                }, 2000);
+            } catch (error) {
+                showToastError("Error al unirse a la partida.");
+            }
         }
     };
 
