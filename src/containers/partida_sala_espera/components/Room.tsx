@@ -24,6 +24,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [nombrePartida, setNombrePartida] = useState<string>("");
 
     useEffect(() => {
+        info_partida();
         const intervalId = setInterval(() => {
             info_partida();
         }, 2000); // Son ms
@@ -50,7 +51,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                     <CardTitle>
                         <span>{title}</span>
                         <br />
-                        <span>{nombrePartida}</span>
+                        <span>"{nombrePartida}"</span>
                     </CardTitle>
 
                     {jugadores.length < 4 && (
