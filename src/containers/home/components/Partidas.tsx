@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         fetchPartidas();
@@ -22,7 +21,7 @@ function Partidas() {
             const data = await ObtenerPartidas();
             setPartidas(data);
         } catch (err) {
-            setError("No se pudieron obtener las partidas.");
+            console.error("No se pudieron obtener las partidas.");
         }
     };
 
@@ -31,9 +30,6 @@ function Partidas() {
             <p className="mb-2 text-center text-lg font-black">
                 Lista de partidas:
             </p>
-            {error ? (
-                <p className="opacity-65">{error}</p>
-            ) : (
                 <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
                     <div className="flex flex-col space-y-4 p-4">
                         <ul>
@@ -55,7 +51,6 @@ function Partidas() {
                         </ul>
                     </div>
                 </ScrollArea>
-            )}
         </div>
     );
 }
