@@ -7,7 +7,9 @@ interface Jugador {
 
 interface ObtenerInfoPartidaResponse {
     nombre_partida: string;
+    nombre_creador:string;
     jugadores: Jugador[];
+    cantidad_jugadores: number;
 }
 
 const ObtenerInfoPartida = async (
@@ -23,17 +25,23 @@ const ObtenerInfoPartida = async (
                 },
             }
         );
-        const nombre_partida = (await response.json()).nombre_partida;
+        const { nombre_partida, nombre_creador} = await response.json(); 
+
         if (!response.ok || !nombre_partida) {
             throw new Error(
                 `Fallo obteniendo info de la partida! Status: ${response.status}`
             );
         }
 
+        const listaDeJugadores = await ObtenerJugadores(id_partida);
         const data: ObtenerInfoPartidaResponse = {
-            nombre_partida: nombre_partida,
-            jugadores: await ObtenerJugadores(id_partida),
+            nombre_partida,
+            nombre_creador,
+            jugadores:listaDeJugadores,
+            cantidad_jugadores: listaDeJugadores.length,
         };
+        console.log("ESTA ES LA DATA")
+        console.log(data)
         return data;
     } catch (error) {
         console.error("Error fetching jugadores:", error);
