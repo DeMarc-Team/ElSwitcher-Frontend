@@ -1,7 +1,7 @@
 import { API_HOST } from "./const";
 
 interface CartaMovimiento { 
-    mov: string;
+    movimiento: string;
    }
 
 const ObtenerCartasMovimientos = async (id_partida: number, id_jugador: number): Promise<CartaMovimiento[]> => {
@@ -30,4 +30,4 @@ const ObtenerCartasMovimientos = async (id_partida: number, id_jugador: number):
     }
 }
 
-export { ObtenerCartasFiguras, type CartaMovimiento };
+export { ObtenerCartasMovimientos, type CartaMovimiento };

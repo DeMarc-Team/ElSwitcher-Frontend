@@ -1,12 +1,12 @@
 import { API_HOST } from "./const";
 
-interface CartaFigura {
-    tablero6x6: string[][], 
+interface Tablero {
+    tablero6x6: Int32Array[][], 
     iniciada:boolean;
 }
 
 
-const ObtenerCartasFiguras = async (id_partida: number): Promise<Tablero> => {
+const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
     try {
         const response = await fetch(
             `${API_HOST}/juego/${id_partida}/tablero`,
@@ -32,4 +32,4 @@ const ObtenerCartasFiguras = async (id_partida: number): Promise<Tablero> => {
     }
 }
 
-export { ObtenerCartasFiguras, type Tablero };
+export { ObtenerTablero, type Tablero };
