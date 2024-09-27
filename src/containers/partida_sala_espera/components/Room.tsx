@@ -42,7 +42,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
 
     const temporizador = () => {
         setTimeout(() => {
-            navigate('/partidas/dashboard'); // Redirige a la ruta "/partidas/dashboard"
+            navigate(`/partidas/dashboard/${id_partida}`); // Redirige a la ruta "/partidas/dashboard"
         }, 2000); // 2000 ms = 2 segundos*/
     }
     useEffect(() => {

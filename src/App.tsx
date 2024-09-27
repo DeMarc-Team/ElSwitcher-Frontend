@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import Home from "@/containers/home/Home";
 import SalaEspera from "./containers/partida_sala_espera/SalaEspera";
-import Dashboard from "./containers/dashboard/components/Board";
+import Dashboard from "./containers/dashboard/Dashboard";
 
 function App() {
     return (
@@ -18,8 +18,8 @@ function App() {
                         element={<SalaEspera />}
                     />
                     <Route 
-                        path="/partidas/dashboard"
-                        element={<Dashboard />}
+                        path="/partidas/dashboard/:id_partida"
+                        element={<Dashboard/>}
                     />
                 </Routes>
             </Router>
