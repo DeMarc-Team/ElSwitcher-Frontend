@@ -25,13 +25,13 @@ interface CardHomeProps {
 const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [jugadores, setJugadores] = useState<Jugador[]>([]);
     const [nombrePartida, setNombrePartida] = useState<string>("");
-    const [cantidadDeJugadores, setcantidadDeJugadores] = useState<Number>();
+    const [cantidadDeJugadores, setcantidadDeJugadores] = useState<number>();
     const [nombreCreador, setNombreCreador] = useState<string>("");
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
 
     //Con esto obtengo el estado del navigate del Home
     const location = useLocation();
-    const quienCreo = location.state?.nombre_creador
+    const quienCreo = location.state?.nombre_creador;
 
     useEffect(() => {
         info_partida();
@@ -46,8 +46,8 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
             const info_partida = await ObtenerInfoPartida(id_partida);
             setJugadores(info_partida.jugadores);
             setNombrePartida(info_partida.nombre_partida);
-            setcantidadDeJugadores(info_partida.cantidad_jugadores)
-            setNombreCreador(info_partida.nombre_creador)
+            setcantidadDeJugadores(info_partida.cantidad_jugadores);
+            setNombreCreador(info_partida.nombre_creador);
         } catch (error) {
             console.error("Error obteniendo info de la partida:", error);
             throw error;
@@ -57,21 +57,21 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
         return <Loading></Loading>;
     }
 
-    function start_play(partida_a_iniciar:number) {
-        if (quienCreo != nombreCreador){
-            showToastAlert("Solo quien creo la partida la puede iniciar");
-        }
-        else if(cantidadDeJugadores == 1){
+    async function start_play(partida_a_iniciar: number) {
+        if (cantidadDeJugadores == 1) {
+            showToastAlert("Se necesita por lo menos dos jugadores.");
+        } else {
+            showToastSuccess("Se inició la partida.");
+            try {
+                await IniciarPartida(partida_a_iniciar);
+            } catch (error) {
+                showToastAlert("La partida ya esta iniciada.");
+            }
+            //TODO: Agregar la redireccion a la partida
+
             setTimeout(() => {
-                showToastAlert("Se necesita por lo menos dos jugadores.");
+                closeToast();
             }, 2000);
-            
-        }
-        else {
-            IniciarPartida(partida_a_iniciar)
-            showToastSuccess("Se inició la partida");
-            closeToast();
-            //Agregar la redireccion a la partida
         }
     }
 
@@ -129,12 +129,16 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                             Se completó la cantidad de jugadores.
                         </div>
                     )}
-                        <Button onClick={() => {
-                            start_play(id_partida);
-                        }}
-                        className="mt-4 gap-10">
+                    {quienCreo == nombreCreador && (
+                        <Button
+                            onClick={() => {
+                                start_play(id_partida);
+                            }}
+                            className="mt-4 gap-10"
+                        >
                             Iniciar partida
                         </Button>
+                    )}
                 </CardContent>
             </Card>
         </p>
