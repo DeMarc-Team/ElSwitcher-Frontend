@@ -26,7 +26,10 @@ function Partidas() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div
+            className="flex flex-col items-center justify-center pt-10"
+            id="listapartidas"
+        >
             <p className="mb-2 text-center text-2xl font-black uppercase">
                 Lista de partidas
             </p>

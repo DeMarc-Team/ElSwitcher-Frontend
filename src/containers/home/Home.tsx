@@ -6,8 +6,10 @@ import HeaderHome from "./components/HeaderHome";
 function Home() {
     return (
         <div className="flex flex-col gap-10">
-            <HeaderHome />
-            <ChevronDown className="mx-auto h-10 w-10 animate-bounce text-black" />
+            <div className="flex flex-col gap-5">
+                <HeaderHome />
+                <ChevronDown className="mx-auto h-10 w-10 animate-bounce text-black" />
+            </div>
             <Partidas />
             <CrearPartida />
             <p className="py-16 text-center">
