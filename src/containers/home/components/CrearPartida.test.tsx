@@ -43,7 +43,7 @@ describe('Crear Partida', () => {
     expect(inputNombre).not.toHaveValue("");
     expect(inputPartida).not.toHaveValue("");
 
-    // Simular el envío del formulario y clic en "Unirse a Partida"
+    // Simular el envío del formulario y click en "Unirse a Partida"
     const botonUnirse = screen.getByText("Unirse a Partida");
     fireEvent.click(botonUnirse);
   });
