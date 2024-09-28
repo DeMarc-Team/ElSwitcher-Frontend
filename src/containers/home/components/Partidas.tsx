@@ -27,30 +27,30 @@ function Partidas() {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <p className="mb-2 text-center text-lg font-black">
-                Lista de partidas:
+            <p className="mb-2 text-center text-2xl font-black uppercase">
+                Lista de partidas
             </p>
-                <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
-                    <div className="flex flex-col space-y-4 p-4">
-                        <ul>
-                            {partidas.map((partida) => (
-                                <li key={partida.id}>
-                                    <FormUnirse
-                                        partidaId={partida.id}
-                                        partidaName={partida.nombre_partida}
-                                    />
-                                </li>
-                            ))}
-                            {partidas.length === 0 && (
-                                <div className="flex h-80 items-center justify-center">
-                                    <p className="text-center opacity-65">
-                                        No hay partidas creadas.
-                                    </p>
-                                </div>
-                            )}
-                        </ul>
-                    </div>
-                </ScrollArea>
+            <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
+                <div className="flex flex-col space-y-4 p-4">
+                    <ul>
+                        {partidas.map((partida) => (
+                            <li key={partida.id}>
+                                <FormUnirse
+                                    partidaId={partida.id}
+                                    partidaName={partida.nombre_partida}
+                                />
+                            </li>
+                        ))}
+                        {partidas.length === 0 && (
+                            <div className="flex h-80 items-center justify-center">
+                                <p className="text-center opacity-65">
+                                    No hay partidas creadas.
+                                </p>
+                            </div>
+                        )}
+                    </ul>
+                </div>
+            </ScrollArea>
         </div>
     );
 }

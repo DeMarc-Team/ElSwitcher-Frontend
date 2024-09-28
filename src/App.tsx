@@ -5,7 +5,7 @@ import SalaEspera from "./containers/partida_sala_espera/SalaEspera";
 
 function App() {
     return (
-        <div className="px-16 py-5">
+        <div className="px-32 py-5 max-md:px-10">
             <Router>
                 <Routes>
                     <Route path="/" element={<Home />} />

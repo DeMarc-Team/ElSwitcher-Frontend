@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { CircleArrowRight } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
@@ -65,12 +65,15 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
             <DialogTrigger asChild>
                 <Button
                     variant="outline"
-                    className="my-2 w-full rounded-md border-black bg-transparent py-3 text-center"
+                    className="my-2 w-full justify-between rounded-md border-2 border-black bg-transparent py-3 text-center"
                 >
                     <span>
-                        Unirse a <b>{partidaName}</b>
+                        <b>{partidaName}</b>
                     </span>
-                    <ArrowUpRight className="ml-5 w-4" />
+                    <div className="flex items-center justify-center gap-2">
+                        <span className="underline">Unirse</span>
+                        <CircleArrowRight className="w-5" />
+                    </div>
                 </Button>
             </DialogTrigger>
             <DialogContent>
