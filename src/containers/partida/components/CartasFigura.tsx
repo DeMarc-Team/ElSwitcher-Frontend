@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react";
 import { imageCartaFigura, type CartaFigura } from "./img_cartas_figura";
 import { ObtenerCartasFiguras } from "@/services/api/obtener_carta_figura";
+import Cartas from "./Cartas";
+
+const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
+    if (cartasFiguras.length === 3) {
+        return index === 0 ? -5 : index === 1 ? 0 : 5;
+    } else if (cartasFiguras.length === 2) {
+        return index === 0 ? -5 : 5;
+    } else {
+        return 0;
+    }
+};
 
 const CartasFigura = ({
     id_partida,
@@ -29,19 +40,19 @@ const CartasFigura = ({
     };
 
     return (
-        <div className="flex flex-row gap-3">
-            {cartasFiguras.map((carta, index) => (
-                <img
-                    key={index + "-carta-figura"}
-                    src={carta.img}
-                    style={{
-                        width: "150px",
-                        height: "auto",
-                    }}
-                    className="rounded-lg border-2 border-black shadow-md transition-transform duration-300 hover:scale-105 hover:cursor-pointer"
-                    alt={`Carta ${index + 1}`}
-                />
-            ))}
+        <div className="flex flex-row gap-1">
+            {cartasFiguras.map((carta, index) => {
+                const rotation = Rotation(cartasFiguras, index);
+
+                return (
+                    <Cartas
+                        key={index + "-carta-figura"}
+                        imgSrc={carta.img}
+                        rotation={rotation}
+                        altText={`Carta ${index + 1}`}
+                    />
+                );
+            })}
         </div>
     );
 };
