@@ -11,7 +11,7 @@ import { useNotification } from "@/hooks/useNotification";
 export default function CardInfoDelTurno({
     id_partida,
     id_jugador,
-}: Readonly<{ id_partida: string; id_jugador: string }>) {
+}: Readonly<{ id_partida: number; id_jugador: number }>) {
     const [idJugadorDelTurno, setIdJugadorDelTurno] = useState<number>();
     const [nombreJugador, setNombreJugador] = useState("");
     const { showToastError } = useNotification();
@@ -25,14 +25,14 @@ export default function CardInfoDelTurno({
     const fecthInfoTurno = async () => {
         try {
             const infoTurno = await ObtenerInfoTurno(id_partida);
-            setIdJugadorDelTurno(Number(infoTurno.id_jugador));
+            setIdJugadorDelTurno(infoTurno.id_jugador);
             setNombreJugador(infoTurno.nombre_jugador);
         } catch (error) {
             showToastError("Error al obtener la información del turno");
         }
     };
 
-    const esMiTurno = idJugadorDelTurno === Number(id_jugador);
+    const esMiTurno = idJugadorDelTurno === id_jugador;
 
     if (!idJugadorDelTurno || nombreJugador === "") {
         return <div>Cargando...</div>;

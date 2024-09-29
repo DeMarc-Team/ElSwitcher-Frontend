@@ -22,7 +22,6 @@ const CartasFigura = ({
                 imageCartaFigura(carta.figura, carta.revelada)
             );
             setCartasFiguras(cartas);
-            console.log(cartas);
         } catch (error) {
             console.error("Error fetching cartas figuras:", error);
         }

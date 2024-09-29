@@ -3,6 +3,7 @@ import Board from "./components/Board";
 import { LoadSessionJugador } from "@/services/session_jugador";
 import CartasMovimiento from "./components/CartasMovimiento";
 import CartasFigura from "./components/CartasFigura";
+import CardInfoDelTurno from "./components/CardInfoTurno";
 
 function Partida() {
     const id_partida = Number(useParams().id_partida);
@@ -13,6 +14,7 @@ function Partida() {
     return (
         <div className="flex h-[100vh] w-full flex-col items-center justify-center py-5">
             <Board id_partida={id_partida} />
+            <CardInfoDelTurno id_partida={id_partida} id_jugador={session.id} />
             <div className="flex flex-row gap-10">
                 <CartasMovimiento
                     id_partida={id_partida}
