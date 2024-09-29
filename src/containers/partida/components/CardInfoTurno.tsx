@@ -7,6 +7,7 @@ import {
 import { ObtenerInfoTurno } from "@/services/api/obtener_info_turno";
 import { useEffect, useState } from "react";
 import { useNotification } from "@/hooks/useNotification";
+import { useTurno } from "./turnoContext";
 
 export default function CardInfoDelTurno({
     id_partida,
@@ -14,10 +15,11 @@ export default function CardInfoDelTurno({
 }: Readonly<{ id_partida: number; id_jugador: number }>) {
     const [idJugadorDelTurno, setIdJugadorDelTurno] = useState<number>();
     const [nombreJugador, setNombreJugador] = useState("");
+    const { setTurnoId } = useTurno();
     const { showToastError } = useNotification();
     useEffect(() => {
         fecthInfoTurno();
-        setTimeout(async () => {
+        setInterval(async () => {
             await fecthInfoTurno();
         }, 1000);
     }, []);
@@ -25,6 +27,7 @@ export default function CardInfoDelTurno({
     const fecthInfoTurno = async () => {
         try {
             const infoTurno = await ObtenerInfoTurno(id_partida);
+            setTurnoId(infoTurno.id_jugador);
             setIdJugadorDelTurno(infoTurno.id_jugador);
             setNombreJugador(infoTurno.nombre_jugador);
         } catch (error) {
@@ -38,28 +41,30 @@ export default function CardInfoDelTurno({
         return <div>Cargando...</div>;
     }
     return (
-        <Card className="w-64 py-4">
-            <CardContent className="flex flex-col items-center justify-center gap-3">
-                <CardTitle>TURNO DE</CardTitle>
-                <CardDescription></CardDescription>
+        <Card className="h-fit w-fit border-2 border-black p-4">
+            <CardContent className="flex flex-row items-center justify-center gap-6 p-0">
+                <div>
+                    {" "}
+                    <CardTitle>TURNO DE</CardTitle>
+                    <CardDescription className="">
+                        <p className="text-center text-base">
+                            {esMiTurno ? (
+                                <span>Es tú turno !!</span>
+                            ) : (
+                                <span>Otro jugador</span>
+                            )}
+                        </p>
+                    </CardDescription>
+                </div>
                 <div
-                    className={`flex h-40 w-40 items-center justify-center rounded-full border-2 border-black text-center ${esMiTurno ? "bg-green-400" : ""}`}
+                    className={`flex h-24 w-40 items-center justify-center rounded-md border-2 border-dashed border-black text-center ${esMiTurno ? "bg-green-400" : ""}`}
                 >
                     <p
-                        className={`break-words p-5 text-center font-bold ${nombreJugador.length > 30 ? "!break-all text-sm" : "text-xl"}`}
+                        className={`break-words p-1 text-center font-bold ${nombreJugador.length > 30 ? "!break-all text-sm" : "text-xl"}`}
                     >
                         {nombreJugador}
                     </p>
                 </div>
-                <p className="text-center">
-                    {esMiTurno ? (
-                        <span className="text-base">Es tú turno !!</span>
-                    ) : (
-                        <span className="text-sm">
-                            Espera hasta que sea tu turno.
-                        </span>
-                    )}
-                </p>
             </CardContent>
         </Card>
     );

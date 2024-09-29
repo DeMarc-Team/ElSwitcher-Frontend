@@ -1,30 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { useNotification } from "@/hooks/useNotification";
 import { PasarTurno } from "@/services/api/pasar_turno";
+import { useTurno } from "./turnoContext";
 
 export default function ButtonPasarTurno({
     id_partida,
     id_jugador,
 }: Readonly<{
-    id_partida: string;
-    id_jugador: string;
+    id_partida: number;
+    id_jugador: number;
 }>) {
-    const { showToastInfo, showToastError } = useNotification();
+    const { turnoId } = useTurno();
+    const { showToastAlert, closeToast } = useNotification();
     const handlePasarTurno = async () => {
-        try {
-            await PasarTurno(id_partida, id_jugador);
-            showToastInfo("Pasaste tú turno !!!");
-        } catch (error) {
-            console.error("Error al pasar el turno:", error);
-            showToastError("Error al pasar el turno.");
+        if (turnoId == id_jugador) {
+            try {
+                await PasarTurno(id_partida, id_jugador);
+            } catch (error) {
+                console.error("Error al pasar el turno:", error);
+                showToastAlert("Error al pasar el turno.");
+                setTimeout(() => {
+                    closeToast();
+                }, 1000);
+            }
         }
     };
     return (
         <Button
             onClick={handlePasarTurno}
-            className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+            className={`rounded border-2 border-black px-12 py-2 font-bold ${turnoId == id_jugador ? "bg-blue-500 text-white hover:bg-blue-700" : "bg-gray-400 hover:bg-gray-400"}`}
         >
-            Pasar turno
+            {turnoId == id_jugador ? "Pasar turno" : "Espera tú turno"}
         </Button>
     );
 }

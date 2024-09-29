@@ -1,6 +1,6 @@
 import { API_HOST } from "./const";
 
-const PasarTurno = async (idPartida: string, idJugador: string) => {
+const PasarTurno = async (idPartida: number, idJugador: number) => {
     try {
         const response = await fetch(
             `${API_HOST}/juego/${idPartida}/jugadores/${idJugador}/turno`,
