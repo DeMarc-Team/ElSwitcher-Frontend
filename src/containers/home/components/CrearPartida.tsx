@@ -15,6 +15,7 @@ import { Plus } from "lucide-react";
 import { crearPartida } from "@/services/api/crear_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useCrearPartida } from "./useCrearPartida";
+import { SaveSessionJugador } from "@/services/session_jugador";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
@@ -56,6 +57,11 @@ function CrearPartida() {
             );
             partidaId = res.id;
             unirsepartida = true;
+            SaveSessionJugador({
+                id: res.id_creador,
+                nombre: res.nombre_creador,
+                id_partida: res.id,
+            });
         } catch (error) {
             console.error("Error creando partida:", error);
             showToastError("Error: no se pudo crear la partida.");

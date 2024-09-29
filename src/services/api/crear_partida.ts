@@ -7,8 +7,9 @@ interface CrearPartidaForm {
 
 interface CrearPartidaResponse {
     id: number;
-    nombre_creador: string;
     nombre_partida: string;
+    nombre_creador: string;
+    id_creador: number;
 }
 
 const crearPartida = async (
