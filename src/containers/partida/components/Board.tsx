@@ -36,8 +36,8 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     }, [id_partida]);
 
     return (
-        <div className="flex h-screen items-center justify-center">
-            <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-4 border-black bg-yellow-100 p-2 shadow-2xl">
+        <div className="flex h-fit w-[388px] items-center justify-center">
+            <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-8 border-black bg-yellow-100 p-2 shadow-2xl">
                 {tablero.map((row, rowIndex) =>
                     row.map((cell, colIndex) => (
                         <button
