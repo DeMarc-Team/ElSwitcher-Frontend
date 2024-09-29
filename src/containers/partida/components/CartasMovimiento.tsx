@@ -5,6 +5,7 @@ import {
 } from "./img_cartas_movimiento";
 import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimiento";
 import Cartas from "./Cartas";
+
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
         return index === 0 ? -5 : index === 1 ? 0 : 5;
