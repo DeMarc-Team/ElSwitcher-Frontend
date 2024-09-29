@@ -8,6 +8,7 @@ interface Jugador {
 interface ObtenerInfoPartidaResponse {
     nombre_partida: string;
     nombre_creador: string;
+    id_creador: number;
     jugadores: Jugador[];
     cantidad_jugadores: number;
     iniciada: boolean;
@@ -23,7 +24,7 @@ const ObtenerInfoPartida = async (
                 "Content-Type": "application/json",
             },
         });
-        const { nombre_partida, nombre_creador, iniciada } =
+        const { nombre_partida, nombre_creador, iniciada, id_creador } =
             await response.json();
 
         if (!response.ok || !nombre_partida) {
@@ -36,6 +37,7 @@ const ObtenerInfoPartida = async (
         const data: ObtenerInfoPartidaResponse = {
             nombre_partida,
             nombre_creador,
+            id_creador,
             jugadores: listaDeJugadores,
             cantidad_jugadores: listaDeJugadores.length,
             iniciada,

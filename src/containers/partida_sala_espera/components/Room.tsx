@@ -16,6 +16,7 @@ import { IniciarPartida } from "@/services/api/iniciar_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cronometer from "./Cronometer";
+import { LoadSessionJugador } from "@/services/session_jugador";
 
 interface CardHomeProps {
     title: string;
@@ -27,13 +28,11 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [jugadores, setJugadores] = useState<Jugador[]>([]);
     const [nombrePartida, setNombrePartida] = useState<string>("");
     const [cantidadDeJugadores, setcantidadDeJugadores] = useState<number>(0);
-    const [nombreCreador, setNombreCreador] = useState<string>("");
+    const [idCreador, setIdCreador] = useState<number>(0);
     const [partidaIniciada, setPartidaIniciada] = useState<boolean>(false);
+    const session = LoadSessionJugador();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
 
-    //Con esto obtengo el estado del navigate del Home
-    const location = useLocation();
-    const quienCreo = location.state?.nombre_creador;
     const [isRedirecting, setIsRedirecting] = useState(false);
 
     const navigate = useNavigate();
@@ -55,7 +54,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
             setJugadores(info_partida.jugadores);
             setNombrePartida(info_partida.nombre_partida);
             setcantidadDeJugadores(info_partida.cantidad_jugadores);
-            setNombreCreador(info_partida.nombre_creador);
+            setIdCreador(info_partida.id_creador);
             setPartidaIniciada(info_partida.iniciada);
         } catch (error) {
             console.error("Error obteniendo info de la partida:", error);
@@ -155,7 +154,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                                 Se completó la cantidad de jugadores.
                             </div>
                         )}
-                        {quienCreo == nombreCreador && (
+                        {session?.id == idCreador && (
                             <Button
                                 onClick={() => {
                                     start_play(id_partida);
