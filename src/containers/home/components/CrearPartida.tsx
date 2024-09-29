@@ -71,11 +71,10 @@ function CrearPartida() {
                     setTimeout(() => {
                         handleDialogClose();
                         resetFields();
-                        navigate(`/partidas/${partidaId}/sala-espera`,{
+                        navigate(`/partidas/${partidaId}/sala-espera`, {
                             state: { nombre_creador: username }, //Paso el nombre a la sala de espera
                         });
                     }, 2000);
-                    
                 } catch (error) {
                     showToastError("Error al unirse a la partida.");
                 }

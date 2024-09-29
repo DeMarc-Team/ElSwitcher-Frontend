@@ -4,17 +4,16 @@ interface IniciarPartidaResponse {
     partidaIniciadaConExito: Boolean;
 }
 
-const IniciarPartida = async (partidaId: number): Promise<IniciarPartidaResponse> => {
+const IniciarPartida = async (
+    partidaId: number
+): Promise<IniciarPartidaResponse> => {
     try {
-        const response = await fetch(
-            `${API_HOST}/partidas/${partidaId}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
+        const response = await fetch(`${API_HOST}/partidas/${partidaId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
         if (!response.ok) {
             throw new Error(
