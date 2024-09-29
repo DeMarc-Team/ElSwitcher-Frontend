@@ -13,7 +13,7 @@ function Partida() {
     return (
         <div className="flex h-[100vh] w-full flex-col items-center justify-center py-5">
             <Board id_partida={id_partida} />
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-16">
                 <CartasMovimiento
                     id_partida={id_partida}
                     id_jugador={session.id}

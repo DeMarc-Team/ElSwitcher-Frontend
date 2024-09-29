@@ -10,7 +10,7 @@ const ObtenerCartasFiguras = async (
     id_jugador: number
 ): Promise<CartaFiguraResponse[]> => {
     try {
-        /*const response = await fetch(
+        const response = await fetch(
             `${API_HOST}/juego/${id_partida}/jugadores/${id_jugador}/cartas_figura`,
             {
                 method: "GET",
@@ -26,23 +26,7 @@ const ObtenerCartasFiguras = async (
             );
         }
 
-        return await response.json();*/
-        const mockResponse: CartaFiguraResponse[] = [
-            {
-                figura: "f1",
-                revelada: true,
-            },
-            {
-                figura: "f1",
-                revelada: true,
-            },
-            {
-                figura: "f3",
-                revelada: false,
-            },
-        ];
-
-        return mockResponse;
+        return await response.json();
     } catch (error) {
         console.error("Error cartas de figuras:", error);
         throw error;

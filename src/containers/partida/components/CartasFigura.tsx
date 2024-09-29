@@ -13,6 +13,10 @@ const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
     }
 };
 
+const isMiddleCard = (cartasFiguras: CartaFigura[], index: number) => {
+    return cartasFiguras.length === 3 && index === 1;
+};
+
 const CartasFigura = ({
     id_partida,
     id_jugador,
@@ -40,15 +44,14 @@ const CartasFigura = ({
     };
 
     return (
-        <div className="flex flex-row gap-1">
+        <div className="flex flex-row gap-2">
             {cartasFiguras.map((carta, index) => {
-                const rotation = Rotation(cartasFiguras, index);
-
                 return (
                     <Cartas
                         key={index + "-carta-figura"}
                         imgSrc={carta.img}
-                        rotation={rotation}
+                        rotation={Rotation(cartasFiguras, index)}
+                        middle={isMiddleCard(cartasFiguras, index)}
                         altText={`Carta ${index + 1}`}
                     />
                 );

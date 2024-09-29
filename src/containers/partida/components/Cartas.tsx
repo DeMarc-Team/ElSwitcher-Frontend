@@ -1,8 +1,10 @@
-import React from "react";
-import click from "@/components/sounds/click-21156.mp3"
+import click from "@/components/sounds/click-21156.mp3";
+import { cn } from "@/services/shadcn_lib/utils";
+
 interface CartasProps {
     imgSrc: string;
     rotation: number;
+    middle?: boolean;
     altText: string;
 }
 
@@ -12,21 +14,28 @@ const playSound = (soundFile: string) => {
     audio.play();
 };
 
-const Cartas = ({ imgSrc, rotation, altText }: CartasProps) => {
+const Cartas = ({ imgSrc, rotation, altText, middle = false }: CartasProps) => {
+    let classRotation = "";
+    if (rotation >= 0) {
+        classRotation = `rotate-[${rotation}deg]`;
+    } else {
+        classRotation = `-rotate-[${rotation * -1}deg]`;
+    }
+
     return (
-        <div
-            className="perspective-1000"
+        <button
+            className={cn(`${middle ? "-mt-3" : ""}`)}
             onMouseEnter={() => playSound(click)} // Ruta al archivo de sonido
         >
             <img
                 src={imgSrc}
-                className={`w-30 h-40 rounded-lg border-2 border-black shadow-md hover:border-indigo-500 hover:scale-110 transition-transform duration-300`}
-                style={{
-                    transform: `rotate(${rotation}deg)`,
-                }}
+                className={cn(
+                    `h-50 max-lg:w-30 z-0 w-40 rounded-lg border-2 border-black shadow-md transition-transform duration-300 hover:z-20 hover:scale-110 hover:border-indigo-500 max-lg:h-40`,
+                    classRotation
+                )}
                 alt={altText}
             />
-        </div>
+        </button>
     );
 };
 
