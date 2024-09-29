@@ -2,24 +2,23 @@ import { API_HOST } from "./const";
 
 interface Tablero {
     tablero6x6: number[][];
-    iniciada: boolean;
 }
 
-const TABLERO_MANUAL: Tablero = {
-    tablero6x6: [
-        [3, 1, 2, 3, 0, 1],
-        [1, 2, 3, 0, 1, 2],
-        [2, 3, 0, 1, 2, 3],
-        [3, 0, 1, 2, 3, 0],
-        [0, 1, 2, 3, 0, 1],
-        [1, 2, 3, 0, 1, 2],
-    ],
-    iniciada: true, // Cambia este valor según sea necesario
-};
+// const TABLERO_MANUAL: Tablero = {
+//     tablero6x6: [
+//         [3, 1, 2, 3, 0, 1],
+//         [1, 2, 3, 0, 1, 2],
+//         [2, 3, 0, 1, 2, 3],
+//         [3, 0, 1, 2, 3, 0],
+//         [0, 1, 2, 3, 0, 1],
+//         [1, 2, 3, 0, 1, 2],
+//     ],
+//     iniciada: true, // Cambia este valor según sea necesario
+// };
 
 const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
     try {
-        /*const response = await fetch(
+        const response = await fetch(
             `${API_HOST}/juego/${id_partida}/tablero`,
             {
                 method: "GET",
@@ -35,8 +34,9 @@ const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
             );
         }
 
-        return await response.json();*/
-        return TABLERO_MANUAL;
+        return {
+            tablero6x6: await response.json()
+        };
     } catch (error) {
         console.error("Error talero:", error);
         throw error;

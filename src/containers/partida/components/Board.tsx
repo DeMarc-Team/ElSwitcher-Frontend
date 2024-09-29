@@ -10,11 +10,11 @@ const COLORES: string[] = [
 ];
 
 interface DashboardProps {
-    id_partida: number; // Cambia el tipo según lo que necesites (puede ser string o number)
+    id_partida: number;
 }
 
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
-    const [tablero, setTablero] = useState<number[][]>([]); // Asegúrate de que el tipo coincida con lo que esperas
+    const [tablero, setTablero] = useState<number[][]>([]);
 
     const fetchTablero = async () => {
         try {
@@ -38,7 +38,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                             key={`${rowIndex}-${colIndex}`}
                             className={cn(
                                 "flex h-14 w-14 items-center justify-center rounded-lg border-4 border-black bg-blue-400 shadow-lg",
-                                `bg-${COLORES[cell]}-400`
+                                `bg-${COLORES[cell-1]}-400`
                             )}
                         ></div>
                     ))

@@ -15,7 +15,7 @@ function Partida() {
             <Board id_partida={id_partida} />
             <div className="flex flex-row gap-10">
                 <CartasMovimiento
-                    id_partida={id_partida}
+                    id_partida={session.id_partida}
                     id_jugador={session.id}
                 />
                 <CartasFigura id_partida={id_partida} id_jugador={session.id} />
