@@ -1,243 +1,479 @@
-
 <!doctype html>
 <html lang="en">
+    <head>
+        <title>Code coverage report for All files</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="prettify.css" />
+        <link rel="stylesheet" href="base.css" />
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style type="text/css">
+            .coverage-summary .sorter {
+                background-image: url(sort-arrow-sprite.png);
+            }
+        </style>
+    </head>
 
-<head>
-    <title>Code coverage report for All files</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="prettify.css" />
-    <link rel="stylesheet" href="base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type='text/css'>
-        .coverage-summary .sorter {
-            background-image: url(sort-arrow-sprite.png);
-        }
-    </style>
-</head>
-    
-<body>
-<div class='wrapper'>
-    <div class='pad1'>
-        <h1>All files</h1>
-        <div class='clearfix'>
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">35.21% </span>
-                <span class="quiet">Statements</span>
-                <span class='fraction'>437/1241</span>
+    <body>
+        <div class="wrapper">
+            <div class="pad1">
+                <h1>All files</h1>
+                <div class="clearfix">
+                    <div class="fl pad1y space-right2">
+                        <span class="strong">35.21% </span>
+                        <span class="quiet">Statements</span>
+                        <span class="fraction">437/1241</span>
+                    </div>
+
+                    <div class="fl pad1y space-right2">
+                        <span class="strong">54.54% </span>
+                        <span class="quiet">Branches</span>
+                        <span class="fraction">24/44</span>
+                    </div>
+
+                    <div class="fl pad1y space-right2">
+                        <span class="strong">24% </span>
+                        <span class="quiet">Functions</span>
+                        <span class="fraction">12/50</span>
+                    </div>
+
+                    <div class="fl pad1y space-right2">
+                        <span class="strong">35.21% </span>
+                        <span class="quiet">Lines</span>
+                        <span class="fraction">437/1241</span>
+                    </div>
+                </div>
+                <p class="quiet">
+                    Press <em>n</em> or <em>j</em> to go to the next uncovered
+                    block, <em>b</em>, <em>p</em> or <em>k</em> for the previous
+                    block.
+                </p>
+                <template id="filterTemplate">
+                    <div class="quiet">
+                        Filter:
+                        <input type="search" id="fileSearch" />
+                    </div>
+                </template>
             </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">54.54% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>24/44</span>
+            <div class="status-line low"></div>
+            <div class="pad1">
+                <table class="coverage-summary">
+                    <thead>
+                        <tr>
+                            <th
+                                data-col="file"
+                                data-fmt="html"
+                                data-html="true"
+                                class="file"
+                            >
+                                File
+                            </th>
+                            <th
+                                data-col="pic"
+                                data-type="number"
+                                data-fmt="html"
+                                data-html="true"
+                                class="pic"
+                            ></th>
+                            <th
+                                data-col="statements"
+                                data-type="number"
+                                data-fmt="pct"
+                                class="pct"
+                            >
+                                Statements
+                            </th>
+                            <th
+                                data-col="statements_raw"
+                                data-type="number"
+                                data-fmt="html"
+                                class="abs"
+                            ></th>
+                            <th
+                                data-col="branches"
+                                data-type="number"
+                                data-fmt="pct"
+                                class="pct"
+                            >
+                                Branches
+                            </th>
+                            <th
+                                data-col="branches_raw"
+                                data-type="number"
+                                data-fmt="html"
+                                class="abs"
+                            ></th>
+                            <th
+                                data-col="functions"
+                                data-type="number"
+                                data-fmt="pct"
+                                class="pct"
+                            >
+                                Functions
+                            </th>
+                            <th
+                                data-col="functions_raw"
+                                data-type="number"
+                                data-fmt="html"
+                                class="abs"
+                            ></th>
+                            <th
+                                data-col="lines"
+                                data-type="number"
+                                data-fmt="pct"
+                                class="pct"
+                            >
+                                Lines
+                            </th>
+                            <th
+                                data-col="lines_raw"
+                                data-type="number"
+                                data-fmt="html"
+                                class="abs"
+                            ></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td
+                                class="file low"
+                                data-value="ElSwitcher-Frontend"
+                            >
+                                <a href="ElSwitcher-Frontend/index.html"
+                                    >ElSwitcher-Frontend</a
+                                >
+                            </td>
+                            <td data-value="0" class="pic low">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 0%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 100%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="63" class="abs low">0/63</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="2" class="abs low">0/2</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="2" class="abs low">0/2</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="63" class="abs low">0/63</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file low"
+                                data-value="ElSwitcher-Frontend/src"
+                            >
+                                <a href="ElSwitcher-Frontend/src/index.html"
+                                    >ElSwitcher-Frontend/src</a
+                                >
+                            </td>
+                            <td data-value="0" class="pic low">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 0%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 100%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="29" class="abs low">0/29</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="2" class="abs low">0/2</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="2" class="abs low">0/2</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="29" class="abs low">0/29</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file low"
+                                data-value="ElSwitcher-Frontend/src/components/ui"
+                            >
+                                <a
+                                    href="ElSwitcher-Frontend/src/components/ui/index.html"
+                                    >ElSwitcher-Frontend/src/components/ui</a
+                                >
+                            </td>
+                            <td data-value="36.17" class="pic low">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 36%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 64%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="36.17" class="pct low">36.17%</td>
+                            <td data-value="376" class="abs low">136/376</td>
+                            <td data-value="44.44" class="pct low">44.44%</td>
+                            <td data-value="9" class="abs low">4/9</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="5" class="abs low">0/5</td>
+                            <td data-value="36.17" class="pct low">36.17%</td>
+                            <td data-value="376" class="abs low">136/376</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file low"
+                                data-value="ElSwitcher-Frontend/src/containers/home"
+                            >
+                                <a
+                                    href="ElSwitcher-Frontend/src/containers/home/index.html"
+                                    >ElSwitcher-Frontend/src/containers/home</a
+                                >
+                            </td>
+                            <td data-value="0" class="pic low">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 0%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 100%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="29" class="abs low">0/29</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="1" class="abs low">0/1</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="1" class="abs low">0/1</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="29" class="abs low">0/29</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file medium"
+                                data-value="ElSwitcher-Frontend/src/containers/home/components"
+                            >
+                                <a
+                                    href="ElSwitcher-Frontend/src/containers/home/components/index.html"
+                                    >ElSwitcher-Frontend/src/containers/home/components</a
+                                >
+                            </td>
+                            <td data-value="66.98" class="pic medium">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 66%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 34%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="66.98" class="pct medium">
+                                66.98%
+                            </td>
+                            <td data-value="318" class="abs medium">213/318</td>
+                            <td data-value="90.9" class="pct high">90.9%</td>
+                            <td data-value="11" class="abs high">10/11</td>
+                            <td data-value="27.77" class="pct low">27.77%</td>
+                            <td data-value="18" class="abs low">5/18</td>
+                            <td data-value="66.98" class="pct medium">
+                                66.98%
+                            </td>
+                            <td data-value="318" class="abs medium">213/318</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file low"
+                                data-value="ElSwitcher-Frontend/src/containers/partida_sala_espera"
+                            >
+                                <a
+                                    href="ElSwitcher-Frontend/src/containers/partida_sala_espera/index.html"
+                                    >ElSwitcher-Frontend/src/containers/partida_sala_espera</a
+                                >
+                            </td>
+                            <td data-value="0" class="pic low">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 0%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 100%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="17" class="abs low">0/17</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="1" class="abs low">0/1</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="1" class="abs low">0/1</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="17" class="abs low">0/17</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file low"
+                                data-value="ElSwitcher-Frontend/src/containers/partida_sala_espera/components"
+                            >
+                                <a
+                                    href="ElSwitcher-Frontend/src/containers/partida_sala_espera/components/index.html"
+                                    >ElSwitcher-Frontend/src/containers/partida_sala_espera/components</a
+                                >
+                            </td>
+                            <td data-value="0" class="pic low">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 0%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 100%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="98" class="abs low">0/98</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="2" class="abs low">0/2</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="2" class="abs low">0/2</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="98" class="abs low">0/98</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file low"
+                                data-value="ElSwitcher-Frontend/src/hooks"
+                            >
+                                <a
+                                    href="ElSwitcher-Frontend/src/hooks/index.html"
+                                    >ElSwitcher-Frontend/src/hooks</a
+                                >
+                            </td>
+                            <td data-value="44.31" class="pic low">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 44%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 56%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="44.31" class="pct low">44.31%</td>
+                            <td data-value="176" class="abs low">78/176</td>
+                            <td data-value="69.23" class="pct medium">
+                                69.23%
+                            </td>
+                            <td data-value="13" class="abs medium">9/13</td>
+                            <td data-value="42.85" class="pct low">42.85%</td>
+                            <td data-value="14" class="abs low">6/14</td>
+                            <td data-value="44.31" class="pct low">44.31%</td>
+                            <td data-value="176" class="abs low">78/176</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file low"
+                                data-value="ElSwitcher-Frontend/src/services/api"
+                            >
+                                <a
+                                    href="ElSwitcher-Frontend/src/services/api/index.html"
+                                    >ElSwitcher-Frontend/src/services/api</a
+                                >
+                            </td>
+                            <td data-value="3.84" class="pic low">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill"
+                                        style="width: 3%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 97%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="3.84" class="pct low">3.84%</td>
+                            <td data-value="130" class="abs low">5/130</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="2" class="abs low">0/2</td>
+                            <td data-value="0" class="pct low">0%</td>
+                            <td data-value="4" class="abs low">0/4</td>
+                            <td data-value="3.84" class="pct low">3.84%</td>
+                            <td data-value="130" class="abs low">5/130</td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                class="file high"
+                                data-value="ElSwitcher-Frontend/src/services/shadcn_lib"
+                            >
+                                <a
+                                    href="ElSwitcher-Frontend/src/services/shadcn_lib/index.html"
+                                    >ElSwitcher-Frontend/src/services/shadcn_lib</a
+                                >
+                            </td>
+                            <td data-value="100" class="pic high">
+                                <div class="chart">
+                                    <div
+                                        class="cover-fill cover-full"
+                                        style="width: 100%"
+                                    ></div>
+                                    <div
+                                        class="cover-empty"
+                                        style="width: 0%"
+                                    ></div>
+                                </div>
+                            </td>
+                            <td data-value="100" class="pct high">100%</td>
+                            <td data-value="5" class="abs high">5/5</td>
+                            <td data-value="100" class="pct high">100%</td>
+                            <td data-value="1" class="abs high">1/1</td>
+                            <td data-value="100" class="pct high">100%</td>
+                            <td data-value="1" class="abs high">1/1</td>
+                            <td data-value="100" class="pct high">100%</td>
+                            <td data-value="5" class="abs high">5/5</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">24% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>12/50</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">35.21% </span>
-                <span class="quiet">Lines</span>
-                <span class='fraction'>437/1241</span>
-            </div>
-        
-            
+            <div class="push"></div>
+            <!-- for sticky footer -->
         </div>
-        <p class="quiet">
-            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
-        </p>
-        <template id="filterTemplate">
-            <div class="quiet">
-                Filter:
-                <input type="search" id="fileSearch">
-            </div>
-        </template>
-    </div>
-    <div class='status-line low'></div>
-    <div class="pad1">
-<table class="coverage-summary">
-<thead>
-<tr>
-   <th data-col="file" data-fmt="html" data-html="true" class="file">File</th>
-   <th data-col="pic" data-type="number" data-fmt="html" data-html="true" class="pic"></th>
-   <th data-col="statements" data-type="number" data-fmt="pct" class="pct">Statements</th>
-   <th data-col="statements_raw" data-type="number" data-fmt="html" class="abs"></th>
-   <th data-col="branches" data-type="number" data-fmt="pct" class="pct">Branches</th>
-   <th data-col="branches_raw" data-type="number" data-fmt="html" class="abs"></th>
-   <th data-col="functions" data-type="number" data-fmt="pct" class="pct">Functions</th>
-   <th data-col="functions_raw" data-type="number" data-fmt="html" class="abs"></th>
-   <th data-col="lines" data-type="number" data-fmt="pct" class="pct">Lines</th>
-   <th data-col="lines_raw" data-type="number" data-fmt="html" class="abs"></th>
-</tr>
-</thead>
-<tbody><tr>
-	<td class="file low" data-value="ElSwitcher-Frontend"><a href="ElSwitcher-Frontend/index.html">ElSwitcher-Frontend</a></td>
-	<td data-value="0" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 0%"></div><div class="cover-empty" style="width: 100%"></div></div>
-	</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="63" class="abs low">0/63</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="2" class="abs low">0/2</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="2" class="abs low">0/2</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="63" class="abs low">0/63</td>
-	</tr>
-
-<tr>
-	<td class="file low" data-value="ElSwitcher-Frontend/src"><a href="ElSwitcher-Frontend/src/index.html">ElSwitcher-Frontend/src</a></td>
-	<td data-value="0" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 0%"></div><div class="cover-empty" style="width: 100%"></div></div>
-	</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="29" class="abs low">0/29</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="2" class="abs low">0/2</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="2" class="abs low">0/2</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="29" class="abs low">0/29</td>
-	</tr>
-
-<tr>
-	<td class="file low" data-value="ElSwitcher-Frontend/src/components/ui"><a href="ElSwitcher-Frontend/src/components/ui/index.html">ElSwitcher-Frontend/src/components/ui</a></td>
-	<td data-value="36.17" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 36%"></div><div class="cover-empty" style="width: 64%"></div></div>
-	</td>
-	<td data-value="36.17" class="pct low">36.17%</td>
-	<td data-value="376" class="abs low">136/376</td>
-	<td data-value="44.44" class="pct low">44.44%</td>
-	<td data-value="9" class="abs low">4/9</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="5" class="abs low">0/5</td>
-	<td data-value="36.17" class="pct low">36.17%</td>
-	<td data-value="376" class="abs low">136/376</td>
-	</tr>
-
-<tr>
-	<td class="file low" data-value="ElSwitcher-Frontend/src/containers/home"><a href="ElSwitcher-Frontend/src/containers/home/index.html">ElSwitcher-Frontend/src/containers/home</a></td>
-	<td data-value="0" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 0%"></div><div class="cover-empty" style="width: 100%"></div></div>
-	</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="29" class="abs low">0/29</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="1" class="abs low">0/1</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="1" class="abs low">0/1</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="29" class="abs low">0/29</td>
-	</tr>
-
-<tr>
-	<td class="file medium" data-value="ElSwitcher-Frontend/src/containers/home/components"><a href="ElSwitcher-Frontend/src/containers/home/components/index.html">ElSwitcher-Frontend/src/containers/home/components</a></td>
-	<td data-value="66.98" class="pic medium">
-	<div class="chart"><div class="cover-fill" style="width: 66%"></div><div class="cover-empty" style="width: 34%"></div></div>
-	</td>
-	<td data-value="66.98" class="pct medium">66.98%</td>
-	<td data-value="318" class="abs medium">213/318</td>
-	<td data-value="90.9" class="pct high">90.9%</td>
-	<td data-value="11" class="abs high">10/11</td>
-	<td data-value="27.77" class="pct low">27.77%</td>
-	<td data-value="18" class="abs low">5/18</td>
-	<td data-value="66.98" class="pct medium">66.98%</td>
-	<td data-value="318" class="abs medium">213/318</td>
-	</tr>
-
-<tr>
-	<td class="file low" data-value="ElSwitcher-Frontend/src/containers/partida_sala_espera"><a href="ElSwitcher-Frontend/src/containers/partida_sala_espera/index.html">ElSwitcher-Frontend/src/containers/partida_sala_espera</a></td>
-	<td data-value="0" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 0%"></div><div class="cover-empty" style="width: 100%"></div></div>
-	</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="17" class="abs low">0/17</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="1" class="abs low">0/1</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="1" class="abs low">0/1</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="17" class="abs low">0/17</td>
-	</tr>
-
-<tr>
-	<td class="file low" data-value="ElSwitcher-Frontend/src/containers/partida_sala_espera/components"><a href="ElSwitcher-Frontend/src/containers/partida_sala_espera/components/index.html">ElSwitcher-Frontend/src/containers/partida_sala_espera/components</a></td>
-	<td data-value="0" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 0%"></div><div class="cover-empty" style="width: 100%"></div></div>
-	</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="98" class="abs low">0/98</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="2" class="abs low">0/2</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="2" class="abs low">0/2</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="98" class="abs low">0/98</td>
-	</tr>
-
-<tr>
-	<td class="file low" data-value="ElSwitcher-Frontend/src/hooks"><a href="ElSwitcher-Frontend/src/hooks/index.html">ElSwitcher-Frontend/src/hooks</a></td>
-	<td data-value="44.31" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 44%"></div><div class="cover-empty" style="width: 56%"></div></div>
-	</td>
-	<td data-value="44.31" class="pct low">44.31%</td>
-	<td data-value="176" class="abs low">78/176</td>
-	<td data-value="69.23" class="pct medium">69.23%</td>
-	<td data-value="13" class="abs medium">9/13</td>
-	<td data-value="42.85" class="pct low">42.85%</td>
-	<td data-value="14" class="abs low">6/14</td>
-	<td data-value="44.31" class="pct low">44.31%</td>
-	<td data-value="176" class="abs low">78/176</td>
-	</tr>
-
-<tr>
-	<td class="file low" data-value="ElSwitcher-Frontend/src/services/api"><a href="ElSwitcher-Frontend/src/services/api/index.html">ElSwitcher-Frontend/src/services/api</a></td>
-	<td data-value="3.84" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 3%"></div><div class="cover-empty" style="width: 97%"></div></div>
-	</td>
-	<td data-value="3.84" class="pct low">3.84%</td>
-	<td data-value="130" class="abs low">5/130</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="2" class="abs low">0/2</td>
-	<td data-value="0" class="pct low">0%</td>
-	<td data-value="4" class="abs low">0/4</td>
-	<td data-value="3.84" class="pct low">3.84%</td>
-	<td data-value="130" class="abs low">5/130</td>
-	</tr>
-
-<tr>
-	<td class="file high" data-value="ElSwitcher-Frontend/src/services/shadcn_lib"><a href="ElSwitcher-Frontend/src/services/shadcn_lib/index.html">ElSwitcher-Frontend/src/services/shadcn_lib</a></td>
-	<td data-value="100" class="pic high">
-	<div class="chart"><div class="cover-fill cover-full" style="width: 100%"></div><div class="cover-empty" style="width: 0%"></div></div>
-	</td>
-	<td data-value="100" class="pct high">100%</td>
-	<td data-value="5" class="abs high">5/5</td>
-	<td data-value="100" class="pct high">100%</td>
-	<td data-value="1" class="abs high">1/1</td>
-	<td data-value="100" class="pct high">100%</td>
-	<td data-value="1" class="abs high">1/1</td>
-	<td data-value="100" class="pct high">100%</td>
-	<td data-value="5" class="abs high">5/5</td>
-	</tr>
-
-</tbody>
-</table>
-</div>
-                <div class='push'></div><!-- for sticky footer -->
-            </div><!-- /wrapper -->
-            <div class='footer quiet pad2 space-top1 center small'>
-                Code coverage generated by
-                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-09-26T17:53:45.250Z
-            </div>
+        <!-- /wrapper -->
+        <div class="footer quiet pad2 space-top1 center small">
+            Code coverage generated by
+            <a
+                href="https://istanbul.js.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >istanbul</a
+            >
+            at 2024-09-26T17:53:45.250Z
+        </div>
         <script src="prettify.js"></script>
         <script>
             window.onload = function () {
@@ -248,4 +484,3 @@
         <script src="block-navigation.js"></script>
     </body>
 </html>
-    

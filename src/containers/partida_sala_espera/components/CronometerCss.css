@@ -1,0 +1,31 @@
+.cronometro-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cronometro {
+    transform: rotate(-90deg);
+}
+
+.cronometro-circle-bg {
+    fill: none;
+    stroke: #e6e6e6;
+    stroke-width: 3.8;
+}
+
+.cronometro-circle {
+    fill: none;
+    stroke: #4caf50;
+    stroke-width: 3.8;
+    transition: stroke-dasharray 1s linear;
+}
+
+.cronometro-time {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+}

@@ -71,7 +71,9 @@ function CrearPartida() {
                     setTimeout(() => {
                         handleDialogClose();
                         resetFields();
-                        navigate(`/partidas/${partidaId}/sala-espera`);
+                        navigate(`/partidas/${partidaId}/sala-espera`, {
+                            state: { nombre_creador: username }, //Paso el nombre a la sala de espera
+                        });
                     }, 2000);
                 } catch (error) {
                     showToastError("Error al unirse a la partida.");
@@ -130,10 +132,10 @@ function CrearPartida() {
                         </div>
                     </div>
                     <div>
-                    {/* mantener este cambio para el test */}
+                        {/* mantener este cambio para el test */}
                         <Button type="submit" className="mt-5 w-full">
-                            Unirse a Partida  
-                        </Button> 
+                            Unirse a Partida
+                        </Button>
                     </div>
                 </form>
             </DialogContent>

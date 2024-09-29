@@ -7,32 +7,38 @@ interface Jugador {
 
 interface ObtenerInfoPartidaResponse {
     nombre_partida: string;
+    nombre_creador: string;
     jugadores: Jugador[];
+    cantidad_jugadores: number;
+    iniciada: boolean;
 }
 
 const ObtenerInfoPartida = async (
     id_partida: number
 ): Promise<ObtenerInfoPartidaResponse> => {
     try {
-        const response = await fetch(
-            `${API_HOST}/partidas/${id_partida}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        const nombre_partida = (await response.json()).nombre_partida;
+        const response = await fetch(`${API_HOST}/partidas/${id_partida}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const { nombre_partida, nombre_creador, iniciada } =
+            await response.json();
+
         if (!response.ok || !nombre_partida) {
             throw new Error(
                 `Fallo obteniendo info de la partida! Status: ${response.status}`
             );
         }
 
+        const listaDeJugadores = await ObtenerJugadores(id_partida);
         const data: ObtenerInfoPartidaResponse = {
-            nombre_partida: nombre_partida,
-            jugadores: await ObtenerJugadores(id_partida),
+            nombre_partida,
+            nombre_creador,
+            jugadores: listaDeJugadores,
+            cantidad_jugadores: listaDeJugadores.length,
+            iniciada,
         };
         return data;
     } catch (error) {
@@ -64,6 +70,6 @@ const ObtenerJugadores = async (id_partida: number): Promise<Jugador[]> => {
         console.error("Error fetching jugadores:", error);
         throw error;
     }
-}
+};
 
 export { ObtenerInfoPartida, type ObtenerInfoPartidaResponse, type Jugador };
