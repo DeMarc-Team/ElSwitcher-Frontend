@@ -46,14 +46,12 @@ export default function CardInfoDelTurno({
                 <div>
                     {" "}
                     <CardTitle>TURNO DE</CardTitle>
-                    <CardDescription className="">
-                        <p className="text-center text-base">
-                            {esMiTurno ? (
-                                <span>Es tú turno !!</span>
-                            ) : (
-                                <span>Otro jugador</span>
-                            )}
-                        </p>
+                    <CardDescription className="text-center text-base">
+                        {esMiTurno ? (
+                            <span>Es tú turno !!</span>
+                        ) : (
+                            <span>Otro jugador</span>
+                        )}
                     </CardDescription>
                 </div>
                 <div

@@ -16,10 +16,7 @@ const Cartas = ({ imgSrc, rotation, altText, middle = false }: CartasProps) => {
     }
 
     return (
-        <button
-            className={cn(`${middle ? "-mt-5" : ""}`)}
-            // onMouseEnter={() => playSound(click)} // Ruta al archivo de sonido
-        >
+        <button className={cn(`${middle ? "-mt-5" : ""}`, "z-0 hover:z-10")}>
             <img
                 src={imgSrc}
                 className={cn(
