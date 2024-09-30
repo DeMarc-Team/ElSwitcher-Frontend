@@ -24,7 +24,7 @@ const Cartas = ({ imgSrc, rotation, altText, middle = false }: CartasProps) => {
 
     return (
         <button
-            className={cn(`${middle ? "-mt-3" : ""}`)}
+            className={cn(`${middle ? "-mt-5" : ""}`)}
             // onMouseEnter={() => playSound(click)} // Ruta al archivo de sonido
         >
             <img
