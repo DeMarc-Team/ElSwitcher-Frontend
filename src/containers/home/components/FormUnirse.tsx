@@ -24,6 +24,7 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
 
     const [username, setUsername] = useState("");
+    const [uniendose, setUniendose] = useState(false);
     const navigate = useNavigate();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
 
@@ -46,9 +47,12 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!checkUsername()) return;
-
+        if (uniendose) {
+            return;
+        }
         try {
             const res = await UnirsePartida(partidaId, username);
+            setUniendose(true);
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
             );
