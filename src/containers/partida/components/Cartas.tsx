@@ -1,4 +1,3 @@
-// import click from "@/components/sounds/click-21156.mp3";
 import { cn } from "@/services/shadcn_lib/utils";
 
 interface CartasProps {
@@ -7,12 +6,6 @@ interface CartasProps {
     middle?: boolean;
     altText: string;
 }
-
-// Función para reproducir sonido
-// const playSound = (soundFile: string) => {
-//     const audio = new Audio(soundFile);
-//     audio.play();
-// };
 
 const Cartas = ({ imgSrc, rotation, altText, middle = false }: CartasProps) => {
     let classRotation = "";
