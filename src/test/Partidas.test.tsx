@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import Partidas from "./Partidas";
+import Partidas from "../containers/home/components/Partidas";
 import { MemoryRouter } from "react-router-dom";
 
 describe("Partidas Component", () => {

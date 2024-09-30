@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { describe, test, expect } from "vitest";
-import CrearPartida from "./CrearPartida";
+import CrearPartida from "../containers/home/components/CrearPartida";
 import "@testing-library/jest-dom";
 
 describe("Crear Partida", () => {

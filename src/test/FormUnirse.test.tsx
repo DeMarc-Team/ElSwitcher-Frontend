@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from "vitest";
 import { fireEvent, render, screen} from "@testing-library/react";
-import Partidas from "./Partidas";
+import Partidas from "../containers/home/components/Partidas";
 import { BrowserRouter} from "react-router-dom";
 
 describe("Form Unirse", () => {
