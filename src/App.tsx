@@ -6,7 +6,7 @@ import Partida from "@/containers/partida/Partida";
 
 function App() {
     return (
-        <div className="px-32 py-5 max-md:px-10">
+        <div className="px-32 max-md:px-10">
             <Router>
                 <Routes>
                     <Route path="/" element={<Home />} />

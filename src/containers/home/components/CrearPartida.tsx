@@ -15,9 +15,11 @@ import { Plus } from "lucide-react";
 import { crearPartida } from "@/services/api/crear_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useCrearPartida } from "./useCrearPartida";
+import { SaveSessionJugador } from "@/services/session_jugador";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
+    const [uniendose, setUniendose] = useState(false);
     const navigate = useNavigate();
     const {
         partidaname,
@@ -41,21 +43,27 @@ function CrearPartida() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!checkFields()) return;
-
         let partidaId: number | undefined;
-        let unirsepartida = false;
-
+        if (uniendose) {
+            return;
+        }
         try {
             const res = await crearPartida({
                 nombre_partida: partidaname,
                 nombre_creador: username,
             });
 
+            setUniendose(true);
+
             showToastSuccess(
                 `Partida '${res.nombre_partida}' creada con éxito.`
             );
             partidaId = res.id;
-            unirsepartida = true;
+            SaveSessionJugador({
+                id: res.id_creador,
+                nombre: res.nombre_creador,
+                id_partida: res.id,
+            });
         } catch (error) {
             console.error("Error creando partida:", error);
             showToastError("Error: no se pudo crear la partida.");
@@ -63,21 +71,17 @@ function CrearPartida() {
         }
 
         setTimeout(async () => {
-            if (unirsepartida) {
-                try {
-                    showToastSuccess(
-                        `Bienvenido a la partida "${partidaname}."`
-                    );
-                    setTimeout(() => {
-                        handleDialogClose();
-                        resetFields();
-                        navigate(`/partidas/${partidaId}/sala-espera`, {
-                            state: { nombre_creador: username }, //Paso el nombre a la sala de espera
-                        });
-                    }, 2000);
-                } catch (error) {
-                    showToastError("Error al unirse a la partida.");
-                }
+            try {
+                showToastSuccess(`Bienvenido a la partida "${partidaname}."`);
+                setTimeout(() => {
+                    handleDialogClose();
+                    resetFields();
+                    navigate(`/partidas/${partidaId}/sala-espera`, {
+                        state: { nombre_creador: username }, //Paso el nombre a la sala de espera
+                    });
+                }, 2000);
+            } catch (error) {
+                showToastError("Error al unirse a la partida.");
             }
         }, 2000);
     };

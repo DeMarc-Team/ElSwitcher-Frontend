@@ -1,13 +1,13 @@
 import { API_HOST } from "./const";
 
-interface CartaMovimiento {
+interface CartaMovimientoResponse {
     movimiento: string;
 }
 
 const ObtenerCartasMovimientos = async (
     id_partida: number,
     id_jugador: number
-): Promise<CartaMovimiento[]> => {
+): Promise<CartaMovimientoResponse[]> => {
     try {
         const response = await fetch(
             `${API_HOST}/juego/${id_partida}/jugadores/${id_jugador}/cartas_movimiento`,
@@ -32,4 +32,4 @@ const ObtenerCartasMovimientos = async (
     }
 };
 
-export { ObtenerCartasMovimientos, type CartaMovimiento };
+export { ObtenerCartasMovimientos, type CartaMovimientoResponse };

@@ -1,6 +1,6 @@
 import { API_HOST } from "./const";
 
-interface CartaFigura {
+interface CartaFiguraResponse {
     figura: string;
     revelada: boolean;
 }
@@ -8,10 +8,10 @@ interface CartaFigura {
 const ObtenerCartasFiguras = async (
     id_partida: number,
     id_jugador: number
-): Promise<CartaFigura[]> => {
+): Promise<CartaFiguraResponse[]> => {
     try {
         const response = await fetch(
-            `${API_HOST}/juego/${id_partida}/jugadores/${id_jugador}/cartas_figuras`,
+            `${API_HOST}/juego/${id_partida}/jugadores/${id_jugador}/cartas_figura`,
             {
                 method: "GET",
                 headers: {
@@ -33,4 +33,4 @@ const ObtenerCartasFiguras = async (
     }
 };
 
-export { ObtenerCartasFiguras, type CartaFigura };
+export { ObtenerCartasFiguras, type CartaFiguraResponse };

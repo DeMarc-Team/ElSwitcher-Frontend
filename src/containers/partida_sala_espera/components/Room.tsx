@@ -14,8 +14,8 @@ import {
 } from "@/services/api/obtener_info_partida";
 import { IniciarPartida } from "@/services/api/iniciar_partida";
 import { useNotification } from "@/hooks/useNotification";
-import { useLocation, useNavigate } from "react-router-dom";
-import Cronometer from "./Cronometer";
+import { useNavigate } from "react-router-dom";
+import { LoadSessionJugador } from "@/services/session_jugador";
 
 interface CardHomeProps {
     title: string;
@@ -27,20 +27,16 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [jugadores, setJugadores] = useState<Jugador[]>([]);
     const [nombrePartida, setNombrePartida] = useState<string>("");
     const [cantidadDeJugadores, setcantidadDeJugadores] = useState<number>(0);
-    const [nombreCreador, setNombreCreador] = useState<string>("");
+    const [idCreador, setIdCreador] = useState<number>(0);
     const [partidaIniciada, setPartidaIniciada] = useState<boolean>(false);
+    const session = LoadSessionJugador();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
-
-    //Con esto obtengo el estado del navigate del Home
-    const location = useLocation();
-    const quienCreo = location.state?.nombre_creador;
-    const [isRedirecting, setIsRedirecting] = useState(false);
 
     const navigate = useNavigate();
 
     useEffect(() => {
         if (partidaIniciada) {
-            setIsRedirecting(true);
+            redirectPartida();
         }
         info_partida();
         const intervalId = setInterval(() => {
@@ -55,7 +51,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
             setJugadores(info_partida.jugadores);
             setNombrePartida(info_partida.nombre_partida);
             setcantidadDeJugadores(info_partida.cantidad_jugadores);
-            setNombreCreador(info_partida.nombre_creador);
+            setIdCreador(info_partida.id_creador);
             setPartidaIniciada(info_partida.iniciada);
         } catch (error) {
             console.error("Error obteniendo info de la partida:", error);
@@ -67,22 +63,23 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
         if (cantidadDeJugadores <= 1) {
             showToastAlert("Se necesita por lo menos dos jugadores.");
         } else {
-            showToastSuccess("Se inició la partida.");
             try {
-                setIsRedirecting(true); // Iniciamos el cronómetro
-                await IniciarPartida(partida_a_iniciar);
+                showToastSuccess("Iniciando la partida.");
+                setTimeout(async () => {
+                    await IniciarPartida(partida_a_iniciar);
+                    closeToast();
+                    redirectPartida();
+                }, 1000);
             } catch (error) {
                 showToastAlert("La partida ya esta iniciada.");
             }
-            //TODO: Agregar la redireccion a la partida
         }
 
         setTimeout(() => {
             closeToast();
         }, 2000);
     }
-
-    const handleRedirect = () => {
+    const redirectPartida = () => {
         navigate(`/partidas/${id_partida}`);
     };
 
@@ -96,78 +93,69 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
 
     return (
         <div>
-            {isRedirecting ? (
-                <div>
-                    <h1>¡La partida comenzará en!</h1>
-                    <Cronometer
-                        initialSeconds={3}
-                        onComplete={handleRedirect}
-                    />
-                </div>
-            ) : (
-                <Card className="w-96 text-center">
-                    <CardHeader>
-                        <CardTitle>
-                            <span>{title}</span>
-                            <br />
-                            <span>{nombrePartida}</span>
-                        </CardTitle>
+            <Card className="w-96 text-center">
+                <CardHeader>
+                    <CardTitle>
+                        <span>{title}</span>
+                        <br />
+                        <span>{nombrePartida}</span>
+                    </CardTitle>
 
-                        {jugadores.length < 4 && (
-                            <CardDescription className="h-fit">
-                                <Loading />
-                                <br />
+                    {jugadores.length < 4 && (
+                        <>
+                            <Loading />
+                            <CardDescription className="mt-2 h-fit">
                                 <span>{description}</span>
                             </CardDescription>
-                        )}
-                    </CardHeader>
-                    <CardContent>
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full border-collapse border-2 border-black bg-green-300">
-                                <thead>
-                                    <tr>
-                                        <th className="border border-b-2 border-black px-4 py-4">
-                                            Jugadores
-                                        </th>
+                        </>
+                    )}
+                </CardHeader>
+                <CardContent>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full border-collapse border-2 border-black bg-green-300">
+                            <thead>
+                                <tr>
+                                    <th className="border border-b-2 border-black px-4 py-4">
+                                        Jugadores
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {jugadores.length === 0 ? (
+                                    <tr key={0}>
+                                        <td className="border border-black px-4 py-2">
+                                            No hay jugadores en la sala.
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {jugadores.length === 0 ? (
-                                        <tr key={0}>
+                                ) : (
+                                    jugadores.map((jugador) => (
+                                        <tr key={jugador.id_jugador}>
                                             <td className="border border-black px-4 py-2">
-                                                No hay jugadores en la sala.
+                                                {jugador.nombre}
                                             </td>
                                         </tr>
-                                    ) : (
-                                        jugadores.map((jugador) => (
-                                            <tr key={jugador.id_jugador}>
-                                                <td className="border border-black px-4 py-2">
-                                                    {jugador.nombre}
-                                                </td>
-                                            </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    {jugadores.length >= 4 && (
+                        <div className="mt-4 gap-10 opacity-65">
+                            Se completó la cantidad de jugadores.
                         </div>
-                        {jugadores.length >= 4 && (
-                            <div className="mt-4 gap-10 opacity-65">
-                                Se completó la cantidad de jugadores.
-                            </div>
-                        )}
-                        {quienCreo == nombreCreador && (
-                            <Button
-                                onClick={() => {
-                                    start_play(id_partida);
-                                }}
-                                className="mt-4 gap-10"
-                            >
-                                Iniciar partida
-                            </Button>
-                        )}
-                    </CardContent>
-                </Card>
-            )}
+                    )}
+                    {session?.id == idCreador && (
+                        <Button
+                            onClick={() => {
+                                start_play(id_partida);
+                            }}
+                            className="mt-4 gap-10"
+                        >
+                            Iniciar partida
+                        </Button>
+                    )}
+                </CardContent>
+            </Card>
         </div>
     );
 };

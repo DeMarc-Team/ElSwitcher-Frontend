@@ -16,11 +16,11 @@ const Loading = () => {
     }, []);
 
     return (
-        <p className="-mt-5 mb-4 !h-[2px]">
+        <small className="relative -top-6 h-2 select-none">
             <span className="pt-0 text-4xl font-extrabold text-black">
                 {dots}
             </span>
-        </p>
+        </small>
     );
 };
 

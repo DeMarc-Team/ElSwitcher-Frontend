@@ -10,11 +10,11 @@ const COLORES: string[] = [
 ];
 
 interface DashboardProps {
-    id_partida: number; // Cambia el tipo según lo que necesites (puede ser string o number)
+    id_partida: number;
 }
 
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
-    const [tablero, setTablero] = useState<number[][]>([]); // Asegúrate de que el tipo coincida con lo que esperas
+    const [tablero, setTablero] = useState<number[][]>([]);
 
     const fetchTablero = async () => {
         try {
@@ -30,17 +30,17 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     }, [id_partida]);
 
     return (
-        <div className="flex h-screen items-center justify-center">
-            <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-8 border-black bg-yellow-100 p-2 shadow-2xl">
+        <div className="flex h-fit w-[388px] items-center justify-center">
+            <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-4 border-black bg-yellow-100 p-2 shadow-2xl">
                 {tablero.map((row, rowIndex) =>
                     row.map((cell, colIndex) => (
-                        <div
+                        <button
                             key={`${rowIndex}-${colIndex}`}
                             className={cn(
-                                "flex h-14 w-14 items-center justify-center rounded-lg border-4 border-black bg-blue-400 shadow-lg",
-                                `bg-${COLORES[cell]}-400`
+                                "flex h-12 w-12 items-center justify-center rounded-lg border-2 border-black bg-blue-400 shadow-lg hover:scale-110 hover:border-indigo-500",
+                                `bg-${COLORES[cell - 1]}-400`
                             )}
-                        ></div>
+                        ></button>
                     ))
                 )}
             </div>
