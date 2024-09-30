@@ -113,11 +113,12 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                         </CardTitle>
 
                         {jugadores.length < 4 && (
-                            <CardDescription className="h-fit">
+                            <>
                                 <Loading />
-                                <br />
-                                <span>{description}</span>
-                            </CardDescription>
+                                <CardDescription className="mt-2 h-fit">
+                                    <span>{description}</span>
+                                </CardDescription>
+                            </>
                         )}
                     </CardHeader>
                     <CardContent>
