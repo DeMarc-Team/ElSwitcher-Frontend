@@ -32,8 +32,6 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const session = LoadSessionJugador();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
 
-    const [isRedirecting, setIsRedirecting] = useState(false);
-
     const navigate = useNavigate();
 
     useEffect(() => {
