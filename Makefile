@@ -18,7 +18,7 @@ build: #construir el proyecto en modo producción
 	@npm run preview
 
 run: #Para correr el proyecto en modo de desarrollo
-	@echo "Corriendo la api en modo usuario..."
+	@echo "Corriendo la api en modo desarrollo..."
 	@npm run dev
 
 formater: #Ejecutar este comando para formatear el código
