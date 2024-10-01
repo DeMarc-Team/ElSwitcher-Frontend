@@ -7,8 +7,16 @@ interface TurnoContextType {
 
 const TurnoContext = createContext<TurnoContextType | undefined>(undefined);
 
-export const TurnoProvider = ({ children }: { children: ReactNode }) => {
-    const [turnoId, setTurnoId] = useState<number | null>(null);
+export const TurnoProvider = ({
+    children,
+    value,
+}: {
+    children: ReactNode;
+    value: TurnoContextType; // Asegúrate de que el tipo coincide
+}) => {
+    const [turnoId, setTurnoId] = useState<number | null>(
+        value.turnoId || null
+    );
 
     return (
         <TurnoContext.Provider value={{ turnoId, setTurnoId }}>

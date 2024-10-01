@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
-import { fireEvent, render, screen} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Partidas from "../containers/home/components/Partidas";
-import { BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 describe("Form Unirse", () => {
     //Necesito una partida para probar el form
@@ -27,14 +27,18 @@ describe("Form Unirse", () => {
         fireEvent.click(botonUnirsePartida);
 
         //Corroborar que el formulario se abrió
-        expect(screen.queryByLabelText("Unirse a la partida Partida 1")).not.toBeNull();
+        expect(
+            screen.queryByLabelText("Unirse a la partida Partida 1")
+        ).not.toBeNull();
 
         //Obtener el campo de nombre
         const inputNombre = await screen.findByLabelText("Nombre de Usuario");
         expect(inputNombre).toBeDefined();
 
         //Verificar que no estoy abriendo el otro formulario
-        expect(screen.queryByLabelText("Nombre de Partida")).not.toBeInTheDocument();
+        expect(
+            screen.queryByLabelText("Nombre de Partida")
+        ).not.toBeInTheDocument();
 
         // Simular la interacción del usuario llenando el formulario
         fireEvent.change(inputNombre, { target: { value: "Usuario Test" } });
