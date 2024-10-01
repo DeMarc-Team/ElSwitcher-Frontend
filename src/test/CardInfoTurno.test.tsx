@@ -1,14 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import {
-    CrearPartidaForm,
-    CrearPartidaResponse,
-} from "@/services/api/crear_partida";
-import { UnirsePartidaResponse } from "@/services/api/unirse_partida";
-import Room from "@/containers/partida_sala_espera/components/Room";
-import { SaveSessionJugador, SessionJugador } from "@/services/session_jugador";
-import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
+import { render, screen, waitFor, act } from "@testing-library/react";
 import CardInfoDelTurno from "@/containers/partida/components/CardInfoTurno";
 import { TurnoProvider } from "@/containers/partida/components/turnoContext";
 
@@ -43,22 +34,25 @@ const mockTurnoContextValue = {
 };
 
 describe("CardInfoDelTurno", () => {
-    test("muestra 'Cargando...' mientras se obtiene la información del turno", () => {
-        render(
-            <TurnoProvider value={mockTurnoContextValue}>
-                <CardInfoDelTurno id_partida={1} id_jugador={123} />
-            </TurnoProvider>
-        );
-
-        expect(screen.getByText("Cargando...")).toBeInTheDocument();
+    test("Se renderiza la carta de turno", async () => {
+        await act(async () => {
+            render(
+                <TurnoProvider value={mockTurnoContextValue}>
+                    <CardInfoDelTurno id_partida={1} id_jugador={123} />
+                </TurnoProvider>
+            );
+        });
+        expect(screen.getByText("TURNO DE")).toBeInTheDocument();
     });
 
     test("Muestra el mensaje cuando tu turno", async () => {
-        render(
-            <TurnoProvider value={mockTurnoContextValue}>
-                <CardInfoDelTurno id_partida={1} id_jugador={123} />
-            </TurnoProvider>
-        );
+        await act(async () => {
+            render(
+                <TurnoProvider value={mockTurnoContextValue}>
+                    <CardInfoDelTurno id_partida={1} id_jugador={123} />
+                </TurnoProvider>
+            );
+        });
 
         await waitFor(() =>
             expect(screen.queryByText("Cargando...")).not.toBeInTheDocument()
@@ -69,11 +63,13 @@ describe("CardInfoDelTurno", () => {
     });
 
     test("Muestra el mensaje de que no es tu turno", async () => {
-        render(
-            <TurnoProvider value={mockTurnoContextValue}>
-                <CardInfoDelTurno id_partida={1} id_jugador={125} />
-            </TurnoProvider>
-        );
+        await act(async () => {
+            render(
+                <TurnoProvider value={mockTurnoContextValue}>
+                    <CardInfoDelTurno id_partida={1} id_jugador={125} />
+                </TurnoProvider>
+            );
+        });
 
         await waitFor(() =>
             expect(screen.queryByText("Cargando...")).not.toBeInTheDocument()

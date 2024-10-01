@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import Partidas from "../containers/home/components/Partidas";
 import { MemoryRouter } from "react-router-dom";
 
@@ -31,11 +31,13 @@ describe("Partidas Component", () => {
 
     test("Mocker las partidas", async () => {
         //Simular la navegación pues partidas llama a FormUnirse
-        render(
-            <MemoryRouter>
-                <Partidas />
-            </MemoryRouter>
-        );
+        await act(async () => {
+            render(
+                <MemoryRouter>
+                    <Partidas />
+                </MemoryRouter>
+            );
+        });
         expect(await screen.findByText("Partida 1")).toBeDefined();
         expect(await screen.findByText("Partida 2")).toBeDefined();
     });
