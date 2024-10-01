@@ -1,8 +1,21 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import CrearPartida from "../containers/home/components/CrearPartida";
 import "@testing-library/jest-dom";
+import { CrearPartidaForm, CrearPartidaResponse } from "@/services/api/crear_partida";
+
+vi.mock("@/services/api/crearPartida", () => ({
+    crearPartida: vi.fn(
+        (form: CrearPartidaForm): Promise<CrearPartidaResponse> =>
+            Promise.resolve({
+                id: 1,
+                nombre_partida: "Partida 1",
+                nombre_creador: "Jugador 1",
+                id_creador: 123,
+            })
+    ),
+}));
 
 describe("Crear Partida", () => {
     test("Se renderiza el botón de crear partida", async () => {
