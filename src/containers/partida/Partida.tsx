@@ -5,6 +5,7 @@ import CartasMovimiento from "./components/CartasMovimiento";
 import CartasFigura from "./components/CartasFigura";
 import CardInfoDelTurno from "./components/CardInfoTurno";
 import ButtonPasarTurno from "./components/ButtonPasarTurno";
+import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 import { TurnoProvider } from "./components/turnoContext";
 import { useEffect, useState } from "react";
 
@@ -42,7 +43,12 @@ function Partida() {
                     </TurnoProvider>
                 </div>
                 <Board id_partida={id_partida} />
-                <div></div>
+                <div className="flex items-center justify-center">
+                    <ButtonAbandonarPartida
+                        idPartida={id_partida}
+                        idJugador={session.id}
+                    />
+                </div>
             </div>
             <div className="flex flex-row gap-10">
                 <CartasMovimiento
