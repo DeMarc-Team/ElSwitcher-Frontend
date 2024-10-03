@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import Board from "../containers/partida/components/Board"; // Ajusta la ruta según tu proyecto
-import { ObtenerTablero } from "@/services/api/ver_tablero";
 
 // Mockear el servicio ObtenerTablero
 vi.mock("@/services/api/ver_tablero", () => ({
@@ -31,7 +30,7 @@ describe("Componente Board", () => {
         expect(buttons).toHaveLength(36);
     });
 
-    test("Se renderizan los colores", async () => {
+    test("Se renderizan los colores correctos", async () => {
         render(<Board id_partida={1} />);
 
         const buttons = await screen.findAllByRole("button");
@@ -44,4 +43,15 @@ describe("Componente Board", () => {
         expect(buttons[4]).toHaveClass("bg-red-400");
     });
 
+    test("Todos los botones tienen color", async () => {
+        render(<Board id_partida={1} />);
+
+        const buttons = await screen.findAllByRole("button");
+
+        // Verificar que todos los colores tengan un color valido
+        for (let index = 0; index < 36; index++) {
+            expect(buttons[index]).toHaveClass(/bg-(red|green|blue|yellow)-400/);             
+        }
+    });
 });
+
