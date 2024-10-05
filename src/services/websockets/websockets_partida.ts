@@ -7,26 +7,23 @@ import { useEffect, useState } from "react";
 const useWebSocketPartida = () => {
     const { message, readyState, closeConnection, openConnection } =
         useCustomWebSocket();
-    // const [trigger1, setTrigger1] = useState(false);
-    // const [trigger2, setTrigger1] = useState(false);
-    // const [trigger3, setTrigger1] = useState(false);
-    // Continuar con más triggers...
+    const [triggerActualizarSalaEspera, setTriggerActualizarSalaEspera] =
+        useState(false);
+    const [triggerActualizarTurno, setTriggerActualizarTurno] = useState(false);
 
-    const openConnectionToPartida = (id: string) => {
-        openConnection(`/partidas/${id}/`);
+    const openConnectionToPartida = (
+        partida_id: string,
+        jugador_id: string
+    ) => {
+        openConnection(`/partidas/${partida_id}/${jugador_id}`);
     };
 
     useEffect(() => {
-        // if (message.action === "accion1") {
-        //     setTrigger1(!trigger1);
-        // }
-        // if (message.action === "accion2") {
-        //     setTrigger2(!trigger2);
-        // }
-        // if (message.action === "accion3") {
-        //     setTrigger3(!trigger3);
-        // }
-        // Continuar con más acciones...
+        if (message.action === "actualizar_sala_espera") {
+            setTriggerActualizarSalaEspera(!triggerActualizarSalaEspera);
+        } else if (message.action === "actualizar_turno") {
+            setTriggerActualizarTurno(!triggerActualizarTurno);
+        }
     }, [message]);
 
     return {
@@ -34,10 +31,8 @@ const useWebSocketPartida = () => {
         readyState,
         closeConnection,
         openConnectionToPartida,
-        // trigger1,
-        // trigger2,
-        // trigger3,
-        // Continuar con más triggers...
+        triggerActualizarSalaEspera,
+        triggerActualizarTurno,
     };
 };
 export { useWebSocketPartida };

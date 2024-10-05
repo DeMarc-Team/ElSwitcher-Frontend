@@ -15,8 +15,10 @@ import { Plus } from "lucide-react";
 import { crearPartida } from "@/services/api/crear_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useCrearPartida } from "./useCrearPartida";
-import { SaveSessionJugador } from "@/services/session_browser";
-import { usePartida } from "@/context/PartidaContext";
+import {
+    SaveSessionJugador,
+    SaveSessionPartida,
+} from "@/services/session_browser";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
@@ -28,10 +30,8 @@ function CrearPartida() {
         changePartidaName,
         changeUsername,
         checkFields,
-        resetFields,
     } = useCrearPartida();
     const { showToastSuccess, showToastError, closeToast } = useNotification();
-    const { setPartida, setJugador, setCreador } = usePartida();
 
     // Cuando se cierra el componente que se cierren todos los toast
     const handleDialogClose = () => {
@@ -49,13 +49,16 @@ function CrearPartida() {
             return;
         }
         try {
+            setUniendose(true);
             const res = await crearPartida({
                 nombre_partida: partidaname,
                 nombre_creador: username,
             });
-            setPartida({ id: res.id, nombre: res.nombre_partida });
-            setJugador({ id: res.id_creador, nombre: res.nombre_creador });
-            setCreador({ id: res.id_creador, nombre: res.nombre_creador });
+            SaveSessionPartida({ id: res.id, nombre: res.nombre_partida });
+            SaveSessionJugador({
+                id: res.id_creador,
+                nombre: res.nombre_creador,
+            });
             showToastSuccess(
                 `Bievenido '${res.nombre_creador}', partida '${res.nombre_partida}' creada con éxito.`
             );
@@ -66,7 +69,7 @@ function CrearPartida() {
         } catch (error) {
             console.error("Error creando partida:", error);
             showToastError("Error: no se pudo crear la partida.");
-            return; // Sale de la función si hay error
+            setUniendose(false);
         }
     };
 
