@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import Board from "./components/Board";
-import { LoadSessionJugador } from "@/services/session_jugador";
+import { LoadSessionJugador } from "@/services/session_browser";
 import CartasMovimiento from "./components/CartasMovimiento";
 import CartasFigura from "./components/CartasFigura";
 import CardInfoDelTurno from "./components/CardInfoTurno";

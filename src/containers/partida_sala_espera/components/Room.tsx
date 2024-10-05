@@ -15,7 +15,7 @@ import {
 import { IniciarPartida } from "@/services/api/iniciar_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import { LoadSessionJugador } from "@/services/session_jugador";
+import { LoadSessionJugador } from "@/services/session_browser";
 
 interface CardHomeProps {
     title: string;
