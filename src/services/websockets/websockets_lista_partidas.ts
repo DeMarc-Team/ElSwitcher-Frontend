@@ -12,10 +12,15 @@ import { useEffect, useState } from "react";
  *  - `closeConnection`: Función para cerrar la conexión manualmente.
  */
 const useWebSocketListaPartidas = () => {
-    const { message, readyState, closeConnection } =
-        useCustomWebSocket("/partidas/");
+    const { message, readyState, closeConnection, openConnection } =
+        useCustomWebSocket();
     const [triggerActualizaPartidas, setTriggerActualizaPartidas] =
         useState(false);
+
+    useEffect(() => {
+        openConnection("/partidas/");
+    }, []);
+
     useEffect(() => {
         if (message.action === "actualizar_partidas") {
             setTriggerActualizaPartidas(!triggerActualizaPartidas);

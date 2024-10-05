@@ -8,50 +8,66 @@ interface WebSocketMessage {
 }
 
 /**
- * Hook personalizado para manejar conexiones WebSocket.
- * @param path El path del WebSocket a conectar, importante que empiece por "/"
- * @note Ej: path: "/partidas/"
+ * Hook personalizado para manejar conexiones WebSocket de forma controlada.
  * @returns
  * - message: El último mensaje recibido.
  * - readyState: El estado de la conexión WebSocket.
+ * - connect: Función para conectar manualmente al WebSocket con un path específico.
+ * - disconnect: Función para desconectar manualmente.
+ * - openConnection: Función para conectar manualmente al WebSocket con un path específico.
  * - closeConnection: Función para cerrar la conexión manualmente.
  */
-const useCustomWebSocket = (path: string) => {
+const useCustomWebSocket = () => {
     const [message, setMessage] = useState<WebSocketMessage>({ action: "" });
+    const [socketUrl, setSocketUrl] = useState<string | null>(null);
     const { lastMessage, readyState, getWebSocket } = useWebSocket(
-        WS_HOST + path,
+        socketUrl,
         {
             share: false,
             shouldReconnect: () => true,
             onOpen: () => console.log("Conexión WebSocket abierta"),
             onClose: () => console.log("Conexión WebSocket cerrada"),
             onError: (event) => console.error("Error en WebSocket:", event),
-        }
+        },
+        socketUrl !== null // Solo habilita la conexión si socketUrl no es null
     );
 
-    // Filtrar y manejar el último mensaje recibido
+    // Manejar el último mensaje recibido
     useEffect(() => {
         if (lastMessage?.data) {
             const { action, data } = JSON.parse(lastMessage.data);
             if (action && data) {
-                // Si hay datos
                 setMessage({ action, data });
             } else if (action) {
-                // Si solo hay acción
                 setMessage({ action });
             }
         }
     }, [lastMessage]);
 
-    // Cerrar la conexión manualmente si es necesario
+    /**
+     * Conectar al WebSocket con un path específico.
+     * @param path  El path al que se conectará el WebSocket.
+     *             Ejemplo: "/partidas/1/" para conectarse a la partida con ID 1.
+     * @note Importante que el path empiece con "/".
+     */
+    const openConnection = (path: string) => {
+        setSocketUrl(WS_HOST + path); // Establece el URL y activa la conexión
+        console.log(`Conectando a WebSocket: ${WS_HOST + path}`);
+    };
+
+    /**
+     * Cerrar la conexión WebSocket manualmente.
+     */
     const closeConnection = () => {
         getWebSocket()?.close();
+        setSocketUrl(null); // Desactiva la conexión
         console.log("Conexión WebSocket cerrada manualmente.");
     };
 
     return {
         message,
         readyState,
+        openConnection,
         closeConnection,
     };
 };

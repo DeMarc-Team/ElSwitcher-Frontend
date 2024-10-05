@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 /**
  * TODO: Completar ...
  */
-const useWebSocketPartida = (id: number) => {
-    const { message, readyState, closeConnection } = useCustomWebSocket(
-        "/partidas/" + id + "/"
-    );
+const useWebSocketPartida = () => {
+    const { message, readyState, closeConnection, openConnection } =
+        useCustomWebSocket();
     // const [trigger1, setTrigger1] = useState(false);
     // const [trigger2, setTrigger1] = useState(false);
     // const [trigger3, setTrigger1] = useState(false);
     // Continuar con más triggers...
+
+    const openConnectionToPartida = (id: string) => {
+        openConnection(`/partidas/${id}/`);
+    };
 
     useEffect(() => {
         // if (message.action === "accion1") {
@@ -30,6 +33,7 @@ const useWebSocketPartida = (id: number) => {
         message,
         readyState,
         closeConnection,
+        openConnectionToPartida,
         // trigger1,
         // trigger2,
         // trigger3,
