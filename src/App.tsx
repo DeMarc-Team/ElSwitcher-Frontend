@@ -3,7 +3,8 @@ import { Toaster } from "@/components/ui/toaster";
 import Home from "@/containers/home/Home";
 import SalaEspera from "@/containers/partida_sala_espera/SalaEspera";
 import Partida from "@/containers/partida/Partida";
-import { PartidaWebsocketProvider } from "./context/PartidaWebsocket";
+import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
+import { PartidaProvider } from "@/context/PartidaContext";
 
 function App() {
     return (
@@ -18,7 +19,11 @@ function App() {
                         />
                         <Route
                             path="/partidas/:id_partida"
-                            element={<Partida />}
+                            element={
+                                <PartidaProvider>
+                                    <Partida />
+                                </PartidaProvider>
+                            }
                         />
                     </Routes>
                 </Router>

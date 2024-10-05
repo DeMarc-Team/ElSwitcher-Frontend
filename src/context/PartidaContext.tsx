@@ -1,30 +1,16 @@
-import {
-    createContext,
-    useContext,
-    useState,
-    useEffect,
-    ReactNode,
-} from "react";
-import { useWebSocketPartida } from "@/services/websockets/websockets_partida";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { type Jugador, type Partida } from "@/models/types";
-import {
-    LoadSessionJugador,
-    SaveSessionJugador,
-    LoadSessionPartida,
-    SaveSessionPartida,
-} from "@/services/session_browser";
+import { usePartidaSession } from "@/hooks/usePartidaSession";
 
 interface PartidaContextType {
-    partida?: Partida;
-    jugador?: Jugador; // El jugador actual
-    creador?: Jugador; // Estos dato es solo valido en la sala de espera !!
-    jugadores: Jugador[];
-    turno_actual?: Jugador;
-    partida_iniciada: boolean;
-    ganador?: Jugador;
+    partida: Partida | undefined;
+    jugador: Jugador | undefined;
+    ganador: Jugador | undefined;
+    turno_actual: Jugador | undefined;
     setPartida: (partida: Partida) => void;
     setJugador: (jugador: Jugador) => void;
-    setCreador: (creador: Jugador) => void;
+    setGanador: (jugador: Jugador) => void;
+    setTurnoActual: (jugador: Jugador) => void;
 }
 
 const PartidaContext = createContext<PartidaContextType | undefined>(undefined);
@@ -32,52 +18,23 @@ const PartidaContext = createContext<PartidaContextType | undefined>(undefined);
 export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const [partida, _setPartida_] = useState<Partida | undefined>(undefined);
-    const [jugador, _setJugador_] = useState<Jugador | undefined>(undefined);
-    const [creador, setCreador] = useState<Jugador | undefined>(undefined);
-    const [jugadores, setJugadores] = useState<Jugador[]>([]);
+    const { partida, jugador, setPartida, setJugador } = usePartidaSession();
+    const [ganador, setGanador] = useState<Jugador | undefined>(undefined);
     const [turno_actual, setTurnoActual] = useState<Jugador | undefined>(
         undefined
     );
-    const [partida_iniciada, setPartidaIniciada] = useState<boolean>(false);
-    const [ganador, setGanador] = useState<Jugador | undefined>(undefined);
-
-    const { openConnectionToPartida } = useWebSocketPartida();
-
-    const setJugador = (jugador: Jugador) => {
-        SaveSessionJugador(jugador);
-        _setJugador_(jugador);
-    };
-
-    const setPartida = (partida: Partida) => {
-        SaveSessionPartida(partida);
-        _setPartida_(partida);
-    };
-
-    // Cuando se recarga la página se vuelve a cargar la partida y el jugador
-    useEffect(() => {
-        const jugador = LoadSessionJugador();
-        const partida = LoadSessionPartida();
-        if (jugador && partida) {
-            _setJugador_(jugador);
-            _setPartida_(partida);
-            console.log("Se cargaron los datos de la sesión.");
-        }
-    }, []);
 
     return (
         <PartidaContext.Provider
             value={{
                 partida,
                 jugador,
-                creador,
-                jugadores,
-                turno_actual,
-                partida_iniciada,
                 ganador,
+                turno_actual,
                 setPartida,
                 setJugador,
-                setCreador,
+                setGanador,
+                setTurnoActual,
             }}
         >
             {children}

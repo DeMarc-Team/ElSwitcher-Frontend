@@ -1,16 +1,15 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Board from "./components/Board";
-import { LoadSessionJugador } from "@/services/session_browser";
 import CartasMovimiento from "./components/CartasMovimiento";
 import CartasFigura from "./components/CartasFigura";
 import CardInfoDelTurno from "./components/CardInfoTurno";
 import ButtonPasarTurno from "./components/ButtonPasarTurno";
-import { TurnoProvider } from "./components/turnoContext";
-import { useEffect, useState } from "react";
+import { usePartida } from "@/context/PartidaContext";
 
 function Partida() {
+    const { jugador, partida } = usePartida();
     const id_partida = Number(useParams().id_partida);
-    const session = LoadSessionJugador();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -20,7 +19,7 @@ function Partida() {
         return () => clearTimeout(timer);
     }, []);
 
-    if (!id_partida || !session.id) {
+    if (!jugador || !partida || partida.id !== id_partida) {
         return <p>No se puede acceder a esta partida.</p>;
     }
 
@@ -30,26 +29,18 @@ function Partida() {
         >
             <div className="grid h-fit grid-cols-3">
                 <div className="flex flex-col items-center justify-center gap-2">
-                    <TurnoProvider>
-                        <CardInfoDelTurno
-                            id_partida={id_partida}
-                            id_jugador={session.id}
-                        />
-                        <ButtonPasarTurno
-                            id_partida={id_partida}
-                            id_jugador={session.id}
-                        />{" "}
-                    </TurnoProvider>
+                    <CardInfoDelTurno />
+                    <ButtonPasarTurno />
                 </div>
-                <Board id_partida={id_partida} />
+                <Board id_partida={partida.id} />
                 <div></div>
             </div>
             <div className="flex flex-row gap-10">
                 <CartasMovimiento
-                    id_partida={id_partida}
-                    id_jugador={session.id}
+                    id_partida={partida.id}
+                    id_jugador={jugador.id}
                 />
-                <CartasFigura id_partida={id_partida} id_jugador={session.id} />
+                <CartasFigura id_partida={id_partida} id_jugador={jugador.id} />
             </div>
         </div>
     );
