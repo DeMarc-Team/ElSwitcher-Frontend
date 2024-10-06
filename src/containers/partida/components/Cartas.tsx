@@ -5,9 +5,10 @@ interface CartasProps {
     rotation: number;
     middle?: boolean;
     altText: string;
+    onClick?: () => void; 
 }
 
-const Cartas = ({ imgSrc, rotation, altText, middle = false }: CartasProps) => {
+const Cartas = ({ imgSrc, rotation, altText, middle = false,onClick }: CartasProps) => {
     let classRotation = "";
     if (rotation > 0) {
         classRotation = `rotate-6`;
@@ -16,7 +17,8 @@ const Cartas = ({ imgSrc, rotation, altText, middle = false }: CartasProps) => {
     }
 
     return (
-        <button className={cn(`${middle ? "-mt-5" : ""}`, "z-0 hover:z-10")}>
+        <button className={cn(`${middle ? "-mt-5" : ""}`, "z-0 hover:z-10")}
+        onClick={onClick}>
             <img
                 src={imgSrc}
                 className={cn(
