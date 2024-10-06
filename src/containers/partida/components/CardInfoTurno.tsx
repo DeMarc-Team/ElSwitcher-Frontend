@@ -11,8 +11,7 @@ import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 export default function CardInfoDelTurno() {
-    const { jugador, partida } = usePartida();
-    const { setTurnoActual, turno_actual } = usePartida();
+    const { jugador, partida, turno_actual, setTurnoActual } = usePartida();
     const { triggerActualizarTurno } = useInsidePartidaWebSocket();
     const { showToastError } = useNotification();
     const [es_mi_turno, setEsMiTurno] = useState(false);
