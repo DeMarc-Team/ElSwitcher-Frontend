@@ -27,7 +27,8 @@ const useCustomWebSocket = () => {
             shouldReconnect: () => true,
             onOpen: () => console.log("Conexión WebSocket abierta"),
             onClose: () => console.log("Conexión WebSocket cerrada"),
-            onError: (event) => console.error("Error en WebSocket:", event),
+            onError: (event: any) =>
+                console.error("Error en WebSocket:", event),
         },
         socketUrl !== null // Solo habilita la conexión si socketUrl no es null
     );
