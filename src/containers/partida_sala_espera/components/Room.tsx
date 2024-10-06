@@ -32,30 +32,42 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [partidaIniciada, setPartidaIniciada] = useState<boolean>(false);
     const session_jugador = LoadSessionJugador();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
-    const { triggerActualizarSalaEspera, openConnectionToPartida } =
-        useInsidePartidaWebSocket();
+    // const { triggerActualizarSalaEspera, openConnectionToPartida } =
+    //     useInsidePartidaWebSocket();
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!session_jugador) {
-            navigate("/");
-        } else {
-            openConnectionToPartida(
-                id_partida.toString(),
-                session_jugador.id.toString()
-            );
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (!session_jugador) {
+    //         navigate("/");
+    //     } else {
+    //         openConnectionToPartida(
+    //             id_partida.toString(),
+    //             session_jugador.id.toString()
+    //         );
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        info_partida();
-    }, [triggerActualizarSalaEspera]);
+    // useEffect(() => {
+    //     info_partida();
+    // }, [triggerActualizarSalaEspera]);
+
+
+    // useEffect(() => {
+    //     if (partidaIniciada) {
+    //         redirectPartida();
+    //     }
+    // }, [partidaIniciada]);
 
     useEffect(() => {
         if (partidaIniciada) {
             redirectPartida();
         }
+        info_partida();
+        const intervalId = setInterval(() => {
+            info_partida();
+        }, 1000); // Son ms
+        return () => clearInterval(intervalId);
     }, [partidaIniciada]);
 
     const info_partida = async () => {

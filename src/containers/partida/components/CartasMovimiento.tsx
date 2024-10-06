@@ -5,6 +5,7 @@ import {
 } from "./img_cartas_movimiento";
 import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimiento";
 import Cartas from "./Cartas";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
@@ -30,6 +31,7 @@ const CartasMovimiento = ({
     const [cartasMovimiento, setCartasMovimiento] = useState<CartaMovimiento[]>(
         []
     );
+    const { setCartaSeleccionada } = useMovimientoContext();
 
     useEffect(() => {
         fetchCartasMovimiento();
@@ -57,7 +59,7 @@ const CartasMovimiento = ({
                         rotation={Rotation(cartasMovimiento, index)}
                         middle={isMiddleCard(cartasMovimiento, index)}
                         altText={`Carta ${index + 1}`}
-                        onClick={() => console.log(`Carta ${index + 1} seleccionada`)}
+                        onClick={() => setCartaSeleccionada(index)}
                     />
                 );
             })}

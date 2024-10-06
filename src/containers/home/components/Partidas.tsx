@@ -5,11 +5,30 @@ import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
-    const { triggerActualizaPartidas } = useWebSocketListaPartidas();
+    // const { triggerActualizaPartidas } = useWebSocketListaPartidas();
+
+    // useEffect(() => {
+    //     fetchPartidas();
+    // }, [triggerActualizaPartidas]);
+
+    // const fetchPartidas = async () => {
+    //     try {
+    //         const data = await ObtenerPartidas();
+    //         setPartidas(data);
+    //     } catch (err) {
+    //         console.error("No se pudieron obtener las partidas.");
+    //     }
+    // };
 
     useEffect(() => {
         fetchPartidas();
-    }, [triggerActualizaPartidas]);
+        const intervalId = setInterval(async () => {
+            fetchPartidas();
+        }, 2000); // Son ms
+
+        // Limpia el intervalo cuando ya no se renderiza el home
+        return () => clearInterval(intervalId);
+    }, []);
 
     const fetchPartidas = async () => {
         try {
