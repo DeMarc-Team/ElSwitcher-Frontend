@@ -32,6 +32,7 @@ const mockPartidaContext = {
     setJugador: vi.fn(),
     setGanador: vi.fn(),
     setTurnoActual: vi.fn(),
+    isDataLoaded: true,
 };
 
 describe("CardInfoDelTurno", () => {

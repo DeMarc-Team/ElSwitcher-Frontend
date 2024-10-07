@@ -46,6 +46,7 @@ describe("ButtonPasarTurno", () => {
         setJugador: vi.fn(),
         setGanador: vi.fn(),
         setTurnoActual: vi.fn(),
+        isDataLoaded: true,
     };
 
     test("Debería permitir pasar turno cuando es el turno del jugador", async () => {
