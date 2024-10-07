@@ -7,7 +7,7 @@ import Figura2 from "@/components/assets/cartas/CartasFiguras/Figura2.png";
 import Figura3 from "@/components/assets/cartas/CartasFiguras/Figura3.png";
 
 vi.mock("@/services/api/obtener_carta_figura", () => ({
-    ObtenerCartasFiguras: vi.fn((id_partida: number,id_jugador: number) =>
+    ObtenerCartasFiguras: vi.fn((id_partida: number, id_jugador: number) =>
         Promise.resolve([
             { figura: "f1", revelada: true },
             { figura: "f2", revelada: true },
@@ -16,10 +16,10 @@ vi.mock("@/services/api/obtener_carta_figura", () => ({
     ),
 }));
 
-describe("Cartas de figuras" , () => {
+describe("Cartas de figuras", () => {
     test("Se renderizan las 3 cartas", async () => {
         await act(async () => {
-        render(<CartasFigura id_partida={1} id_jugador={1} />);
+            render(<CartasFigura id_partida={1} id_jugador={1} />);
         });
 
         //Se renderizaron las 3 imagenes
@@ -29,7 +29,7 @@ describe("Cartas de figuras" , () => {
 
     test("Tienen bien su texto alternativo", async () => {
         await act(async () => {
-        render(<CartasFigura id_partida={1} id_jugador={1} />);
+            render(<CartasFigura id_partida={1} id_jugador={1} />);
         });
 
         const cartasImg = await screen.findAllByRole("img");
@@ -44,8 +44,8 @@ describe("Cartas de figuras" , () => {
             render(<CartasFigura id_partida={1} id_jugador={1} />);
         });
         const cartasImg = await screen.findAllByRole("img");
-        expect(cartasImg[0]).toHaveAttribute("src",Figura1);
-        expect(cartasImg[1]).toHaveAttribute("src",Figura2);
-        expect(cartasImg[2]).toHaveAttribute("src",Figura3);
+        expect(cartasImg[0]).toHaveAttribute("src", Figura1);
+        expect(cartasImg[1]).toHaveAttribute("src", Figura2);
+        expect(cartasImg[2]).toHaveAttribute("src", Figura3);
     });
 });

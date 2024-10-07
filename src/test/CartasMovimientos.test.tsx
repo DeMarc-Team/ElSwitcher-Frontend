@@ -7,19 +7,19 @@ import Movimiento2 from "@/components/assets/cartas/CartaMovimiento/Movimiento2.
 import Movimiento3 from "@/components/assets/cartas/CartaMovimiento/Movimiento3.png";
 
 vi.mock("@/services/api/obtener_carta_movimiento", () => ({
-    ObtenerCartasMovimientos: vi.fn((id_partida: number,id_jugador: number) =>
+    ObtenerCartasMovimientos: vi.fn((id_partida: number, id_jugador: number) =>
         Promise.resolve([
-            { movimiento: "m1"},
-            { movimiento: "m2"},
-            { movimiento: "m3"},
+            { movimiento: "m1" },
+            { movimiento: "m2" },
+            { movimiento: "m3" },
         ])
     ),
 }));
 
-describe("Cartas de movimietntos" , () => {
+describe("Cartas de movimietntos", () => {
     test("Se renderizan las 3 cartas", async () => {
         await act(async () => {
-        render(<CartasMovimiento id_partida={1} id_jugador={1} />);
+            render(<CartasMovimiento id_partida={1} id_jugador={1} />);
         });
 
         //Se renderizaron las 3 imagenes
@@ -29,7 +29,7 @@ describe("Cartas de movimietntos" , () => {
 
     test("Tienen bien su texto alternativo", async () => {
         await act(async () => {
-        render(<CartasMovimiento id_partida={1} id_jugador={1} />);
+            render(<CartasMovimiento id_partida={1} id_jugador={1} />);
         });
 
         const cartasImg = await screen.findAllByRole("img");
@@ -44,8 +44,8 @@ describe("Cartas de movimietntos" , () => {
             render(<CartasMovimiento id_partida={1} id_jugador={1} />);
         });
         const cartasImg = await screen.findAllByRole("img");
-        expect(cartasImg[0]).toHaveAttribute("src",Movimiento1);
-        expect(cartasImg[1]).toHaveAttribute("src",Movimiento2);
-        expect(cartasImg[2]).toHaveAttribute("src",Movimiento3);
+        expect(cartasImg[0]).toHaveAttribute("src", Movimiento1);
+        expect(cartasImg[1]).toHaveAttribute("src", Movimiento2);
+        expect(cartasImg[2]).toHaveAttribute("src", Movimiento3);
     });
 });

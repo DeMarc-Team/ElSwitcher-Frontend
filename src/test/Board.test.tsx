@@ -20,7 +20,6 @@ vi.mock("@/services/api/ver_tablero", () => ({
 }));
 
 describe("Componente Board", () => {
-
     test("Se renderiza todo el tablero", async () => {
         render(<Board id_partida={1} />);
 
@@ -36,9 +35,9 @@ describe("Componente Board", () => {
         const buttons = await screen.findAllByRole("button");
 
         // Verificar que algunos botones tengan los colores correctos
-        expect(buttons[0]).toHaveClass("bg-red-400"); 
+        expect(buttons[0]).toHaveClass("bg-red-400");
         expect(buttons[1]).toHaveClass("bg-green-400");
-        expect(buttons[2]).toHaveClass("bg-blue-400"); 
+        expect(buttons[2]).toHaveClass("bg-blue-400");
         expect(buttons[3]).toHaveClass("bg-yellow-400");
         expect(buttons[4]).toHaveClass("bg-red-400");
     });
@@ -50,8 +49,9 @@ describe("Componente Board", () => {
 
         // Verificar que todos los colores tengan un color valido
         for (let index = 0; index < 36; index++) {
-            expect(buttons[index]).toHaveClass(/bg-(red|green|blue|yellow)-400/);             
+            expect(buttons[index]).toHaveClass(
+                /bg-(red|green|blue|yellow)-400/
+            );
         }
     });
 });
-

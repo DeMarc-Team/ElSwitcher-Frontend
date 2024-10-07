@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
-import { render, screen} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { TurnoProvider } from "@/containers/partida/components/turnoContext";
 import ButtonPasarTurno from "@/containers/partida/components/ButtonPasarTurno";
 import { PasarTurno } from "@/services/api/pasar_turno";

@@ -4,37 +4,37 @@ import Partidas from "../containers/home/components/Partidas";
 import { MemoryRouter } from "react-router-dom";
 
 describe("Partidas Component", () => {
-   
-
     test("Se renderiza la lista de partidas", async () => {
         vi.mock("@/services/api/obtener_partidas", () => ({
             ObtenerPartidas: vi.fn(() => Promise.resolve([])),
         }));
         await act(async () => {
             render(
-                <MemoryRouter>   {/* Envuelve el componente en un MemoryRouter */}
+                <MemoryRouter>
+                    {" "}
+                    {/* Envuelve el componente en un MemoryRouter */}
                     <Partidas />
                 </MemoryRouter>
             );
         });
         expect(screen.getByText("Lista de partidas")).toBeDefined();
     });
-    
+
     test("No hay partidas", async () => {
         vi.mock("@/services/api/obtener_partidas", () => ({
             ObtenerPartidas: vi.fn(() => Promise.resolve([])),
         }));
         await act(async () => {
             render(
-                <MemoryRouter>   {/* Envuelve el componente en un MemoryRouter */}
+                <MemoryRouter>
+                    {" "}
+                    {/* Envuelve el componente en un MemoryRouter */}
                     <Partidas />
                 </MemoryRouter>
             );
         });
         expect(screen.findByText("No hay partidas creadas.")).toBeDefined();
     });
-
-    
 
     test("Mocker las partidas", async () => {
         vi.mock("@/services/api/obtener_partidas", () => ({
