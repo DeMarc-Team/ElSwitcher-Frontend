@@ -5,22 +5,21 @@ import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
-    // const { triggerActualizaPartidas } = useWebSocketListaPartidas();
-
-    // useEffect(() => {
-    //     fetchPartidas();
-    // }, [triggerActualizaPartidas]);
-
-    // const fetchPartidas = async () => {
-    //     try {
-    //         const data = await ObtenerPartidas();
-    //         setPartidas(data);
-    //     } catch (err) {
-    //         console.error("No se pudieron obtener las partidas.");
-    //     }
-    // };
+    const { triggerActualizaPartidas } = useWebSocketListaPartidas();
 
     useEffect(() => {
+        fetchPartidas();
+    }, [triggerActualizaPartidas]);
+    const fetchPartidas = async () => {
+        try {
+            const data = await ObtenerPartidas();
+            setPartidas(data);
+        } catch (err) {
+            console.error("No se pudieron obtener las partidas.");
+        }
+    };
+
+    /*useEffect(() => {
         fetchPartidas();
         const intervalId = setInterval(async () => {
             fetchPartidas();
@@ -37,7 +36,7 @@ function Partidas() {
         } catch (err) {
             console.error("No se pudieron obtener las partidas.");
         }
-    };
+    };*/
 
     return (
         <div

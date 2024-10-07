@@ -37,29 +37,26 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
 
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     if (!session_jugador) {
-    //         navigate("/");
-    //     } else {
-    //         openConnectionToPartida(
-    //             id_partida.toString(),
-    //             session_jugador.id.toString()
-    //         );
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     info_partida();
-    // }, [triggerActualizarSalaEspera]);
-
-
-    // useEffect(() => {
-    //     if (partidaIniciada) {
-    //         redirectPartida();
-    //     }
-    // }, [partidaIniciada]);
-
     useEffect(() => {
+        if (!session_jugador) {
+            navigate("/");
+        } else {
+            openConnectionToPartida(
+                id_partida.toString(),
+                session_jugador.id.toString()
+            );
+        }
+    }, []
+    useEffect(() => {
+        info_partida();
+    }, [triggerActualizarSalaEspera]
+    useEffect(() => {
+        if (partidaIniciada) {
+            redirectPartida();
+        }
+    }, [partidaIniciada]);
+
+    /*useEffect(() => {
         if (partidaIniciada) {
             redirectPartida();
         }
@@ -68,7 +65,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
             info_partida();
         }, 1000); // Son ms
         return () => clearInterval(intervalId);
-    }, [partidaIniciada]);
+    }, [partidaIniciada]);*/
 
     const info_partida = async () => {
         try {
