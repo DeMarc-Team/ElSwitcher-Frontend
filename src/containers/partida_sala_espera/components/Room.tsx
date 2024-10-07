@@ -16,6 +16,7 @@ import { IniciarPartida } from "@/services/api/iniciar_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
 import { LoadSessionJugador } from "@/services/session_browser";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 interface CardHomeProps {
     title: string;
@@ -29,10 +30,34 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [cantidadDeJugadores, setcantidadDeJugadores] = useState<number>(0);
     const [idCreador, setIdCreador] = useState<number>(0);
     const [partidaIniciada, setPartidaIniciada] = useState<boolean>(false);
-    const session = LoadSessionJugador();
+    const session_jugador = LoadSessionJugador();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
+    // const { triggerActualizarSalaEspera, openConnectionToPartida } =
+    //     useInsidePartidaWebSocket();
 
     const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     if (!session_jugador) {
+    //         navigate("/");
+    //     } else {
+    //         openConnectionToPartida(
+    //             id_partida.toString(),
+    //             session_jugador.id.toString()
+    //         );
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     info_partida();
+    // }, [triggerActualizarSalaEspera]);
+
+
+    // useEffect(() => {
+    //     if (partidaIniciada) {
+    //         redirectPartida();
+    //     }
+    // }, [partidaIniciada]);
 
     useEffect(() => {
         if (partidaIniciada) {
@@ -144,7 +169,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                             Se completó la cantidad de jugadores.
                         </div>
                     )}
-                    {session?.id == idCreador && (
+                    {session_jugador?.id == idCreador && (
                         <Button
                             onClick={() => {
                                 start_play(id_partida);

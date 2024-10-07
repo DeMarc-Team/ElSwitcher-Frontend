@@ -13,7 +13,10 @@ import { CircleArrowRight } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import { usePartida } from "@/context/PartidaContext";
+import {
+    SaveSessionJugador,
+    SaveSessionPartida,
+} from "@/services/session_browser";
 
 interface FormUnirseProps {
     partidaId: number;
@@ -27,7 +30,6 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
     const [uniendose, setUniendose] = useState(false);
     const navigate = useNavigate();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
-    const { setJugador, setPartida } = usePartida();
 
     const changeUsername = (e: string) => {
         if (MAX_LENGTH_USERNAME < e.length) {
@@ -52,16 +54,16 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
             return;
         }
         try {
-            const res = await UnirsePartida(partidaId, username);
             setUniendose(true);
+            const res = await UnirsePartida(partidaId, username);
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
             );
-            setJugador({
+            SaveSessionJugador({
                 id: res.id_jugador,
                 nombre: res.nombre,
             });
-            setPartida({
+            SaveSessionPartida({
                 id: partidaId,
                 nombre: partidaName,
             });
@@ -71,6 +73,7 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
             }, 1500);
         } catch (error) {
             showToastAlert("Error al unirse a la partida.");
+            setUniendose(false);
         }
     };
 
