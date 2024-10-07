@@ -123,8 +123,9 @@ function CrearPartida() {
                         </div>
                     </div>
                     <div>
+                        {/* mantener este cambio para el test */}
                         <Button type="submit" className="mt-5 w-full">
-                            Crear Partida
+                            Unirse a Partida
                         </Button>
                     </div>
                 </form>

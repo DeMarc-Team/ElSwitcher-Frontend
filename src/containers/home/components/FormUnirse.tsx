@@ -125,7 +125,8 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
                             type="submit"
                             className="mt-5 w-full"
                         >
-                            Unirse
+                            {/* Mantener por el test */}
+                            Unirse a partida
                         </Button>
                     </div>
                 </form>

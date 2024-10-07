@@ -14,7 +14,6 @@ export default function ButtonPasarTurno() {
             try {
                 await PasarTurno(partida.id, jugador.id);
             } catch (error) {
-                console.error("Error al pasar el turno:", error);
                 showToastAlert("Error al pasar el turno.");
                 setTimeout(() => {
                     closeToast();
