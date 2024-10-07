@@ -10,6 +10,16 @@ export default defineConfig({
         globals: true,
         environment: "jsdom",
         setupFiles: "./setupTest.js",
+        coverage: {
+            exclude: [
+                "node_modules/**",
+                "*.config.*",
+                "src/main.tsx",
+                "src/vite-env.d.ts",
+                "src/components/ui/**",
+                "src/hooks/use-toast.ts",
+            ],
+        },
     },
     resolve: {
         alias: {
