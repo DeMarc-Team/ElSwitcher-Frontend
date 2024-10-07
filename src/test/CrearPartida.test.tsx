@@ -1,23 +1,26 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { describe, test, expect, vi } from "vitest";
 import CrearPartida from "../containers/home/components/CrearPartida";
 import "@testing-library/jest-dom";
-import { CrearPartidaForm, CrearPartidaResponse } from "@/services/api/crear_partida";
-
-vi.mock("@/services/api/crearPartida", () => ({
-    crearPartida: vi.fn(
-        (form: CrearPartidaForm): Promise<CrearPartidaResponse> =>
-            Promise.resolve({
-                id: 1,
-                nombre_partida: "Partida 1",
-                nombre_creador: "Jugador 1",
-                id_creador: 123,
-            })
-    ),
-}));
+import {
+    CrearPartidaForm,
+    CrearPartidaResponse,
+} from "@/services/api/crear_partida";
 
 describe("Crear Partida", () => {
+    vi.mock("@/services/api/crear_partida", () => ({
+        crearPartida: vi.fn(
+            (form: CrearPartidaForm): Promise<CrearPartidaResponse> =>
+                Promise.resolve({
+                    id: 1,
+                    nombre_partida: "Partida 1",
+                    nombre_creador: "Jugador 1",
+                    id_creador: 123,
+                })
+        ),
+    }));
+
     test("Se renderiza el botón de crear partida", async () => {
         render(
             <BrowserRouter>
@@ -27,7 +30,7 @@ describe("Crear Partida", () => {
         expect(screen.getByText("Crear Partida")).toBeDefined();
     });
 
-    test("Se debería mostrar el formulario al presionar 'Crear Partida' y permitir llenarlo correctamente", () => {
+    test("Se debería mostrar el formulario al presionar 'Crear Partida' y permitir llenarlo correctamente", async () => {
         render(
             <BrowserRouter>
                 <CrearPartida />
@@ -37,9 +40,11 @@ describe("Crear Partida", () => {
         // Verificar que el formulario no se muestra inicialmente
         expect(screen.queryByLabelText("Nombre de Usuario")).toBeNull();
 
-        // Simular el clic en el botón "Crear Partida"
-        const botonCrearPartida = screen.getByText("Crear Partida");
-        fireEvent.click(botonCrearPartida);
+        await act(async () => {
+            // Simular el clic en el botón "Crear Partida"
+            const botonCrearPartida = screen.getByText("Crear Partida");
+            fireEvent.click(botonCrearPartida);
+        });
 
         // Verificar que ahora el formulario aparece
         expect(screen.getByLabelText("Crear Nueva Partida !!")).not.toBeNull();
@@ -57,6 +62,8 @@ describe("Crear Partida", () => {
 
         // Simular el envío del formulario y click en "Unirse a Partida"
         const botonUnirse = screen.getByText("Unirse a Partida");
-        fireEvent.click(botonUnirse);
+        await act(async () => {
+            fireEvent.click(botonUnirse);
+        });
     });
 });
