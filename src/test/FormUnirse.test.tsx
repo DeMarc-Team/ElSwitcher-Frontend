@@ -10,6 +10,10 @@ describe("Form Unirse", () => {
             Promise.resolve([{ id: 1, nombre_partida: "Partida 1" }])
         ),
     }));
+    
+   vi.mock("@/services/api/unirse_partida", () => ({
+	UnirsePartida: vi.fn(() => Promise.resolve()),
+   }));
 
     test("Mocker las partidas y ver el form", async () => {
         render(
