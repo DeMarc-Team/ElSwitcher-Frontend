@@ -32,8 +32,8 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [partidaIniciada, setPartidaIniciada] = useState<boolean>(false);
     const session_jugador = LoadSessionJugador();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
-    // const { triggerActualizarSalaEspera, openConnectionToPartida } =
-    //     useInsidePartidaWebSocket();
+    const { triggerActualizarSalaEspera, openConnectionToPartida } =
+        useInsidePartidaWebSocket();
 
     const navigate = useNavigate();
 
@@ -46,10 +46,12 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                 session_jugador.id.toString()
             );
         }
-    }, []
+    }, []);
+
     useEffect(() => {
         info_partida();
-    }, [triggerActualizarSalaEspera]
+    }, [triggerActualizarSalaEspera]);
+
     useEffect(() => {
         if (partidaIniciada) {
             redirectPartida();
