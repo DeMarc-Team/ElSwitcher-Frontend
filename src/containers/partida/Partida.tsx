@@ -6,22 +6,38 @@ import CartasFigura from "./components/CartasFigura";
 import CardInfoDelTurno from "./components/CardInfoTurno";
 import ButtonPasarTurno from "./components/ButtonPasarTurno";
 import { usePartida } from "@/context/PartidaContext";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 function Partida() {
-    const { jugador, partida } = usePartida();
+    const { jugador, partida, isDataLoaded } = usePartida();
     const id_partida = Number(useParams().id_partida);
     const [isVisible, setIsVisible] = useState(false);
+    const { openConnectionToPartida, readyState } = useInsidePartidaWebSocket();
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsVisible(true);
+        const timeout = setTimeout(() => {
+            if (isDataLoaded) {
+                setIsVisible(true);
+            }
         }, 100);
-        return () => clearTimeout(timer);
-    }, []);
+        return () => clearTimeout(timeout);
+    }, [isDataLoaded]);
 
-    if (!jugador || !partida || partida.id !== id_partida) {
-        return <p>No se puede acceder a esta partida.</p>;
-    }
+    // Conectar al WebSocket de la partida por si el jugador reinicia la página.
+    useEffect(() => {
+        if (
+            isDataLoaded &&
+            jugador &&
+            id_partida &&
+            readyState != 0 &&
+            readyState != 1
+        ) {
+            console.log("Reconectando al WebSocket de la partida...");
+            openConnectionToPartida(String(id_partida), String(jugador.id));
+        }
+    }, [isDataLoaded]);
+
+    if (!jugador || !partida || partida.id !== id_partida) return;
 
     return (
         <div

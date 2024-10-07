@@ -8,6 +8,7 @@ import {
 import { Jugador, Partida } from "@/models/types";
 
 export const usePartidaSession = () => {
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [partida, _setPartida_] = useState<Partida | undefined>(undefined);
     const [jugador, _setJugador_] = useState<Jugador | undefined>(undefined);
 
@@ -27,6 +28,7 @@ export const usePartidaSession = () => {
         if (jugador && partida) {
             _setJugador_(jugador);
             _setPartida_(partida);
+            setIsDataLoaded(true);
             console.log("Datos cargados desde la sesión.");
         }
     }, []);
@@ -34,6 +36,7 @@ export const usePartidaSession = () => {
     return {
         partida,
         jugador,
+        isDataLoaded,
         setPartida,
         setJugador,
     };

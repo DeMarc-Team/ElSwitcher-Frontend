@@ -6,6 +6,7 @@ interface PartidaContextType {
     partida: Partida | undefined;
     jugador: Jugador | undefined;
     ganador: Jugador | undefined;
+    isDataLoaded: boolean;
     turno_actual: Jugador | undefined;
     setPartida: (partida: Partida) => void;
     setJugador: (jugador: Jugador) => void;
@@ -18,7 +19,8 @@ const PartidaContext = createContext<PartidaContextType | undefined>(undefined);
 export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const { partida, jugador, setPartida, setJugador } = usePartidaSession();
+    const { partida, jugador, isDataLoaded, setPartida, setJugador } =
+        usePartidaSession();
     const [ganador, setGanador] = useState<Jugador | undefined>(undefined);
     const [turno_actual, setTurnoActual] = useState<Jugador | undefined>(
         undefined
@@ -29,6 +31,7 @@ export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
             value={{
                 partida,
                 jugador,
+                isDataLoaded,
                 ganador,
                 turno_actual,
                 setPartida,
