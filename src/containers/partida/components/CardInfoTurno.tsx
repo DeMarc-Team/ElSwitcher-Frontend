@@ -14,13 +14,9 @@ export default function CardInfoDelTurno() {
     const { jugador, partida, turno_actual, setTurnoActual } = usePartida();
     const { triggerActualizarTurno } = useInsidePartidaWebSocket();
     const { showToastError } = useNotification();
-    const [es_mi_turno, setEsMiTurno] = useState(false);
 
     useEffect(() => {
         fecthInfoTurno();
-        if (turno_actual && jugador) {
-            setEsMiTurno(turno_actual.id === jugador.id);
-        }
     }, [triggerActualizarTurno]);
 
     const fecthInfoTurno = async () => {
@@ -48,7 +44,7 @@ export default function CardInfoDelTurno() {
                     {" "}
                     <CardTitle>TURNO DE</CardTitle>
                     <CardDescription className="text-center text-base">
-                        {es_mi_turno ? (
+                        {turno_actual.id == jugador.id ? (
                             <span>Es tú turno !!</span>
                         ) : (
                             <span>Otro jugador</span>
@@ -56,7 +52,7 @@ export default function CardInfoDelTurno() {
                     </CardDescription>
                 </div>
                 <div
-                    className={`flex h-24 w-40 items-center justify-center rounded-md border-2 border-dashed border-black text-center ${es_mi_turno ? "bg-green-400" : ""}`}
+                    className={`flex h-24 w-40 items-center justify-center rounded-md border-2 border-dashed border-black text-center ${turno_actual.id == jugador.id ? "bg-green-400" : ""}`}
                 >
                     <p
                         className={`break-words p-1 text-center font-bold ${turno_actual.nombre.length > 30 ? "!break-all text-sm" : "text-xl"}`}
