@@ -7,7 +7,11 @@ import {
 } from "@/services/api/crear_partida";
 import { UnirsePartidaResponse } from "@/services/api/unirse_partida";
 import Room from "@/containers/partida_sala_espera/components/Room";
-import { SaveSessionJugador, SessionJugador } from "@/services/session_jugador";
+import {
+    SaveSessionJugador,
+    SaveSessionPartida,
+} from "@/services/session_browser";
+import { Partida, Jugador } from "@/models/types";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
 
 vi.mock("@/services/api/crearPartida", () => ({
@@ -60,16 +64,30 @@ vi.mock("@/services/api/obtener_jugadores", () => ({
     ),
 }));
 
-const mockSession1: SessionJugador = {
+vi.mock("@/context/PartidaWebsocket", () => ({
+    useInsidePartidaWebSocket: vi.fn(() => {
+        let triggerActualizarSalaEspera = true;
+        let openConnectionToPartida = () => {};
+        return {
+            triggerActualizarSalaEspera,
+            openConnectionToPartida,
+        };
+    }),
+}));
+
+const mockCreador: Jugador = {
     id: 123,
     nombre: "Jugador 1",
-    id_partida: 1,
 };
 
-const mockSession2: SessionJugador = {
+const mockJugador: Jugador = {
     id: 1,
     nombre: "Jugador 2",
-    id_partida: 125,
+};
+
+const mockPartida: Partida = {
+    id: 1,
+    nombre: "Partida 1",
 };
 
 // vi.mock('@/services/api/iniciarPartida', () => ({
@@ -81,8 +99,9 @@ const mockSession2: SessionJugador = {
 // }));
 
 describe("Sala de espera", () => {
-    SaveSessionJugador(mockSession1);
-    SaveSessionJugador(mockSession2);
+    SaveSessionJugador(mockCreador);
+    SaveSessionJugador(mockJugador);
+    SaveSessionPartida(mockPartida);
 
     test("Se renderiza y funciona la lista de jugadores del room", async () => {
         render(
@@ -123,7 +142,7 @@ describe("Sala de espera", () => {
         expect(respuesta.iniciada).toBe(false);
 
         //El botón se renderiza solo para el creador
-        if (mockSession1.id === 123) {
+        if (mockCreador.id === 123) {
             const iniciarButton = screen.findByText("Iniciar partida");
             expect(iniciarButton).toBeDefined();
         } else {

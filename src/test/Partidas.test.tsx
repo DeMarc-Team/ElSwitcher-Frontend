@@ -3,6 +3,17 @@ import { act, render, screen } from "@testing-library/react";
 import Partidas from "../containers/home/components/Partidas";
 import { MemoryRouter } from "react-router-dom";
 
+vi.mock("@/services/websockets/websockets", () => ({
+    useCustomWebSocket: vi.fn(() => ({
+        message: {
+            action: "",
+        },
+        readyState: true,
+        openConnection: vi.fn(),
+        closeConnection: vi.fn(),
+    })),
+}));
+
 describe("Partidas Component", () => {
     test("Se renderiza la lista de partidas", async () => {
         vi.mock("@/services/api/obtener_partidas", () => ({

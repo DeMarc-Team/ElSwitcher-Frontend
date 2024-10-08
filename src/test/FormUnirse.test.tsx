@@ -15,6 +15,17 @@ describe("Form Unirse", () => {
         UnirsePartida: vi.fn(() => Promise.resolve()),
     }));
 
+    vi.mock("@/services/websockets/websockets", () => ({
+        useCustomWebSocket: vi.fn(() => ({
+            message: {
+                action: "",
+            },
+            readyState: true,
+            openConnection: vi.fn(),
+            closeConnection: vi.fn(),
+        })),
+    }));
+
     test("Mocker las partidas y ver el form", async () => {
         render(
             <BrowserRouter>

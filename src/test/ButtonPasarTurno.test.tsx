@@ -1,79 +1,115 @@
-import { describe, expect, test, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { TurnoProvider } from "@/containers/partida/components/turnoContext";
+import { describe, expect, test, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import ButtonPasarTurno from "@/containers/partida/components/ButtonPasarTurno";
 import { PasarTurno } from "@/services/api/pasar_turno";
+import { usePartida } from "@/context/PartidaContext";
+import { useNotification } from "@/hooks/useNotification";
 
-vi.mock("@/services/api/obtener_info_partida", () => ({
-    ObtenerInfoPartida: vi.fn(() =>
-        Promise.resolve({
-            nombre_partida: "Partida 1",
-            nombre_creador: "Jugador 1",
-            id_creador: 123,
-            jugadores: [
-                { id_jugador: 123, nombre: "Jugador 1" },
-                { id_jugador: 125, nombre: "Jugador 2" },
-            ],
-            cantidad_jugadores: 2,
-            iniciada: false,
-        })
-    ),
+// Mockear `usePartida`
+vi.mock("@/context/PartidaContext", () => ({
+    usePartida: vi.fn(),
 }));
 
-vi.mock("@/services/api/obtener_info_turno", () => ({
-    ObtenerInfoTurno: vi.fn(() =>
-        Promise.resolve({
-            id_jugador: 123,
-            nombre_jugador: "Jugador 1",
-        })
-    ),
+// Mockear `useNotification`
+vi.mock("@/hooks/useNotification", () => ({
+    useNotification: vi.fn(),
 }));
 
+// Mockear `PasarTurno`
 vi.mock("@/services/api/pasar_turno", () => ({
-    PasarTurno: vi.fn(() =>
-        Promise.resolve({
-            success: true,
-            message: "Turno pasado correctamente",
-        })
-    ),
+    PasarTurno: vi.fn(),
 }));
-
-const mockTurnoContextValue = {
-    turnoId: 123,
-    setTurnoId: vi.fn(),
-};
 
 describe("ButtonPasarTurno", () => {
-    test("Se debería mostrar 'Pasar turno' cuando es nuestro turno", () => {
-        render(
-            <TurnoProvider value={mockTurnoContextValue}>
-                <ButtonPasarTurno id_partida={1} id_jugador={123} />
-            </TurnoProvider>
-        );
+    const mockShowToast = vi.fn();
+    const mockCloseToast = vi.fn();
 
+    // Ejecutar antes de cada test:
+    beforeEach(() => {
+        // Configurar el mock de useNotification
+        vi.mocked(useNotification).mockReturnValue({
+            showToastAlert: mockShowToast,
+            closeToast: mockCloseToast,
+            showToastError: vi.fn(),
+            showToastSuccess: vi.fn(),
+            showToastInfo: vi.fn(),
+            showToastWarning: vi.fn(),
+        });
+    });
+
+    const mockPartidaContext = {
+        turno_actual: undefined,
+        jugador: undefined,
+        partida: undefined,
+        ganador: undefined,
+        setPartida: vi.fn(),
+        setJugador: vi.fn(),
+        setGanador: vi.fn(),
+        setTurnoActual: vi.fn(),
+        isDataLoaded: true,
+    };
+
+    test("Debería permitir pasar turno cuando es el turno del jugador", async () => {
+        // Configurar el mock de usePartida para que sea el turno del jugador
+        vi.mocked(usePartida).mockReturnValue({
+            ...mockPartidaContext,
+            turno_actual: { id: 123, nombre: "Jugador 1" },
+            jugador: { id: 123, nombre: "Jugador 1" },
+            partida: { id: 1, nombre: "Partida 1" },
+        });
+
+        // Renderizar el componente
+        render(<ButtonPasarTurno />);
+
+        // Verificar que se muestra "Pasar turno"
         expect(screen.getByText("Pasar turno")).toBeInTheDocument();
+
+        // Simular el click en el botón de pasar turno
+        await act(async () => {
+            fireEvent.click(screen.getByText("Pasar turno"));
+        });
+
+        // Verificar que se llamó a la función `PasarTurno`
+        expect(PasarTurno).toHaveBeenCalledWith(1, 123);
     });
 
-    test("Debería mostrarse el pasar turno para quien es el turno", async () => {
-        render(
-            <TurnoProvider value={mockTurnoContextValue}>
-                <ButtonPasarTurno id_partida={1} id_jugador={123} />
-            </TurnoProvider>
-        );
+    test("Debería mostrar 'Espera tú turno' cuando no es el turno del jugador", () => {
+        // Configurar el mock de usePartida para que no sea el turno del jugador
+        vi.mocked(usePartida).mockReturnValue({
+            ...mockPartidaContext,
+            turno_actual: { id: 125, nombre: "Jugador 2" },
+            jugador: { id: 123, nombre: "Jugador 1" },
+            partida: { id: 1, nombre: "Partida 1" },
+        });
 
-        expect(screen.getByText("Pasar turno")).toBeDefined();
-        await vi.mocked(PasarTurno(1, 123));
+        // Renderizar el componente
+        render(<ButtonPasarTurno />);
+
+        // Verificar que se muestra "Espera tú turno"
+        expect(screen.getByText("Espera tú turno")).toBeInTheDocument();
     });
 
-    test("Debería mostrar 'Espera tú turno' cuando el turno no es del jugador", () => {
-        mockTurnoContextValue.turnoId = 125;
+    test("Debería mostrar una notificación de error si la API falla", async () => {
+        // Configurar el mock de usePartida para que sea el turno del jugador
+        vi.mocked(usePartida).mockReturnValue({
+            ...mockPartidaContext,
+            turno_actual: { id: 123, nombre: "Jugador 1" },
+            jugador: { id: 123, nombre: "Jugador 1" },
+            partida: { id: 1, nombre: "Partida 1" },
+        });
 
-        render(
-            <TurnoProvider value={mockTurnoContextValue}>
-                <ButtonPasarTurno id_partida={1} id_jugador={123} />
-            </TurnoProvider>
-        );
+        // Configurar el mock de PasarTurno para que falle
+        vi.mocked(PasarTurno).mockRejectedValue(new Error("Error de red"));
 
-        expect(screen.getByText("Espera tú turno")).toBeDefined();
+        // Renderizar el componente
+        render(<ButtonPasarTurno />);
+
+        // Simular el click en el botón de pasar turno
+        await act(async () => {
+            fireEvent.click(screen.getByText("Pasar turno"));
+        });
+
+        // Verificar que se muestra una notificación de error
+        expect(mockShowToast).toHaveBeenCalledWith("Error al pasar el turno.");
     });
 });
