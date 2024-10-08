@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import { AbandonarPartida } from "@/services/api/abandonar_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import { RemoveSessionJugador } from "@/services/session_jugador";
+import {
+    RemoveSessionJugador,
+    RemoveSessionPartida,
+} from "@/services/session_browser";
 
 export default function ButtonAbandonarPartida({
     idPartida,
@@ -18,6 +21,7 @@ export default function ButtonAbandonarPartida({
         try {
             await AbandonarPartida(idPartida, idJugador);
             RemoveSessionJugador();
+            RemoveSessionPartida();
             navigate("/#listapartidas");
         } catch (error) {
             showToastError("Error al abandonar la partida.");
