@@ -4,6 +4,18 @@ import Figura3 from "@/components/assets/cartas/CartasFiguras/Figura3.png";
 import Figura4 from "@/components/assets/cartas/CartasFiguras/Figura4.png";
 import Figura5 from "@/components/assets/cartas/CartasFiguras/Figura5.png";
 import Figura6 from "@/components/assets/cartas/CartasFiguras/Figura6.png";
+import Figura7 from "@/components/assets/cartas/CartasFiguras/Figura7.png";
+import Figura8 from "@/components/assets/cartas/CartasFiguras/Figura8.png";
+import Figura9 from "@/components/assets/cartas/CartasFiguras/Figura9.png";
+import Figura10 from "@/components/assets/cartas/CartasFiguras/Figura10.png";
+import Figura11 from "@/components/assets/cartas/CartasFiguras/Figura11.png";
+import Figura12 from "@/components/assets/cartas/CartasFiguras/Figura12.png";
+import Figura13 from "@/components/assets/cartas/CartasFiguras/Figura13.png";
+import Figura14 from "@/components/assets/cartas/CartasFiguras/Figura14.png";
+import Figura15 from "@/components/assets/cartas/CartasFiguras/Figura15.png";
+import Figura16 from "@/components/assets/cartas/CartasFiguras/Figura16.png";
+import Figura17 from "@/components/assets/cartas/CartasFiguras/Figura17.png";
+import Figura18 from "@/components/assets/cartas/CartasFiguras/Figura18.png";
 import DorsoCarta from "@/components/assets/cartas/DorsoCarta.png";
 
 interface CartaFigura {
@@ -19,6 +31,18 @@ const CARTAS_FIGURA: CartaFigura[] = [
     { code: "f4", img: Figura4 },
     { code: "f5", img: Figura5 },
     { code: "f6", img: Figura6 },
+    { code: "f7", img: Figura7 },
+    { code: "f8", img: Figura8 },
+    { code: "f9", img: Figura9 },
+    { code: "f10", img: Figura10 },
+    { code: "f11", img: Figura11 },
+    { code: "f12", img: Figura12 },
+    { code: "f13", img: Figura13 },
+    { code: "f14", img: Figura14 },
+    { code: "f15", img: Figura15 },
+    { code: "f16", img: Figura16 },
+    { code: "f17", img: Figura17 },
+    { code: "f18", img: Figura18 },
     { code: "dorso", img: DorsoCarta },
 ];
 
