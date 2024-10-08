@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, useEffect } from "react";
+import { createContext, useContext, ReactNode } from "react";
 import { useWebSocketPartida } from "@/services/websockets/websockets_partida";
 
 interface PartidaWebsocketContextType {
