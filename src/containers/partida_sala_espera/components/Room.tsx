@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 import { Button } from "@/components/ui/button";
 import Loading from "./Loading";
 import {
@@ -157,7 +158,8 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                             Se completó la cantidad de jugadores.
                         </div>
                     )}
-                    {session_jugador?.id == idCreador && (
+
+                    {session_jugador?.id == idCreador ? (
                         <Button
                             onClick={() => {
                                 start_play(id_partida);
@@ -166,6 +168,11 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                         >
                             Iniciar partida
                         </Button>
+                    ) : (
+                        <ButtonAbandonarPartida
+                            idPartida={id_partida}
+                            idJugador={Number(session_jugador?.id)}
+                        />
                     )}
                 </CardContent>
             </Card>

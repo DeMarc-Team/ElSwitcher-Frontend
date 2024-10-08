@@ -7,6 +7,7 @@ import CardInfoDelTurno from "./components/CardInfoTurno";
 import ButtonPasarTurno from "./components/ButtonPasarTurno";
 import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
+import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -49,7 +50,12 @@ function Partida() {
                     <ButtonPasarTurno />
                 </div>
                 <Board id_partida={partida.id} />
-                <div></div>
+                <div className="flex items-center justify-center">
+                    <ButtonAbandonarPartida
+                        idPartida={id_partida}
+                        idJugador={jugador.id}
+                    />
+                </div>
             </div>
             <div className="flex flex-row gap-10">
                 <CartasMovimiento
