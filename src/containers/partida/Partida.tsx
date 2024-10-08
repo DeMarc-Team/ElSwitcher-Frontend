@@ -46,16 +46,15 @@ function Partida() {
         >
             <div className="grid h-fit grid-cols-3">
                 <div className="flex flex-col items-center justify-center gap-2">
-                    <CardInfoDelTurno />
-                    <ButtonPasarTurno />
-                </div>
-                <Board id_partida={partida.id} />
-                <div className="flex items-center justify-center">
                     <ButtonAbandonarPartida
                         idPartida={id_partida}
                         idJugador={jugador.id}
                     />
+                    <CardInfoDelTurno />
+                    <ButtonPasarTurno />
                 </div>
+                <Board id_partida={partida.id} />
+                <div></div>
             </div>
             <div className="flex flex-row gap-10">
                 <CartasMovimiento
