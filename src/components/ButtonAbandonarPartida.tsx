@@ -39,7 +39,7 @@ export default function ButtonAbandonarPartida({
     };
     return (
         <Dialog onOpenChange={() => setIsOpen(!isOpen)} open={isOpen}>
-            <DialogTrigger>
+            <DialogTrigger asChild>
                 <Button
                     className="border-2 border-black hover:bg-red-600"
                     variant="destructive"
