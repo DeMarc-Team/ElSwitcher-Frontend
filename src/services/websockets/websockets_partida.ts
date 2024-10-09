@@ -1,6 +1,6 @@
 import { useCustomWebSocket } from "./websockets";
 import { useEffect, useState } from "react";
-
+import { Jugador } from "@/models/types";
 /**
  *  Este hook es para manejar la conexión WebSocket de una partida específica.
  *  IMPORTANTE: Evitar usarlo directamente en un componente.
@@ -20,6 +20,10 @@ const useWebSocketPartida = () => {
         useState(false);
     const [triggerActualizarTurno, setTriggerActualizarTurno] = useState(false);
 
+    // Estados para saber si hay un ganador
+    const [hayGanador, setHayGanador] = useState(false);
+    const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
+
     const openConnectionToPartida = (
         partida_id: string,
         jugador_id: string
@@ -32,6 +36,9 @@ const useWebSocketPartida = () => {
             setTriggerActualizarSalaEspera(!triggerActualizarSalaEspera);
         } else if (message.action === "actualizar_turno") {
             setTriggerActualizarTurno(!triggerActualizarTurno);
+        } else if (message.action === "hay_ganador") {
+            setHayGanador(true);
+            setGanadorInfo(message.data);
         }
     }, [message]);
 
@@ -42,6 +49,8 @@ const useWebSocketPartida = () => {
         openConnectionToPartida,
         triggerActualizarSalaEspera,
         triggerActualizarTurno,
+        hayGanador,
+        ganadorInfo,
     };
 };
 export { useWebSocketPartida };

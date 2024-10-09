@@ -8,12 +8,14 @@ import ButtonPasarTurno from "./components/ButtonPasarTurno";
 import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
+import CardDespedida from "./components/CardDespedida";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
     const id_partida = Number(useParams().id_partida);
     const [isVisible, setIsVisible] = useState(false);
-    const { openConnectionToPartida, readyState } = useInsidePartidaWebSocket();
+    const { openConnectionToPartida, readyState, hayGanador } =
+        useInsidePartidaWebSocket();
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -41,29 +43,38 @@ function Partida() {
     if (!jugador || !partida || partida.id !== id_partida) return;
 
     return (
-        <div
-            className={`flex h-[100vh] w-full flex-col items-center justify-center gap-10 py-5 transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
-        >
-            <div className="grid h-fit grid-cols-3">
-                <div className="flex flex-col items-center justify-center gap-2">
-                    <ButtonAbandonarPartida
-                        idPartida={id_partida}
-                        idJugador={jugador.id}
-                    />
-                    <CardInfoDelTurno />
-                    <ButtonPasarTurno />
+        <>
+            {hayGanador ? (
+                <CardDespedida />
+            ) : (
+                <div
+                    className={`flex h-[100vh] w-full flex-col items-center justify-center gap-10 py-5 transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
+                >
+                    <div className="grid h-fit grid-cols-3">
+                        <div className="flex flex-col items-center justify-center gap-2">
+                            <ButtonAbandonarPartida
+                                idPartida={id_partida}
+                                idJugador={jugador.id}
+                            />
+                            <CardInfoDelTurno />
+                            <ButtonPasarTurno />
+                        </div>
+                        <Board id_partida={partida.id} />
+                        <div></div>
+                    </div>
+                    <div className="flex flex-row gap-10">
+                        <CartasMovimiento
+                            id_partida={partida.id}
+                            id_jugador={jugador.id}
+                        />
+                        <CartasFigura
+                            id_partida={id_partida}
+                            id_jugador={jugador.id}
+                        />
+                    </div>
                 </div>
-                <Board id_partida={partida.id} />
-                <div></div>
-            </div>
-            <div className="flex flex-row gap-10">
-                <CartasMovimiento
-                    id_partida={partida.id}
-                    id_jugador={jugador.id}
-                />
-                <CartasFigura id_partida={id_partida} id_jugador={jugador.id} />
-            </div>
-        </div>
+            )}
+        </>
     );
 }
 
