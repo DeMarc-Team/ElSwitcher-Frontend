@@ -51,11 +51,8 @@ const CartasFigura = ({
     const {turno_actual} = usePartida();
     const miSession = LoadSessionJugador();
     const seleccionarCarta = (codigo: string) => {
-        console.log('Turno ID:', turno_actual);
-        console.log('Mi sesión ID:', miSession?.id);
     
-        if (turno_actual == miSession?.id) {
-            console.log('Seleccionando carta:', codigo);
+        if (turno_actual?.id == miSession?.id) {
             setCartaFSeleccionada(codigo);
         } else {
             showToastError("Espera tu turno para jugar");
