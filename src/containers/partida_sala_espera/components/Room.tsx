@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 import { Button } from "@/components/ui/button";
 import Loading from "./Loading";
 import {
@@ -157,16 +158,22 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                             Se completó la cantidad de jugadores.
                         </div>
                     )}
-                    {session_jugador?.id == idCreador && (
-                        <Button
-                            onClick={() => {
-                                start_play(id_partida);
-                            }}
-                            className="mt-4 gap-10"
-                        >
-                            Iniciar partida
-                        </Button>
-                    )}
+                    <div className="mt-4">
+                        {session_jugador?.id == idCreador ? (
+                            <Button
+                                onClick={() => {
+                                    start_play(id_partida);
+                                }}
+                            >
+                                Iniciar partida
+                            </Button>
+                        ) : (
+                            <ButtonAbandonarPartida
+                                idPartida={id_partida}
+                                idJugador={Number(session_jugador?.id)}
+                            />
+                        )}
+                    </div>
                 </CardContent>
             </Card>
         </div>

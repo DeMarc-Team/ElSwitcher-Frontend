@@ -7,6 +7,7 @@ import CardInfoDelTurno from "./components/CardInfoTurno";
 import ButtonPasarTurno from "./components/ButtonPasarTurno";
 import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
+import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -45,6 +46,10 @@ function Partida() {
         >
             <div className="grid h-fit grid-cols-3">
                 <div className="flex flex-col items-center justify-center gap-2">
+                    <ButtonAbandonarPartida
+                        idPartida={id_partida}
+                        idJugador={jugador.id}
+                    />
                     <CardInfoDelTurno />
                     <ButtonPasarTurno />
                 </div>
