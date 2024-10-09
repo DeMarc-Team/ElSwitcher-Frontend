@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ObtenerTablero, Casilla } from "../../../services/api/ver_tablero";
 import { cn } from "@/services/shadcn_lib/utils";
+import { useFiguraContext } from "./FigurasContext";
 
 const COLORES: string[] = [
     "red", // 0
@@ -31,11 +32,8 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         fetchTablero();
     }, [id_partida]);
 
-    function handleRenderCell(
-        cell: number,
-        rowIndex: number,
-        colIndex: number
-    ) {
+    function handleRenderCell(cell: number,rowIndex: number,colIndex: number) {
+        const {cartaFSeleccionada} = useFiguraContext();
         let esParteDeFigura = false;
         figuras.forEach(([,casillas]) => {
             casillas.forEach((casilla) => {
@@ -53,8 +51,11 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                     `bg-${COLORES[cell - 1]}-400`,
                     esParteDeFigura
                         ? "border-4 border-blue-600"
-                        : "border-2 border-black"
+                        : "border-2 border-black",
+                    cartaFSeleccionada ? "" : "cursor-not-allowed"
+                    // SI ES MI TURNO ....
                 )}
+                disabled={!cartaFSeleccionada}
             ></button>
         );
     }

@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import {
     imageCartaMovimiento,
     type CartaMovimiento,
 } from "./img_cartas_movimiento";
 import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimiento";
 import Cartas from "./Cartas";
+import { useFiguraContext } from "./FigurasContext";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
@@ -47,6 +48,7 @@ const CartasMovimiento = ({
         }
     };
 
+    const{setCartaFSeleccionada} = useFiguraContext();
     return (
         <div className="flex flex-row gap-2">
             {cartasMovimiento.map((carta, index) => {
@@ -57,6 +59,7 @@ const CartasMovimiento = ({
                         rotation={Rotation(cartasMovimiento, index)}
                         middle={isMiddleCard(cartasMovimiento, index)}
                         altText={`Carta ${index + 1}`}
+                        onClick={()=>setCartaFSeleccionada(carta.code)}
                     />
                 );
             })}

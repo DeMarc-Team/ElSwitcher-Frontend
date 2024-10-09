@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Home from "@/containers/home/Home";
 import SalaEspera from "@/containers/partida_sala_espera/SalaEspera";
 import Partida from "@/containers/partida/Partida";
+import { FiguraContextProvider } from "./containers/partida/components/FigurasContext";
 
 function App() {
     return (
@@ -14,7 +15,12 @@ function App() {
                         path="/partidas/:id_partida/sala-espera"
                         element={<SalaEspera />}
                     />
-                    <Route path="/partidas/:id_partida" element={<Partida />} />
+                    <Route path="/partidas/:id_partida" 
+                        element={
+                            <FiguraContextProvider>
+                                <Partida />
+                            </FiguraContextProvider>
+                        } />
                 </Routes>
             </Router>
             <Toaster />
