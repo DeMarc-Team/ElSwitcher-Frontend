@@ -50,7 +50,6 @@ const CartasFigura = ({
             console.error("Error fetching cartas figuras:", error);
         }
     };
-
     
     const seleccionarCarta = (codigo: string) => {
     
@@ -71,6 +70,11 @@ const CartasFigura = ({
             }, 2000);
         }
     };
+
+    //Los estados que debo de limpiar al cambiar de turno
+    useEffect(() => {
+        setCartaFSeleccionada("");
+    }, [turno_actual]);
 
     return (
         <div className="flex flex-row gap-2">

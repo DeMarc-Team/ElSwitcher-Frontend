@@ -3,6 +3,7 @@ import { ObtenerTablero,Figura } from "../../../services/api/ver_tablero";
 import { cn } from "@/services/shadcn_lib/utils";
 import { useFiguraContext } from "../../../context/FigurasContext";
 import { useNotification } from "@/hooks/useNotification";
+import { usePartida } from "@/context/PartidaContext";
 
 const COLORES: string[] = [
     "red", // 0
@@ -20,12 +21,15 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [figuras, setFiguras] = useState<Figura[]>([]);
     const [figuraSeleccionada, setFiguraSeleccionada] = useState<Figura | null>(null);
     const { cartaFSeleccionada,setExisteFigura } = useFiguraContext();
+    const {turno_actual} = usePartida();
 
     const fetchTablero = async () => {
         try {
             const data = await ObtenerTablero(id_partida);
             setTablero(data.tablero6x6);
             setFiguras(data.figuras);
+
+            //Esto es para poder determinar que cartas de figuras puedo usar
             if(data.figuras){
                 let quefiguras : string [] = []
                 for (const element of figuras) {
@@ -42,9 +46,14 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         fetchTablero();
     }, [id_partida]);
 
+    //Los estados que debo de limpiar al cambiar de turno
+    useEffect(() => {
+        setFiguraSeleccionada(null);
+    }, [turno_actual]);
+
+
     // Función para seleccionar una figura basada en la casilla seleccionada
     function seleccionarFigura(rowIndex: number, colIndex: number) {
-        const { showToastError, closeToast } = useNotification();
         const figura = figuras.find((f) =>
             f.casillas.some((casilla) => casilla.row === rowIndex && casilla.column === colIndex)
         );
@@ -55,7 +64,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             console.log("Jugada hecha")
         }
         else{
-            showToastError("Se debe seleccionar una figura")
+            console.log("Jugada NO hecha")
             setFiguraSeleccionada(null); 
         }
     }
