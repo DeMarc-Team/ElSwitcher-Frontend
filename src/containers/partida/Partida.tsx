@@ -52,13 +52,11 @@ function Partida() {
                 <div></div>
             </div>
             <div className="flex flex-row gap-10">
-            <TurnoProvider>
                     <CartasMovimiento
                         id_partida={id_partida}
-                        id_jugador={session.id}
+                        id_jugador={jugador.id}
                     />
-                    <CartasFigura id_partida={id_partida} id_jugador={session.id} />
-            </TurnoProvider>
+                    <CartasFigura id_partida={id_partida} id_jugador={jugador.id} />
             </div>
         </div>
     );
