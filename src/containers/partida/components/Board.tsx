@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ObtenerTablero, Casilla } from "../../../services/api/ver_tablero";
+import { ObtenerTablero, Casilla,Figura } from "../../../services/api/ver_tablero";
 import { cn } from "@/services/shadcn_lib/utils";
 import { useFiguraContext } from "../../../context/FigurasContext";
 
@@ -16,7 +16,7 @@ interface DashboardProps {
 
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tablero, setTablero] = useState<number[][]>([]);
-    const [figuras, setFiguras] = useState<[string, Casilla[]][]>([]);
+    const [figuras, setFiguras] = useState<Figura[]>([]);
     const {cartaFSeleccionada} = useFiguraContext();
 
     const fetchTablero = async () => {
@@ -33,12 +33,14 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         fetchTablero();
     }, [id_partida]);
 
-    function handleRenderCell(cell: number,rowIndex: number,colIndex: number) {
+    function handleRenderCell(cell: number, rowIndex: number, colIndex: number) {
         let esParteDeFigura = false;
-        figuras.forEach(([,casillas]) => {
-            casillas.forEach((casilla) => {
+
+        // Verificar si la celda es parte de alguna figura
+        figuras.forEach((figura) => {
+            figura.casillas.forEach((casilla) => {
                 if (casilla.row === rowIndex && casilla.column === colIndex) {
-                    esParteDeFigura = true; 
+                    esParteDeFigura = true;
                 }
             });
         });
@@ -53,7 +55,6 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                         ? "border-4 border-blue-600"
                         : "border-2 border-black",
                     cartaFSeleccionada ? "" : "cursor-not-allowed"
-                    // SI ES MI TURNO ....
                 )}
                 disabled={!cartaFSeleccionada}
             ></button>
