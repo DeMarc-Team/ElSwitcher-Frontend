@@ -6,6 +6,9 @@ import {
 import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimiento";
 import Cartas from "./Cartas";
 import { useFiguraContext } from "./FigurasContext";
+import { useTurno } from "./turnoContext";
+import { LoadSessionJugador } from "@/services/session_jugador";
+import { useNotification } from "@/hooks/useNotification";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
@@ -48,6 +51,24 @@ const CartasMovimiento = ({
         }
     };
 
+    const { showToastError, closeToast } = useNotification();
+    const {turnoId} = useTurno();
+    const miSession = LoadSessionJugador();
+    const seleccionarCarta = (codigo: string) => {
+        console.log('Turno ID:', turnoId);
+        console.log('Mi sesión ID:', miSession.id);
+    
+        if (turnoId == miSession.id) {
+            console.log('Seleccionando carta:', codigo);
+            setCartaFSeleccionada(codigo);
+        } else {
+            showToastError("Espera tu turno para jugar");
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
+        }
+    };
+
     const{setCartaFSeleccionada} = useFiguraContext();
     return (
         <div className="flex flex-row gap-2">
@@ -59,7 +80,7 @@ const CartasMovimiento = ({
                         rotation={Rotation(cartasMovimiento, index)}
                         middle={isMiddleCard(cartasMovimiento, index)}
                         altText={`Carta ${index + 1}`}
-                        onClick={()=>setCartaFSeleccionada(carta.code)}
+                        onClick={()=>seleccionarCarta(carta.code)}
                     />
                 );
             })}
