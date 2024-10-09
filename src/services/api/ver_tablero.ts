@@ -78,7 +78,7 @@ const hardcodedTablero: number[][] = [
 
 const hardcodedFiguras: Figura[] = [
     {
-        nombre: "Figura 2",
+        nombre: "f2",
         casillas: [
             { row: 0, column: 0 },
             { row: 0, column: 1 },
@@ -88,7 +88,7 @@ const hardcodedFiguras: Figura[] = [
         ],
     },
     {
-        nombre: "Figura 1",
+        nombre: "f1",
         casillas: [
             { row: 3, column: 0 },
             { row: 3, column: 1 },

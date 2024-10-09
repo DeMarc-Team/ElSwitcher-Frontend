@@ -30,6 +30,10 @@ const CartasFigura = ({
     id_jugador: number;
 }) => {
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
+    const { showToastError, closeToast } = useNotification();
+    const {turno_actual} = usePartida();
+    const miSession = LoadSessionJugador();
+    const{setCartaFSeleccionada} = useFiguraContext();
 
     useEffect(() => {
         fetchCartasFigura();
@@ -47,9 +51,7 @@ const CartasFigura = ({
         }
     };
 
-    const { showToastError, closeToast } = useNotification();
-    const {turno_actual} = usePartida();
-    const miSession = LoadSessionJugador();
+    
     const seleccionarCarta = (codigo: string) => {
     
         if (turno_actual?.id == miSession?.id) {
@@ -61,7 +63,6 @@ const CartasFigura = ({
             }, 2000);
         }
     };
-    const{setCartaFSeleccionada} = useFiguraContext();
 
     return (
         <div className="flex flex-row gap-2">

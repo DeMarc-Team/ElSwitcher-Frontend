@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { ObtenerTablero, Casilla,Figura } from "../../../services/api/ver_tablero";
+import { ObtenerTablero,Figura } from "../../../services/api/ver_tablero";
 import { cn } from "@/services/shadcn_lib/utils";
 import { useFiguraContext } from "../../../context/FigurasContext";
+import { useNotification } from "@/hooks/useNotification";
 
 const COLORES: string[] = [
     "red", // 0
@@ -17,7 +18,8 @@ interface DashboardProps {
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tablero, setTablero] = useState<number[][]>([]);
     const [figuras, setFiguras] = useState<Figura[]>([]);
-    const {cartaFSeleccionada} = useFiguraContext();
+    const [figuraSeleccionada, setFiguraSeleccionada] = useState<Figura | null>(null);
+    const { cartaFSeleccionada } = useFiguraContext();
 
     const fetchTablero = async () => {
         try {
@@ -33,30 +35,56 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         fetchTablero();
     }, [id_partida]);
 
+    // Función para seleccionar una figura basada en la casilla seleccionada
+    function seleccionarFigura(rowIndex: number, colIndex: number) {
+        const figura = figuras.find((f) =>
+            f.casillas.some((casilla) => casilla.row === rowIndex && casilla.column === colIndex)
+        );
+        
+        console.log("Figura.nombre:", figura?.nombre);
+        console.log("Carta seleccionada:", cartaFSeleccionada);
+        if (figura && figura.nombre === cartaFSeleccionada) {
+            setFiguraSeleccionada(figura); 
+            //Acá debería de tirar la carta de la mano 
+            console.log("Jugada hecha")
+        }
+        else{
+            console.log("Jugada no hecha")
+            setFiguraSeleccionada(null); 
+        }
+    }
+
+    // Función para renderizar las celdas del tablero
     function handleRenderCell(cell: number, rowIndex: number, colIndex: number) {
         let esParteDeFigura = false;
+        let esParteDeFiguraSeleccionada = false;
 
-        // Verificar si la celda es parte de alguna figura
         figuras.forEach((figura) => {
             figura.casillas.forEach((casilla) => {
                 if (casilla.row === rowIndex && casilla.column === colIndex) {
                     esParteDeFigura = true;
+                    // Verificar si la celda pertenece a la figura seleccionada
+                    if (figura === figuraSeleccionada) {
+                        esParteDeFiguraSeleccionada = true;
+                    }
                 }
             });
         });
-
         return (
             <button
                 key={`${rowIndex}-${colIndex}`}
                 className={cn(
                     "flex h-12 w-12 items-center justify-center rounded-lg bg-blue-400 shadow-lg hover:scale-110 hover:border-indigo-500",
                     `bg-${COLORES[cell - 1]}-400`,
-                    esParteDeFigura
+                    esParteDeFiguraSeleccionada
+                        ? "border-4 border-red-600"
+                        : esParteDeFigura
                         ? "border-4 border-blue-600"
                         : "border-2 border-black",
                     cartaFSeleccionada ? "" : "cursor-not-allowed"
                 )}
                 disabled={!cartaFSeleccionada}
+                onClick={() => seleccionarFigura(rowIndex,colIndex)}
             ></button>
         );
     }
