@@ -35,6 +35,7 @@ describe("Componente ButtonAbandonarPartida", () => {
             await screen.findByText("Abandonar Partida")
         ).toBeInTheDocument();
 
+        // Simular el click en el botón "Abandonar Partida"
         await act(async () => {
             fireEvent.click(screen.getByText("Abandonar Partida"));
         });
@@ -48,11 +49,12 @@ describe("Componente ButtonAbandonarPartida", () => {
         expect(await screen.findByText("Sí")).toBeInTheDocument();
         expect(await screen.findByText("No")).toBeInTheDocument();
 
-        // reviso que si toca el botno de si, se llame a navigate con /
+        // Simular el click en el botón "Sí"
         await act(async () => {
             fireEvent.click(screen.getByText("Sí"));
         });
 
+        // Verifico que se llamen a las funciones necesarias
         expect(AbandonarPartida).toHaveBeenCalledWith(123, 321);
         expect(RemoveSessionJugador).toHaveBeenCalledTimes(1);
         expect(RemoveSessionPartida).toHaveBeenCalledTimes(1);
