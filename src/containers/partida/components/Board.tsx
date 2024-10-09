@@ -19,13 +19,20 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tablero, setTablero] = useState<number[][]>([]);
     const [figuras, setFiguras] = useState<Figura[]>([]);
     const [figuraSeleccionada, setFiguraSeleccionada] = useState<Figura | null>(null);
-    const { cartaFSeleccionada } = useFiguraContext();
+    const { cartaFSeleccionada,setExisteFigura } = useFiguraContext();
 
     const fetchTablero = async () => {
         try {
             const data = await ObtenerTablero(id_partida);
             setTablero(data.tablero6x6);
             setFiguras(data.figuras);
+            if(data.figuras){
+                let quefiguras : string [] = []
+                for (const element of figuras) {
+                    quefiguras.push(element.nombre)
+                }
+                setExisteFigura(quefiguras)
+            }
         } catch (error) {
             console.error("Error al obtener el tablero:", error);
         }
@@ -37,19 +44,18 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
 
     // Función para seleccionar una figura basada en la casilla seleccionada
     function seleccionarFigura(rowIndex: number, colIndex: number) {
+        const { showToastError, closeToast } = useNotification();
         const figura = figuras.find((f) =>
             f.casillas.some((casilla) => casilla.row === rowIndex && casilla.column === colIndex)
         );
         
-        console.log("Figura.nombre:", figura?.nombre);
-        console.log("Carta seleccionada:", cartaFSeleccionada);
         if (figura && figura.nombre === cartaFSeleccionada) {
             setFiguraSeleccionada(figura); 
             //Acá debería de tirar la carta de la mano 
             console.log("Jugada hecha")
         }
         else{
-            console.log("Jugada no hecha")
+            showToastError("Se debe seleccionar una figura")
             setFiguraSeleccionada(null); 
         }
     }

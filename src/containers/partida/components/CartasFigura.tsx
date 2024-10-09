@@ -33,7 +33,7 @@ const CartasFigura = ({
     const { showToastError, closeToast } = useNotification();
     const {turno_actual} = usePartida();
     const miSession = LoadSessionJugador();
-    const{setCartaFSeleccionada} = useFiguraContext();
+    const{setCartaFSeleccionada,existeFigura} = useFiguraContext();
 
     useEffect(() => {
         fetchCartasFigura();
@@ -55,7 +55,15 @@ const CartasFigura = ({
     const seleccionarCarta = (codigo: string) => {
     
         if (turno_actual?.id == miSession?.id) {
-            setCartaFSeleccionada(codigo);
+            if(existeFigura?.includes(codigo)){
+                setCartaFSeleccionada(codigo);
+            }
+            else{
+                showToastError("No se puede jugar esta carta");
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
+            }
         } else {
             showToastError("Espera tu turno para jugar");
             setTimeout(() => {
