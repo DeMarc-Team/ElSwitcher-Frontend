@@ -58,6 +58,17 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
         }
     }, [partidaIniciada]);
 
+    /*useEffect(() => {
+        if (partidaIniciada) {
+            redirectPartida();
+        }
+        info_partida();
+        const intervalId = setInterval(() => {
+            info_partida();
+        }, 1000); // Son ms
+        return () => clearInterval(intervalId);
+    }, [partidaIniciada]);*/
+
     const info_partida = async () => {
         try {
             const info_partida = await ObtenerInfoPartida(id_partida);

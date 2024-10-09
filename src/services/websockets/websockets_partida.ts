@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
  * @returns
  * - `triggerActualizarSalaEspera`: Trigger para actualizar la sala de espera.
  * - `triggerActualizarTurno`: Trigger para actualizar el turno.
+ * - `triggeractualizarTablero`: Trigger para actualizar tablero.
  * @note También se retorna la información de la conexión WebSocket:
  *  - `message`: El último mensaje recibido.
  *  - `readyState`: El estado de la conexión WebSocket.
@@ -19,6 +20,8 @@ const useWebSocketPartida = () => {
     const [triggerActualizarSalaEspera, setTriggerActualizarSalaEspera] =
         useState(false);
     const [triggerActualizarTurno, setTriggerActualizarTurno] = useState(false);
+    const [triggeractualizarTablero, setTriggerActualizarTablero] =
+        useState(false);
 
     const openConnectionToPartida = (
         partida_id: string,
@@ -32,6 +35,8 @@ const useWebSocketPartida = () => {
             setTriggerActualizarSalaEspera(!triggerActualizarSalaEspera);
         } else if (message.action === "actualizar_turno") {
             setTriggerActualizarTurno(!triggerActualizarTurno);
+        } else if (message.action === "actualizar_tablero") {
+            setTriggerActualizarTablero(!triggeractualizarTablero);
         }
     }, [message]);
 
@@ -42,6 +47,7 @@ const useWebSocketPartida = () => {
         openConnectionToPartida,
         triggerActualizarSalaEspera,
         triggerActualizarTurno,
+        triggeractualizarTablero,
     };
 };
 export { useWebSocketPartida };

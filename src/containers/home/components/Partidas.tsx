@@ -10,7 +10,6 @@ function Partidas() {
     useEffect(() => {
         fetchPartidas();
     }, [triggerActualizaPartidas]);
-
     const fetchPartidas = async () => {
         try {
             const data = await ObtenerPartidas();
@@ -19,6 +18,25 @@ function Partidas() {
             console.error("No se pudieron obtener las partidas.");
         }
     };
+
+    /*useEffect(() => {
+        fetchPartidas();
+        const intervalId = setInterval(async () => {
+            fetchPartidas();
+        }, 2000); // Son ms
+
+        // Limpia el intervalo cuando ya no se renderiza el home
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const fetchPartidas = async () => {
+        try {
+            const data = await ObtenerPartidas();
+            setPartidas(data);
+        } catch (err) {
+            console.error("No se pudieron obtener las partidas.");
+        }
+    };*/
 
     return (
         <div

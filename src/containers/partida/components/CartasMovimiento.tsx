@@ -5,6 +5,8 @@ import {
 } from "./img_cartas_movimiento";
 import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimiento";
 import Cartas from "./Cartas";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { usePartida } from "@/context/PartidaContext";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
@@ -30,6 +32,16 @@ const CartasMovimiento = ({
     const [cartasMovimiento, setCartasMovimiento] = useState<CartaMovimiento[]>(
         []
     );
+    const { setCartaSeleccionada, setCodigoCartaMovimiento } =
+        useMovimientoContext();
+    const { turno_actual, jugador } = usePartida();
+
+    const cartaCodigoMovimiento = (index: number, code: string) => {
+        if (turno_actual?.id == jugador?.id) {
+            setCartaSeleccionada(index);
+            setCodigoCartaMovimiento(code);
+        }
+    };
 
     useEffect(() => {
         fetchCartasMovimiento();
@@ -57,6 +69,9 @@ const CartasMovimiento = ({
                         rotation={Rotation(cartasMovimiento, index)}
                         middle={isMiddleCard(cartasMovimiento, index)}
                         altText={`Carta ${index + 1}`}
+                        onClick={() => {
+                            cartaCodigoMovimiento(index, carta.code);
+                        }}
                     />
                 );
             })}
