@@ -17,6 +17,7 @@ interface DashboardProps {
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tablero, setTablero] = useState<number[][]>([]);
     const [figuras, setFiguras] = useState<[string, Casilla[]][]>([]);
+    const {cartaFSeleccionada} = useFiguraContext();
 
     const fetchTablero = async () => {
         try {
@@ -33,7 +34,6 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     }, [id_partida]);
 
     function handleRenderCell(cell: number,rowIndex: number,colIndex: number) {
-        const {cartaFSeleccionada} = useFiguraContext();
         let esParteDeFigura = false;
         figuras.forEach(([,casillas]) => {
             casillas.forEach((casilla) => {
