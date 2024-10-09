@@ -1,20 +1,15 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import FormUnirse from "./FormUnirse";
-import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useEffect, useState } from "react";
-
+import FormUnirse from "./FormUnirse";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
+import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
+    const { triggerActualizaPartidas } = useWebSocketListaPartidas();
 
     useEffect(() => {
         fetchPartidas();
-        const intervalId = setInterval(async () => {
-            fetchPartidas();
-        }, 2000); // Son ms
-
-        // Limpia el intervalo cuando ya no se renderiza el home
-        return () => clearInterval(intervalId);
-    }, []);
+    }, [triggerActualizaPartidas]);
 
     const fetchPartidas = async () => {
         try {

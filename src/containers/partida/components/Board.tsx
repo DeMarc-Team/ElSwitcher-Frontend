@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ObtenerTablero, Casilla } from "../../../services/api/ver_tablero";
 import { cn } from "@/services/shadcn_lib/utils";
-import { useFiguraContext } from "./FigurasContext";
+import { useFiguraContext } from "../../../context/FigurasContext";
 
 const COLORES: string[] = [
     "red", // 0

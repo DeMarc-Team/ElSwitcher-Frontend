@@ -5,9 +5,9 @@ import {
 } from "./img_cartas_movimiento";
 import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimiento";
 import Cartas from "./Cartas";
-import { useFiguraContext } from "./FigurasContext";
-import { useTurno } from "./turnoContext";
-import { LoadSessionJugador } from "@/services/session_jugador";
+import { useFiguraContext } from "../../../context/FigurasContext";
+import { usePartida } from "@/context/PartidaContext";
+import { LoadSessionJugador } from "@/services/session_browser";
 import { useNotification } from "@/hooks/useNotification";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
@@ -52,13 +52,13 @@ const CartasMovimiento = ({
     };
 
     const { showToastError, closeToast } = useNotification();
-    const {turnoId} = useTurno();
+    const {turno_actual} = usePartida();
     const miSession = LoadSessionJugador();
     const seleccionarCarta = (codigo: string) => {
-        console.log('Turno ID:', turnoId);
-        console.log('Mi sesión ID:', miSession.id);
+        console.log('Turno ID:', turno_actual);
+        console.log('Mi sesión ID:', miSession?.id);
     
-        if (turnoId == miSession.id) {
+        if (turno_actual == miSession?.id) {
             console.log('Seleccionando carta:', codigo);
             setCartaFSeleccionada(codigo);
         } else {

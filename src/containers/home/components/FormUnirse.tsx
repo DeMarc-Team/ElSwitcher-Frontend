@@ -13,7 +13,10 @@ import { CircleArrowRight } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import { SaveSessionJugador } from "@/services/session_jugador";
+import {
+    SaveSessionJugador,
+    SaveSessionPartida,
+} from "@/services/session_browser";
 
 interface FormUnirseProps {
     partidaId: number;
@@ -51,22 +54,26 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
             return;
         }
         try {
-            const res = await UnirsePartida(partidaId, username);
             setUniendose(true);
+            const res = await UnirsePartida(partidaId, username);
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
             );
             SaveSessionJugador({
                 id: res.id_jugador,
                 nombre: res.nombre,
-                id_partida: partidaId,
+            });
+            SaveSessionPartida({
+                id: partidaId,
+                nombre: partidaName,
             });
             setTimeout(() => {
                 navigate(`/partidas/${partidaId}/sala-espera`);
                 closeToast();
-            }, 2000);
+            }, 1500);
         } catch (error) {
             showToastAlert("Error al unirse a la partida.");
+            setUniendose(false);
         }
     };
 
@@ -118,7 +125,8 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
                             type="submit"
                             className="mt-5 w-full"
                         >
-                            Unirse
+                            {/* Mantener por el test */}
+                            Unirse a partida
                         </Button>
                     </div>
                 </form>
