@@ -33,6 +33,7 @@ const CartasDeLosJugadores = ({id_partida,id_jugador,}: {id_partida: number;id_j
         <div className="flex flex-row gap-2">
             {cartasFiguras.map((cartasJugador, indexJugador) =>
                 cartasJugador.map((carta, indexCarta) => (
+                    <div className="w-24 h-32 m-2">
                     <Cartas
                         key={`${indexJugador}-${indexCarta}-carta-figura`}
                         imgSrc={carta.img}
@@ -40,6 +41,7 @@ const CartasDeLosJugadores = ({id_partida,id_jugador,}: {id_partida: number;id_j
                         middle={false}
                         altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
                     />
+                    </div>
                 ))
             )}
         </div>
