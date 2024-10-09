@@ -8,6 +8,7 @@ import ButtonPasarTurno from "./components/ButtonPasarTurno";
 import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
+import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -62,6 +63,10 @@ function Partida() {
                     id_jugador={jugador.id}
                 />
                 <CartasFigura id_partida={id_partida} id_jugador={jugador.id} />
+            </div>
+            <div>
+                <h2>Carta de los otros jugadores</h2>
+                <CartasDeLosJugadores id_jugador={jugador.id} id_partida={id_partida}/>
             </div>
         </div>
     );
