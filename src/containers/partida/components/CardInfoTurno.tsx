@@ -5,7 +5,7 @@ import {
     CardDescription,
 } from "@/components/ui/card";
 import { ObtenerInfoTurno } from "@/services/api/obtener_info_turno";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNotification } from "@/hooks/useNotification";
 import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
