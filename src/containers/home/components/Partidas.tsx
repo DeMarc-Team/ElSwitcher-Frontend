@@ -3,20 +3,45 @@ import FormUnirse from "./FormUnirse";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
+import { Input } from "@/components/ui/input";
+import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
+
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
+    const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
     const { triggerActualizaPartidas } = useWebSocketListaPartidas();
+    const [filtro, setFiltro] = useState("");
 
     useEffect(() => {
         fetchPartidas();
     }, [triggerActualizaPartidas]);
 
+    useEffect(() => {
+        filtrarPartidas(filtro);
+    }, [filtro, partidas]);
+
     const fetchPartidas = async () => {
         try {
             const data = await ObtenerPartidas();
             setPartidas(data);
+            setPartidasFiltradas(data);
         } catch (err) {
             console.error("No se pudieron obtener las partidas.");
+        }
+    };
+
+    const filtrarPartidas = async (filtroDeFuncion: string) => {
+        if (filtroDeFuncion === "") {
+            setPartidasFiltradas(partidas);
+        } else {
+            const listaAux: Partida[] = [];
+            for (const element of partidas) {
+                const infoData = await ObtenerInfoPartida(element.id);
+                if (infoData.cantidad_jugadores === Number(filtroDeFuncion)) {
+                    listaAux.push(element);
+                }
+            }
+            setPartidasFiltradas(listaAux);
         }
     };
 
@@ -28,10 +53,17 @@ function Partidas() {
             <p className="mb-2 text-center text-2xl font-black uppercase">
                 Lista de partidas
             </p>
+            <div className="flex max-w-sm items-center m-4">
+                <Input 
+                    placeholder="Filtrar por jugadores" 
+                    value={filtro} 
+                    onChange={(e) => setFiltro(e.target.value)} 
+                />
+            </div>
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
                 <div className="flex flex-col space-y-4 p-4">
                     <ul>
-                        {partidas.map((partida) => (
+                        {partidasFiltradas.map((partida) => (
                             <li key={partida.id}>
                                 <FormUnirse
                                     partidaId={partida.id}
@@ -39,7 +71,7 @@ function Partidas() {
                                 />
                             </li>
                         ))}
-                        {partidas.length === 0 && (
+                        {partidasFiltradas.length === 0 && (
                             <div className="flex h-80 items-center justify-center">
                                 <p className="text-center opacity-65">
                                     No hay partidas creadas.
@@ -54,3 +86,5 @@ function Partidas() {
 }
 
 export default Partidas;
+
+
