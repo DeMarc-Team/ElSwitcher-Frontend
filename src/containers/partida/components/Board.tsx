@@ -30,6 +30,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         segundaSeleccion,
         setSegundaSeleccion,
         cartaSeleccionada,
+        setCartaSeleccionada,
         codigoCartaMovimiento,
     } = useMovimientoContext();
 
@@ -47,7 +48,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     };
 
     const enviarMovimiento = async (casilla1: Casilla, casilla2: Casilla) => {
-        if (cartaSeleccionada && jugador?.id === turno_actual?.id) {
+        if (cartaSeleccionada !== null && jugador?.id === turno_actual?.id) {
             if (codigoCartaMovimiento && jugador?.id) {
                 try {
                     const response = await JugarcartaMovimiento(
@@ -84,15 +85,16 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             );
         }
         // Lógica adicional: se debe seleccionar una carta antes de interactuar con las fichas
-        else if (!cartaSeleccionada) {
+        else if (cartaSeleccionada === null) {
             console.log("Selecciona una carta primero.");
         }
     };
 
     useEffect(() => {
-        if (triggeractualizarTablero) {
-            fetchTablero();
-        }
+        fetchTablero();
+        setPrimeraSeleccion(null);
+        setSegundaSeleccion(null);
+        setCartaSeleccionada(null);
     }, [triggeractualizarTablero]);
 
     return (
@@ -107,7 +109,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                                 `bg-${COLORES[cell - 1]}-400`,
                                 {
                                     "cursor-not-allowed":
-                                        !cartaSeleccionada ||
+                                        cartaSeleccionada === null ||
                                         turno_actual?.id !== jugador?.id, // Deshabilitar si no es el turno del jugador
                                 },
                                 // Resaltar las casillas seleccionadas
@@ -127,7 +129,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                             }
                             // Deshabilitar el botón si no es el turno o no hay carta seleccionada
                             disabled={
-                                !cartaSeleccionada ||
+                                cartaSeleccionada === null ||
                                 turno_actual?.id !== jugador?.id
                             }
                         ></button>

@@ -5,15 +5,19 @@ interface UsarCartaMovimientoContextProps {
     segundaSeleccion: { row: number; col: number } | null;
     cartaSeleccionada: number | null;
     codigoCartaMovimiento: string | null;
-    setPrimeraSeleccion: (primeraSeleccion: {
-        row: number;
-        col: number;
-    }) => void;
-    setSegundaSeleccion: (segundaSeleccion: {
-        row: number;
-        col: number;
-    }) => void;
-    setCartaSeleccionada: (cartaSeleccionada: number) => void;
+    setPrimeraSeleccion: (
+        primeraSeleccion: {
+            row: number;
+            col: number;
+        } | null
+    ) => void;
+    setSegundaSeleccion: (
+        segundaSeleccion: {
+            row: number;
+            col: number;
+        } | null
+    ) => void;
+    setCartaSeleccionada: (cartaSeleccionada: number | null) => void;
     setCodigoCartaMovimiento: (codigoCartaMovimiento: string) => void;
 }
 
