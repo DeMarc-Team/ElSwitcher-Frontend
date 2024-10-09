@@ -6,7 +6,7 @@ interface Casilla {
 
 interface Tablero {
     tablero6x6: number[][];
-    figuras: Casilla[][];
+    figuras: [string, Casilla[]][];
 }
 
 const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
@@ -47,24 +47,10 @@ const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
             [1, 2, 3, 4, 1, 2],
         ];
 
-        const figuras = [
-            [
-                { row: 0, column: 0 },
-                { row: 0, column: 1 },
-            ],
-            [
-                { row: 1, column: 2 },
-                { row: 1, column: 3 },
-            ],
-            [
-                { row: 2, column: 4 },
-                { row: 2, column: 5 },
-            ],
-            [
-                { row: 3, column: 2 },
-                { row: 3, column: 3 },
-                { row: 3, column: 4 },
-            ],
+        const figuras: [string, Casilla[]][] = [
+            ["f1", [{ row: 0, column: 0 }, { row: 0, column: 1 }]],
+            ["f1", [{ row: 1, column: 2 }, { row: 1, column: 3 }]],
+            ["f2", [{ row: 3, column: 2 }, { row: 3, column: 3 }, { row: 3, column: 4 }]],
         ];
 
         // Devuelve los valores hardcodeados

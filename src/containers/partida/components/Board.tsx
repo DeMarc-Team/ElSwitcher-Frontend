@@ -15,7 +15,7 @@ interface DashboardProps {
 
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tablero, setTablero] = useState<number[][]>([]);
-    const [figuras, setFiguras] = useState<Casilla[][]>([]);
+    const [figuras, setFiguras] = useState<[string, Casilla[]][]>([]);
 
     const fetchTablero = async () => {
         try {
@@ -37,8 +37,8 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         colIndex: number
     ) {
         let esParteDeFigura = false;
-        figuras.forEach((fila) => {
-            fila.forEach((casilla) => {
+        figuras.forEach(([,casillas]) => {
+            casillas.forEach((casilla) => {
                 if (casilla.row === rowIndex && casilla.column === colIndex) {
                     esParteDeFigura = true; 
                 }
