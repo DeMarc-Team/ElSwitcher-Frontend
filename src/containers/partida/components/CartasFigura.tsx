@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { imageCartaFigura, type CartaFigura } from "./img_cartas_figura";
 import { ObtenerCartasFiguras } from "@/services/api/obtener_carta_figura";
 import Cartas from "./Cartas";
+import { useNotification } from "@/hooks/useNotification";
+import { usePartida } from "@/context/PartidaContext";
+import { LoadSessionJugador } from "@/services/session_browser";
+import { useFiguraContext } from "@/context/FigurasContext";
+
 
 const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
     if (cartasFiguras.length === 3) {
@@ -45,9 +50,9 @@ const CartasFigura = ({
             console.error("Error fetching cartas figuras:", error);
         }
     };
-    
+
     const seleccionarCarta = (codigo: string) => {
-    
+
         if (turno_actual?.id == miSession?.id) {
             if(existeFigura?.includes(codigo)){
                 setCartaFSeleccionada(codigo);
@@ -70,7 +75,6 @@ const CartasFigura = ({
     useEffect(() => {
         setCartaFSeleccionada("");
     }, [turno_actual]);
-
     return (
         <div className="flex flex-row gap-2">
             {cartasFiguras.map((carta, index) => {
@@ -81,7 +85,7 @@ const CartasFigura = ({
                         rotation={Rotation(cartasFiguras, index)}
                         middle={isMiddleCard(cartasFiguras, index)}
                         altText={`Carta ${index + 1}`}
-                        onClick={() => {}}
+                        onClick={()=>seleccionarCarta(carta.code)}
                     />
                 );
             })}

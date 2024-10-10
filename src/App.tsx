@@ -23,7 +23,7 @@ function App() {
                             element={
                                 <PartidaProvider>
                                     <FiguraContextProvider>
-                                    <Partida />
+                                        <Partida />
                                     </FiguraContextProvider>
                                 </PartidaProvider>
                             }
