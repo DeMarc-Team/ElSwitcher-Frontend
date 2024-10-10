@@ -5,9 +5,10 @@ import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import { usePartida } from "@/context/PartidaContext";
 import {
-    JugarcartaMovimiento,
+    JugarCartaMovimiento,
     Casilla,
 } from "@/services/api/jugar_carta_movimiento";
+import { ResaltarCasillasMovimientos } from "@/services/api/resaltar_casillas_movimientos";
 
 const COLORES: string[] = [
     "red", // 0
@@ -22,6 +23,9 @@ interface DashboardProps {
 
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tablero, setTablero] = useState<number[][]>([]);
+    const [casillasMovimientos, SetCasillasMovimientos] = useState<Casilla[]>(
+        []
+    );
     const { turno_actual, jugador } = usePartida();
     const { triggeractualizarTablero } = useInsidePartidaWebSocket();
     const {
@@ -32,6 +36,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         cartaSeleccionada,
         setCartaSeleccionada,
         codigoCartaMovimiento,
+        setPasarTurno,
     } = useMovimientoContext();
 
     useEffect(() => {
@@ -47,11 +52,32 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         }
     };
 
+    const fetchResaltarCasillas = async (row: number, col: number) => {
+        try {
+            if (
+                jugador?.id !== undefined &&
+                //primeraSeleccion !== null &&  FIXME: primeraSelecion debería estar cargado pero no lo está.
+                codigoCartaMovimiento !== null
+            ) {
+                const data = await ResaltarCasillasMovimientos(
+                    id_partida,
+                    jugador?.id,
+                    { row: row, col: col },
+                    codigoCartaMovimiento
+                );
+                SetCasillasMovimientos(data);
+                console.log("Casillas Movimientos:", data); // Agrega esta línea
+            }
+        } catch (error) {
+            console.error("Error al obtener las casillas:", error);
+        }
+    };
+
     const enviarMovimiento = async (casilla1: Casilla, casilla2: Casilla) => {
         if (cartaSeleccionada !== null && jugador?.id === turno_actual?.id) {
             if (codigoCartaMovimiento && jugador?.id) {
                 try {
-                    const response = await JugarcartaMovimiento(
+                    const response = await JugarCartaMovimiento(
                         casilla1,
                         casilla2,
                         codigoCartaMovimiento,
@@ -75,32 +101,46 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     };
 
     const handleButtonClick = (row: number, col: number) => {
+        console.log("Clicked cell:", { row, col }); // Para verificar qué celda se ha hecho clic
         if (!primeraSeleccion) {
-            setPrimeraSeleccion({ row, col });
-        } else if (!segundaSeleccion) {
+            console.log("Setting primeraSeleccion:", { row, col });
+            setPrimeraSeleccion({ row, col }); //FIXME: No se está seteando inmediatamente, luego de tocar la segunda ficha, recién ahí se setea.
+            setPasarTurno(false);
+            fetchResaltarCasillas(row, col);
+        } else if (primeraSeleccion && !segundaSeleccion) {
+            console.log("Setting segundaSeleccion:", { row, col });
             setSegundaSeleccion({ row, col });
             enviarMovimiento(
                 { row: primeraSeleccion.row, col: primeraSeleccion.col },
-                { row: row, col: col }
-            );
-        }
-        // Lógica adicional: se debe seleccionar una carta antes de interactuar con las fichas
-        else if (cartaSeleccionada === null) {
-            console.log("Selecciona una carta primero.");
+                { row, col }
+            ).then(() => {
+                // Restablece las selecciones después de enviar el movimiento
+                setPrimeraSeleccion(null);
+                setSegundaSeleccion(null);
+            });
+            setPasarTurno(true);
+        } else {
+            console.log("Ya has seleccionado ambas celdas.");
         }
     };
 
     useEffect(() => {
         fetchTablero();
-        setPrimeraSeleccion(null);
-        setSegundaSeleccion(null);
         setCartaSeleccionada(null);
+        SetCasillasMovimientos([]);
     }, [triggeractualizarTablero]);
+
+    // Función para verificar si la casilla está en "casillasMovimientos"
+    const esCasillaResaltada = (row: number, col: number) => {
+        return casillasMovimientos.some(
+            (casilla) => casilla.row === row && casilla.col === col
+        );
+    };
 
     return (
         <div className="flex h-fit w-[388px] items-center justify-center">
             <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-4 border-black bg-yellow-100 p-2 shadow-2xl">
-                {tablero.map((row, rowIndex) =>
+                {tablero.map((row: any[], rowIndex: number) =>
                     row.map((cell, colIndex) => (
                         <button
                             key={`${rowIndex}-${colIndex}`}
@@ -122,6 +162,10 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                                         (segundaSeleccion &&
                                             segundaSeleccion.row === rowIndex &&
                                             segundaSeleccion.col === colIndex),
+                                },
+                                {
+                                    "border-indigo-500 bg-opacity-50":
+                                        esCasillaResaltada(rowIndex, colIndex),
                                 }
                             )}
                             onClick={() =>
@@ -130,7 +174,9 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                             // Deshabilitar el botón si no es el turno o no hay carta seleccionada
                             disabled={
                                 cartaSeleccionada === null ||
-                                turno_actual?.id !== jugador?.id
+                                turno_actual?.id !== jugador?.id ||
+                                (primeraSeleccion !== null &&
+                                    !esCasillaResaltada(rowIndex, colIndex))
                             }
                         ></button>
                     ))
