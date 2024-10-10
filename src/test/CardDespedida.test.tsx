@@ -1,4 +1,4 @@
-import { describe, it, expect, vi} from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import CardDespedida from "@/containers/partida/components/CardDespedida";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
@@ -19,7 +19,6 @@ vi.mock("canvas-confetti", () => ({
     __esModule: true,
     default: vi.fn(),
 }));
-
 
 describe("Componente CardDespedida", () => {
     it("muestra mensaje de victoria correctamente", () => {
@@ -63,18 +62,17 @@ describe("Componente CardDespedida", () => {
     });
 
     it("Se renderiza el botón para volver al home y funciona", () => {
-        
         render(
             <MemoryRouter>
-              <CardDespedida />
+                <CardDespedida />
             </MemoryRouter>
-          );
-          
-          expect(screen.getByText("Volver al inicio")).toBeDefined
-          const button = screen.getByText("Volver al inicio")
-          fireEvent.click(button);
-      
-          // Verifica que la URL sea la esperada tras la navegación
-          expect(window.location.href).toContain("/");
+        );
+
+        expect(screen.getByText("Volver al inicio")).toBeDefined;
+        const button = screen.getByText("Volver al inicio");
+        fireEvent.click(button);
+
+        // Verifica que la URL sea la esperada tras la navegación
+        expect(window.location.href).toContain("/");
     });
 });
