@@ -15,24 +15,25 @@ vi.mock("@/services/api/ver_tablero", () => ({
                     [4, 2, 2, 4, 1, 3],
                     [3, 4, 1, 3, 3, 3],
                 ],
-                figuras : [{
-                    nombre: "f20",
-                    casillas: [
-                    { row: 0, column: 0 },
-                    { row: 0, column: 1 },
-                    { row: 1, column: 0 },
-                    { row: 1, column: 1 },
-                    ],
+                figuras: [
+                    {
+                        nombre: "f20",
+                        casillas: [
+                            { row: 0, column: 0 },
+                            { row: 0, column: 1 },
+                            { row: 1, column: 0 },
+                            { row: 1, column: 1 },
+                        ],
                     },
                     {
-                    nombre: "f25",
-                    casillas: [
-                    { row: 5, column: 3 },
-                    { row: 5, column: 4 },
-                    { row: 5, column: 5 },
-                    { row: 4, column: 5 },
-                    ],
-                },
+                        nombre: "f25",
+                        casillas: [
+                            { row: 5, column: 3 },
+                            { row: 5, column: 4 },
+                            { row: 5, column: 5 },
+                            { row: 4, column: 5 },
+                        ],
+                    },
                 ],
             })
     ),
@@ -73,7 +74,7 @@ describe("Componente Board", () => {
         }
     });
 
-    test("Se están detectando las figuras del tablero", async () =>{
+    test("Se están detectando las figuras del tablero", async () => {
         render(<Board id_partida={1} />);
 
         const buttons = await screen.findAllByRole("button");
@@ -90,5 +91,5 @@ describe("Componente Board", () => {
         expect(buttons[20]).toHaveClass("border-2 border-black");
         expect(buttons[18]).toHaveClass("border-2 border-black");
         expect(buttons[2]).toHaveClass("border-2 border-black");
-    })
+    });
 });

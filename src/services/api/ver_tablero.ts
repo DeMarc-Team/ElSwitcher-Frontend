@@ -1,3 +1,7 @@
+//NOTA: Se hace esta pequeña corroboración por el caso en el que la respuesta de la API me haya traido
+//alguna casilla vacia, si ese fuera el caso coloco un valor que sea imposible que tenga una casilla
+//(en este caso el -1) para que luego en los test el tablero no renderice correctamente.
+
 import { API_HOST } from "./const";
 interface Casilla {
     row: number;
@@ -6,13 +10,40 @@ interface Casilla {
 
 interface Figura {
     nombre: string;
-    casillas: Casilla [];
+    casillas: Casilla[];
 }
 
 interface Tablero {
     tablero6x6: number[][];
-    figuras: Figura [];
+    figuras: Figura[];
 }
+
+const procesarFiguras = (figurasResaltadas: any): Figura[] => {
+    const figuras: Figura[] = [];
+
+    for (const nombre in figurasResaltadas) {
+        const casillas = figurasResaltadas[nombre];
+
+        const figura: Figura = {
+            nombre,
+            casillas: [],
+        };
+
+        for (const subArray of casillas) {
+            for (const casilla of subArray) {
+                figura.casillas.push({
+                    // Ver Nota del principio.
+                    row: casilla[0] !== null ? casilla[0] : -1,
+                    column: casilla[1] !== null ? casilla[1] : -1,
+                });
+            }
+        }
+
+        figuras.push(figura);
+    }
+
+    return figuras;
+};
 
 const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
     try {
@@ -33,31 +64,12 @@ const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
         }
 
         const data = await response.json();
-        let tablero = data.tablero 
-        const figuras: Figura[] = [];
-        
-        for (const nombre in data.figuras_a_resaltar) {
-            const casillas = data.figuras_a_resaltar[nombre];
+        let tablero = data.tablero;
 
-            const figura: Figura = {
-                nombre,
-                casillas: [],
-            };
-        
-            for (const subArray of casillas) {
-                for (const casilla of subArray) {
-                    figura.casillas.push({
-                        row: casilla[0] !== null ? casilla[0] : -1,
-                        column: casilla[1] !== null ? casilla[1] : -1,
-                    });
-                }
-            }
-
-            figuras.push(figura);
-        }
+        const figuras = procesarFiguras(data.figuras_a_resaltar);
 
         return {
-            tablero6x6:tablero,
+            tablero6x6: tablero,
             figuras,
         };
     } catch (error) {
@@ -66,11 +78,11 @@ const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
     }
 };
 
-export { ObtenerTablero, type Tablero, type Casilla, type Figura};
+export { ObtenerTablero, type Tablero, type Casilla, type Figura };
 
 //Hardcodeo para probar el destacado de las figuras
 // const hardcodedTablero: number[][] = [
-//     [3, 1, 2, 3, 4, 1],
+//     [3, 3, 2, 1, 4, 1],
 //     [1, 2, 3, 4, 1, 2],
 //     [2, 3, 4, 1, 2, 3],
 //     [3, 4, 1, 2, 3, 4],
