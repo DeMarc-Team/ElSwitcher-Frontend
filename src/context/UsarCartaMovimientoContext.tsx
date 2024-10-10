@@ -5,6 +5,7 @@ interface UsarCartaMovimientoContextProps {
     segundaSeleccion: { row: number; col: number } | null;
     cartaSeleccionada: number | null;
     codigoCartaMovimiento: string | null;
+    pasarTurno: boolean | null;
     setPrimeraSeleccion: (
         primeraSeleccion: {
             row: number;
@@ -19,6 +20,7 @@ interface UsarCartaMovimientoContextProps {
     ) => void;
     setCartaSeleccionada: (cartaSeleccionada: number | null) => void;
     setCodigoCartaMovimiento: (codigoCartaMovimiento: string) => void;
+    setPasarTurno: (pasarTurno: boolean) => void;
 }
 
 const MovimientoContext = createContext<
@@ -42,6 +44,7 @@ export const MovimientoContextProvider: React.FC<{
     const [codigoCartaMovimiento, setCodigoCartaMovimiento] = useState<
         string | null
     >(null);
+    const [pasarTurno, setPasarTurno] = useState<boolean | null>(true);
 
     return (
         <MovimientoContext.Provider
@@ -50,10 +53,12 @@ export const MovimientoContextProvider: React.FC<{
                 segundaSeleccion,
                 cartaSeleccionada,
                 codigoCartaMovimiento,
+                pasarTurno,
                 setPrimeraSeleccion,
                 setSegundaSeleccion,
                 setCartaSeleccionada,
                 setCodigoCartaMovimiento,
+                setPasarTurno,
             }}
         >
             {children}
