@@ -1,8 +1,8 @@
 //NOTA: Se hace esta pequeña corroboración por el caso en el que la respuesta de la API me haya traido
 //alguna casilla vacia, si ese fuera el caso coloco un valor que sea imposible que tenga una casilla
 //(en este caso el -1) para que luego en los test el tablero no renderice correctamente.
-
 import { API_HOST } from "./const";
+
 interface Casilla {
     row: number;
     column: number;
@@ -17,33 +17,6 @@ interface Tablero {
     tablero6x6: number[][];
     figuras: Figura[];
 }
-
-const procesarFiguras = (figurasResaltadas: any): Figura[] => {
-    const figuras: Figura[] = [];
-
-    for (const nombre in figurasResaltadas) {
-        const casillas = figurasResaltadas[nombre];
-
-        const figura: Figura = {
-            nombre,
-            casillas: [],
-        };
-
-        for (const subArray of casillas) {
-            for (const casilla of subArray) {
-                figura.casillas.push({
-                    // Ver Nota del principio.
-                    row: casilla[0] !== null ? casilla[0] : -1,
-                    column: casilla[1] !== null ? casilla[1] : -1,
-                });
-            }
-        }
-
-        figuras.push(figura);
-    }
-
-    return figuras;
-};
 
 const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
     try {
@@ -76,6 +49,33 @@ const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
         console.error("Error talero:", error);
         throw error;
     }
+};
+
+const procesarFiguras = (figurasResaltadas: any): Figura[] => {
+    const figuras: Figura[] = [];
+
+    for (const nombre in figurasResaltadas) {
+        const casillas = figurasResaltadas[nombre];
+
+        const figura: Figura = {
+            nombre,
+            casillas: [],
+        };
+
+        for (const subArray of casillas) {
+            for (const casilla of subArray) {
+                figura.casillas.push({
+                    // Ver Nota del principio.
+                    row: casilla[0] !== null ? casilla[0] : -1,
+                    column: casilla[1] !== null ? casilla[1] : -1,
+                });
+            }
+        }
+
+        figuras.push(figura);
+    }
+
+    return figuras;
 };
 
 export { ObtenerTablero, type Tablero, type Casilla, type Figura };
