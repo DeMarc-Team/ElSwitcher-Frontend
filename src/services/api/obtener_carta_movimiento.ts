@@ -2,6 +2,7 @@ import { API_HOST } from "./const";
 
 interface CartaMovimientoResponse {
     movimiento: string;
+    parcialmente_usada: boolean;
 }
 
 const ObtenerCartasMovimientos = async (
@@ -9,7 +10,7 @@ const ObtenerCartasMovimientos = async (
     id_jugador: number
 ): Promise<CartaMovimientoResponse[]> => {
     try {
-        const response = await fetch(
+        /*const response = await fetch(
             `${API_HOST}/juego/${id_partida}/jugadores/${id_jugador}/cartas_movimiento`,
             {
                 method: "GET",
@@ -25,7 +26,8 @@ const ObtenerCartasMovimientos = async (
             );
         }
 
-        return await response.json();
+        return await response.json();*/
+        return mockCartasMovimiento;
     } catch (error) {
         console.error("Error cartas de movimientos:", error);
         throw error;
@@ -33,3 +35,18 @@ const ObtenerCartasMovimientos = async (
 };
 
 export { ObtenerCartasMovimientos, type CartaMovimientoResponse };
+
+const mockCartasMovimiento: CartaMovimientoResponse[] = [
+    {
+        movimiento: "m2",
+        parcialmente_usada: false,
+    },
+    {
+        movimiento: "m6",
+        parcialmente_usada: true,
+    },
+    {
+        movimiento: "m5",
+        parcialmente_usada: false,
+    },
+];
