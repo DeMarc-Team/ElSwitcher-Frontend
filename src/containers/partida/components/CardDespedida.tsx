@@ -12,17 +12,21 @@ import confetti from "canvas-confetti";
 import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import { useEffect, useState } from "react";
+import {
+    RemoveSessionJugador,
+    RemoveSessionPartida,
+} from "@/services/session_browser";
 
 const CardDespedida = () => {
     const { jugador } = usePartida();
-    const { hayGanador, ganadorInfo } = useInsidePartidaWebSocket();
+    const { ganadorInfo } = useInsidePartidaWebSocket();
     const [titulo, setTitulo] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (hayGanador && jugador && ganadorInfo) {
-            if (jugador.id === ganadorInfo.id) {
+        if (jugador && ganadorInfo) {
+            if (jugador.id == ganadorInfo.id) {
                 setTitulo(`¡Ganaste "${jugador.nombre}"!`);
                 setDescripcion("🎉 🎉 🎉");
                 showConfetti();
@@ -30,8 +34,10 @@ const CardDespedida = () => {
                 setTitulo(`Perdiste "${jugador.nombre}"`);
                 setDescripcion("😢 😢 😢");
             }
+            RemoveSessionJugador();
+            RemoveSessionPartida();
         }
-    }, [hayGanador]);
+    }, []);
 
     const showConfetti = () => {
         confetti({
