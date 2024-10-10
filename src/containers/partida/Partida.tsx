@@ -74,22 +74,11 @@ function Partida() {
                             id_jugador={jugador.id}
                         />
                         <CartasFigura
-                            id_partida={id_partida}
+                            id_partida={partida.id}
                             id_jugador={jugador.id}
                         />
                     </div>
                 </div>
-                <Board id_partida={partida.id} />
-                <div></div>
-            </div>
-            <div className="flex flex-row gap-10">
-                <CartasMovimiento
-                    id_partida={partida.id}
-                    id_jugador={jugador.id}
-                />
-                <CartasFigura id_partida={partida.id} id_jugador={jugador.id} />
-            </div>
-        </div>
             )}
         </>
     );
