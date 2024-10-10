@@ -32,14 +32,20 @@ const CartasMovimiento = ({
     const [cartasMovimiento, setCartasMovimiento] = useState<CartaMovimiento[]>(
         []
     );
-    const { setCartaSeleccionada, setCodigoCartaMovimiento } =
-        useMovimientoContext();
+    const {
+        setCartaSeleccionada,
+        setCodigoCartaMovimiento,
+        setParcialmenteUsada,
+        setRotVec,
+    } = useMovimientoContext();
     const { turno_actual, jugador } = usePartida();
 
     const cartaCodigoMovimiento = (index: number, code: string) => {
         if (turno_actual?.id == jugador?.id) {
             setCartaSeleccionada(index);
             setCodigoCartaMovimiento(code);
+            setParcialmenteUsada(cartasMovimiento[index].parcialmente_usada);
+            setRotVec(cartasMovimiento[index].rot_vec);
         }
     };
 
@@ -54,6 +60,10 @@ const CartasMovimiento = ({
                 imageCartaMovimiento(carta.movimiento)
             );
             setCartasMovimiento(cartas);
+
+            if (data.length > 0) {
+                setParcialmenteUsada(data[0].parcialmente_usada);
+            }
         } catch (error) {
             console.error("Error fetching cartas movimiento:", error);
         }
