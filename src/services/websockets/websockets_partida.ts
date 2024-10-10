@@ -1,12 +1,14 @@
 import { useCustomWebSocket } from "./websockets";
 import { useEffect, useState } from "react";
-
+import { Jugador } from "@/models/types";
 /**
  *  Este hook es para manejar la conexión WebSocket de una partida específica.
  *  IMPORTANTE: Evitar usarlo directamente en un componente.
  * @returns
  * - `triggerActualizarSalaEspera`: Trigger para actualizar la sala de espera.
  * - `triggerActualizarTurno`: Trigger para actualizar el turno.
+ * - `triggerHayGanador`: Trigger para indicar si hay un ganador.
+ * - `ganadorInfo`: Información del jugador ganador.
  * @note También se retorna la información de la conexión WebSocket:
  *  - `message`: El último mensaje recibido.
  *  - `readyState`: El estado de la conexión WebSocket.
@@ -19,6 +21,10 @@ const useWebSocketPartida = () => {
     const [triggerActualizarSalaEspera, setTriggerActualizarSalaEspera] =
         useState(false);
     const [triggerActualizarTurno, setTriggerActualizarTurno] = useState(false);
+    const [triggerHayGanador, setTriggerHayGanador] = useState(false);
+
+    // Información del ganador
+    const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
 
     const openConnectionToPartida = (
         partida_id: string,
@@ -32,6 +38,9 @@ const useWebSocketPartida = () => {
             setTriggerActualizarSalaEspera(!triggerActualizarSalaEspera);
         } else if (message.action === "actualizar_turno") {
             setTriggerActualizarTurno(!triggerActualizarTurno);
+        } else if (message.action === "hay_ganador") {
+            setTriggerHayGanador(!triggerHayGanador);
+            setGanadorInfo(JSON.parse(message.data.replace(/'/g, '"')));
         }
     }, [message]);
 
@@ -42,6 +51,8 @@ const useWebSocketPartida = () => {
         openConnectionToPartida,
         triggerActualizarSalaEspera,
         triggerActualizarTurno,
+        triggerHayGanador,
+        ganadorInfo,
     };
 };
 export { useWebSocketPartida };
