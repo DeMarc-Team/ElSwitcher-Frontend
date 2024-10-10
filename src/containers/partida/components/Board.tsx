@@ -8,7 +8,8 @@ import {
     JugarCartaMovimiento,
     Casilla,
 } from "@/services/api/jugar_carta_movimiento";
-import { ResaltarCasillasMovimientos } from "@/services/api/resaltar_casillas_movimientos";
+import { ResaltarCasillasMovimientos } from "@/containers/partida/components/ResalatarCasillasMovimientos";
+import { esTurnoDelJugador } from "@/containers/partida/components/EsTurnoDelJugador";
 
 const COLORES: string[] = [
     "red", // 0
@@ -37,6 +38,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         setCartaSeleccionada,
         codigoCartaMovimiento,
         setPasarTurno,
+        rotVec,
     } = useMovimientoContext();
 
     useEffect(() => {
@@ -52,29 +54,20 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         }
     };
 
-    const fetchResaltarCasillas = async (row: number, col: number) => {
-        try {
-            if (
-                jugador?.id !== undefined &&
-                //primeraSeleccion !== null &&  FIXME: primeraSelecion debería estar cargado pero no lo está.
-                codigoCartaMovimiento !== null
-            ) {
-                const data = await ResaltarCasillasMovimientos(
-                    id_partida,
-                    jugador?.id,
-                    { row: row, col: col },
-                    codigoCartaMovimiento
-                );
-                SetCasillasMovimientos(data);
-                console.log("Casillas Movimientos:", data); // Agrega esta línea
-            }
-        } catch (error) {
-            console.error("Error al obtener las casillas:", error);
+    const resaltarCasillas = (row: number, col: number) => {
+        if (rotVec && codigoCartaMovimiento) {
+            const casillasMove = ResaltarCasillasMovimientos(
+                row,
+                col,
+                rotVec,
+                codigoCartaMovimiento
+            );
+            SetCasillasMovimientos(casillasMove);
         }
     };
 
     const enviarMovimiento = async (casilla1: Casilla, casilla2: Casilla) => {
-        if (cartaSeleccionada !== null && jugador?.id === turno_actual?.id) {
+        if (esTurnoDelJugador(cartaSeleccionada, turno_actual, jugador)) {
             if (codigoCartaMovimiento && jugador?.id) {
                 try {
                     const response = await JugarCartaMovimiento(
@@ -82,7 +75,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                         casilla2,
                         codigoCartaMovimiento,
                         id_partida,
-                        jugador?.id
+                        jugador.id
                     );
                     console.log("Movimiento enviado:", response);
                 } catch (error) {
@@ -101,20 +94,17 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     };
 
     const handleButtonClick = (row: number, col: number) => {
-        console.log("Clicked cell:", { row, col }); // Para verificar qué celda se ha hecho clic
+        console.log("Clicked cell:", { row, col });
         if (!primeraSeleccion) {
-            console.log("Setting primeraSeleccion:", { row, col });
-            setPrimeraSeleccion({ row, col }); //FIXME: No se está seteando inmediatamente, luego de tocar la segunda ficha, recién ahí se setea.
+            setPrimeraSeleccion({ row, col });
             setPasarTurno(false);
-            fetchResaltarCasillas(row, col);
+            resaltarCasillas(row, col);
         } else if (primeraSeleccion && !segundaSeleccion) {
-            console.log("Setting segundaSeleccion:", { row, col });
             setSegundaSeleccion({ row, col });
             enviarMovimiento(
                 { row: primeraSeleccion.row, col: primeraSeleccion.col },
                 { row, col }
             ).then(() => {
-                // Restablece las selecciones después de enviar el movimiento
                 setPrimeraSeleccion(null);
                 setSegundaSeleccion(null);
             });
@@ -126,11 +116,10 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
 
     useEffect(() => {
         fetchTablero();
-        setCartaSeleccionada(null);
+        setCartaSeleccionada(undefined);
         SetCasillasMovimientos([]);
     }, [triggeractualizarTablero]);
 
-    // Función para verificar si la casilla está en "casillasMovimientos"
     const esCasillaResaltada = (row: number, col: number) => {
         return casillasMovimientos.some(
             (casilla) => casilla.row === row && casilla.col === col
@@ -150,18 +139,13 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                                 {
                                     "cursor-not-allowed":
                                         cartaSeleccionada === null ||
-                                        turno_actual?.id !== jugador?.id, // Deshabilitar si no es el turno del jugador
+                                        turno_actual?.id !== jugador?.id,
                                 },
-                                // Resaltar las casillas seleccionadas
                                 {
                                     "border-indigo-500 bg-opacity-50":
-                                        (primeraSeleccion &&
-                                            primeraSeleccion.row === rowIndex &&
-                                            primeraSeleccion.col ===
-                                                colIndex) ||
-                                        (segundaSeleccion &&
-                                            segundaSeleccion.row === rowIndex &&
-                                            segundaSeleccion.col === colIndex),
+                                        segundaSeleccion &&
+                                        segundaSeleccion.row === rowIndex &&
+                                        segundaSeleccion.col === colIndex,
                                 },
                                 {
                                     "border-indigo-500 bg-opacity-50":
@@ -171,7 +155,6 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                             onClick={() =>
                                 handleButtonClick(rowIndex, colIndex)
                             }
-                            // Deshabilitar el botón si no es el turno o no hay carta seleccionada
                             disabled={
                                 cartaSeleccionada === null ||
                                 turno_actual?.id !== jugador?.id ||
