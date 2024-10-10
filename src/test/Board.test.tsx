@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
-import Board from "../containers/partida/components/Board"; // Ajusta la ruta según tu proyecto
+import Board from "../containers/partida/components/Board"; 
+import { PartidaProvider } from "@/context/PartidaContext";
+import { Partida} from "@/models/types";
+import { SaveSessionPartida } from "@/services/session_browser";
+import { FiguraContextProvider } from "@/context/FigurasContext";
 
 // Mockear el servicio ObtenerTablero
 vi.mock("@/services/api/ver_tablero", () => ({
@@ -39,10 +43,24 @@ vi.mock("@/services/api/ver_tablero", () => ({
     ),
 }));
 
-describe("Componente Board", () => {
-    test("Se renderiza todo el tablero", async () => {
-        render(<Board id_partida={1} />);
+const mockPartida: Partida = {
+    id: 1,
+    nombre: "Partida 1",
+};
 
+
+describe("Componente Board", () => {
+    SaveSessionPartida(mockPartida);
+    
+    test("Se renderiza todo el tablero", async () => {
+        render(
+            <PartidaProvider>
+                <FiguraContextProvider>
+                <Board id_partida={1} />
+                </FiguraContextProvider>
+            </PartidaProvider>
+        );
+        
         const buttons = await screen.findAllByRole("button");
 
         // Verificar que se rendericen 36 botones (6x6)
@@ -50,7 +68,13 @@ describe("Componente Board", () => {
     });
 
     test("Se renderizan los colores correctos", async () => {
-        render(<Board id_partida={1} />);
+        render(
+            <PartidaProvider>
+                <FiguraContextProvider>
+                <Board id_partida={1} />
+                </FiguraContextProvider>
+            </PartidaProvider>
+        );
 
         const buttons = await screen.findAllByRole("button");
 
@@ -62,7 +86,13 @@ describe("Componente Board", () => {
     });
 
     test("Todos los botones tienen color", async () => {
-        render(<Board id_partida={1} />);
+        render(
+            <PartidaProvider>
+                <FiguraContextProvider>
+                <Board id_partida={1} />
+                </FiguraContextProvider>
+            </PartidaProvider>
+        );
 
         const buttons = await screen.findAllByRole("button");
 
@@ -75,7 +105,13 @@ describe("Componente Board", () => {
     });
 
     test("Se están detectando las figuras del tablero", async () => {
-        render(<Board id_partida={1} />);
+        render(
+            <PartidaProvider>
+                <FiguraContextProvider>
+                <Board id_partida={1} />
+                </FiguraContextProvider>
+            </PartidaProvider>
+        );
 
         const buttons = await screen.findAllByRole("button");
 
