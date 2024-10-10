@@ -7,7 +7,10 @@ type EffectCallback = () => void | (() => void);
  * @param callback  La función a ejecutar.
  * @param dependencies  Los valores que, al cambiar, harán que se ejecute la callback.
  */
-export const useEffectSkipFirst = (callback: EffectCallback, dependencies: any[]) => {
+export const useEffectSkipFirst = (
+    callback: EffectCallback,
+    dependencies: any[]
+) => {
     const [isFirstRun, setIsFirstRun] = useState(true);
 
     useEffect(() => {
