@@ -57,6 +57,7 @@ const CartasMovimiento = ({
                         rotation={Rotation(cartasMovimiento, index)}
                         middle={isMiddleCard(cartasMovimiento, index)}
                         altText={`Carta ${index + 1}`}
+                        onClick={() => {}}
                     />
                 );
             })}
