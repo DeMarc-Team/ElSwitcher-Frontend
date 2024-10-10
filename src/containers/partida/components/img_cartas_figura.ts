@@ -16,6 +16,11 @@ import Figura15 from "@/components/assets/cartas/CartasFiguras/Figura15.png";
 import Figura16 from "@/components/assets/cartas/CartasFiguras/Figura16.png";
 import Figura17 from "@/components/assets/cartas/CartasFiguras/Figura17.png";
 import Figura18 from "@/components/assets/cartas/CartasFiguras/Figura18.png";
+import Figura19 from "@/components/assets/cartas/CartasFiguras/Figura19.png";
+import Figura20 from "@/components/assets/cartas/CartasFiguras/Figura20.png";
+import Figura21 from "@/components/assets/cartas/CartasFiguras/Figura21.png";
+import Figura22 from "@/components/assets/cartas/CartasFiguras/Figura22.png";
+import Figura23 from "@/components/assets/cartas/CartasFiguras/Figura23.png";
 import DorsoCarta from "@/components/assets/cartas/DorsoCarta.png";
 
 interface CartaFigura {
@@ -43,6 +48,11 @@ const CARTAS_FIGURA: CartaFigura[] = [
     { code: "f16", img: Figura16 },
     { code: "f17", img: Figura17 },
     { code: "f18", img: Figura18 },
+    { code: "f19", img: Figura19 },
+    { code: "f20", img: Figura20 },
+    { code: "f21", img: Figura21 },
+    { code: "f22", img: Figura22 },
+    { code: "f23", img: Figura23 },
     { code: "dorso", img: DorsoCarta },
 ];
 
