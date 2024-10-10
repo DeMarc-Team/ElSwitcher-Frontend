@@ -8,7 +8,13 @@ interface CartasProps {
     onClick: () => void;
 }
 
-const Cartas = ({ imgSrc, rotation, altText, middle = false, onClick }: CartasProps) => {
+const Cartas = ({
+    imgSrc,
+    rotation,
+    altText,
+    middle = false,
+    onClick,
+}: CartasProps) => {
     let classRotation = "";
     if (rotation > 0) {
         classRotation = `rotate-6`;

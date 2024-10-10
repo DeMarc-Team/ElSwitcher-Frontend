@@ -73,9 +73,8 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     function handleRenderCell(cell: number, rowIndex: number, colIndex: number) {
         let esParteDeFigura = false;
         let esParteDeFiguraSeleccionada = false;
-
-        figuras.forEach((figura) => {
-            figura.casillas.forEach((casilla) => {
+        figuras.some((figura) => {
+            figura.casillas.some((casilla) => {
                 if (casilla.row === rowIndex && casilla.column === colIndex) {
                     esParteDeFigura = true;
                     // Verificar si la celda pertenece a la figura seleccionada
@@ -95,8 +94,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                         ? "border-4 border-red-600"
                         : esParteDeFigura
                         ? "border-4 border-blue-600"
-                        : "border-2 border-black",
-                    cartaFSeleccionada ? "" : "cursor-not-allowed"
+                        : "border-2 border-black"
                 )}
                 disabled={!cartaFSeleccionada}
                 onClick={() => seleccionarFigura(rowIndex,colIndex)}
