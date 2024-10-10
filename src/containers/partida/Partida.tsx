@@ -9,12 +9,14 @@ import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 import CardDespedida from "./components/CardDespedida";
+import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
     const id_partida = Number(useParams().id_partida);
+    const [hayUnGanador, setHayUnGanador] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
-    const { openConnectionToPartida, readyState, hayGanador } =
+    const { openConnectionToPartida, readyState, triggerHayGanador } =
         useInsidePartidaWebSocket();
 
     useEffect(() => {
@@ -40,11 +42,15 @@ function Partida() {
         }
     }, [isDataLoaded]);
 
+    useEffectSkipFirst(() => {
+        setHayUnGanador(true);
+    }, [triggerHayGanador]);
+
     if (!jugador || !partida || partida.id !== id_partida) return;
 
     return (
         <>
-            {hayGanador ? (
+            {hayUnGanador ? (
                 <CardDespedida />
             ) : (
                 <div

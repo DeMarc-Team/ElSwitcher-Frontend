@@ -7,7 +7,7 @@ import { Jugador } from "@/models/types";
  * @returns
  * - `triggerActualizarSalaEspera`: Trigger para actualizar la sala de espera.
  * - `triggerActualizarTurno`: Trigger para actualizar el turno.
- * - `hayGanador`: Estado para saber si hay un ganador.
+ * - `triggerHayGanador`: Trigger para indicar si hay un ganador.
  * - `ganadorInfo`: Información del jugador ganador.
  * @note También se retorna la información de la conexión WebSocket:
  *  - `message`: El último mensaje recibido.
@@ -21,9 +21,9 @@ const useWebSocketPartida = () => {
     const [triggerActualizarSalaEspera, setTriggerActualizarSalaEspera] =
         useState(false);
     const [triggerActualizarTurno, setTriggerActualizarTurno] = useState(false);
+    const [triggerHayGanador, setTriggerHayGanador] = useState(false);
 
-    // Estados para saber si hay un ganador
-    const [hayGanador, setHayGanador] = useState(false);
+    // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
 
     const openConnectionToPartida = (
@@ -39,8 +39,8 @@ const useWebSocketPartida = () => {
         } else if (message.action === "actualizar_turno") {
             setTriggerActualizarTurno(!triggerActualizarTurno);
         } else if (message.action === "hay_ganador") {
-            setHayGanador(true);
-            setGanadorInfo(message.data);
+            setTriggerHayGanador(!triggerHayGanador);
+            setGanadorInfo(JSON.parse(message.data.replace(/'/g, '"')));
         }
     }, [message]);
 
@@ -51,7 +51,7 @@ const useWebSocketPartida = () => {
         openConnectionToPartida,
         triggerActualizarSalaEspera,
         triggerActualizarTurno,
-        hayGanador,
+        triggerHayGanador,
         ganadorInfo,
     };
 };
