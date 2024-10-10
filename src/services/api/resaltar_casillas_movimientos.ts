@@ -1,9 +1,5 @@
 import { API_HOST } from "./const";
 
-interface CasillasResponse {
-    casilla: Casilla;
-}
-
 interface Casilla {
     row: number;
     col: number;
@@ -14,9 +10,9 @@ const ResaltarCasillasMovimientos = async (
     id_jugador: number,
     casilla_: Casilla,
     codeMove: string
-): Promise<CasillasResponse[]> => {
+): Promise<Casilla[]> => {
     try {
-        const response = await fetch(
+        /*const response = await fetch(
             `${API_HOST}/juego/${id_partida}/jugadores/${id_jugador}/tablero/resaltar/casillas`,
             {
                 method: "POST",
@@ -36,7 +32,14 @@ const ResaltarCasillasMovimientos = async (
             );
         }
 
-        return await response.json();
+        return await response.json();*/
+
+        return await [
+            { row: casilla_.row - 1, col: casilla_.col - 1 },
+            { row: casilla_.row - 1, col: casilla_.col + 1 },
+            { row: casilla_.row + 1, col: casilla_.col - 1 },
+            { row: casilla_.row + 2, col: casilla_.col + 2 },
+        ];
     } catch (error) {
         console.error(
             "Fallo enviado las coordenadas de las casillas y el código de la carta!",
@@ -46,5 +49,4 @@ const ResaltarCasillasMovimientos = async (
     }
 };
 
-export { ResaltarCasillasMovimientos, type CasillasResponse };
-export type { Casilla };
+export { ResaltarCasillasMovimientos, type Casilla };

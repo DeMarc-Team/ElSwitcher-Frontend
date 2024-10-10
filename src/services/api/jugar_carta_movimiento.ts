@@ -9,7 +9,7 @@ interface Casilla {
     col: number;
 }
 
-const JugarcartaMovimiento = async (
+const JugarCartaMovimiento = async (
     casilla1: Casilla,
     casilla2: Casilla,
     codCartaMov: string,
@@ -47,5 +47,5 @@ const JugarcartaMovimiento = async (
     }
 };
 
-export { JugarcartaMovimiento, type CoordenadasResponse };
+export { JugarCartaMovimiento, type CoordenadasResponse };
 export type { Casilla };
