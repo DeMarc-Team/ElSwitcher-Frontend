@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ObtenerTablero, Casilla,Figura } from "../../../services/api/ver_tablero";
+import { ObtenerTablero,Figura } from "../../../services/api/ver_tablero";
 import { cn } from "@/services/shadcn_lib/utils";
-import { useFiguraContext } from "../../../context/FigurasContext";
 
 const COLORES: string[] = [
     "red", // 0
@@ -17,7 +16,6 @@ interface DashboardProps {
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tablero, setTablero] = useState<number[][]>([]);
     const [figuras, setFiguras] = useState<Figura[]>([]);
-    const {cartaFSeleccionada} = useFiguraContext();
 
     const fetchTablero = async () => {
         try {
@@ -54,9 +52,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                     esParteDeFigura
                         ? "border-4 border-blue-600"
                         : "border-2 border-black",
-                    cartaFSeleccionada ? "" : "cursor-not-allowed"
                 )}
-                disabled={!cartaFSeleccionada}
             ></button>
         );
     }
