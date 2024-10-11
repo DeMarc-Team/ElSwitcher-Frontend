@@ -36,7 +36,7 @@ describe("Componente Board", () => {
 
         const buttons = await screen.findAllByRole("button");
 
-        // Verificar que se rendericen 36 botones (6x6) 
+        // Verificar que se rendericen 36 botones (6x6)
         expect(buttons).toHaveLength(36);
     });
 

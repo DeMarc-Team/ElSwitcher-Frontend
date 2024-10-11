@@ -62,8 +62,9 @@ describe("ButtonPasarTurno", () => {
         // Renderizar el componente
         render(
             <MovimientoContextProvider>
-            <ButtonPasarTurno />
-            </MovimientoContextProvider>);
+                <ButtonPasarTurno />
+            </MovimientoContextProvider>
+        );
 
         // Verificar que se muestra "Pasar turno"
         expect(screen.getByText("Pasar turno")).toBeInTheDocument();
@@ -89,8 +90,9 @@ describe("ButtonPasarTurno", () => {
         // Renderizar el componente
         render(
             <MovimientoContextProvider>
-            <ButtonPasarTurno />
-            </MovimientoContextProvider>);
+                <ButtonPasarTurno />
+            </MovimientoContextProvider>
+        );
 
         // Verificar que se muestra "Espera tú turno"
         expect(screen.getByText("Espera tú turno")).toBeInTheDocument();
@@ -111,8 +113,9 @@ describe("ButtonPasarTurno", () => {
         // Renderizar el componente
         render(
             <MovimientoContextProvider>
-            <ButtonPasarTurno />
-            </MovimientoContextProvider>);
+                <ButtonPasarTurno />
+            </MovimientoContextProvider>
+        );
 
         // Simular el click en el botón de pasar turno
         await act(async () => {

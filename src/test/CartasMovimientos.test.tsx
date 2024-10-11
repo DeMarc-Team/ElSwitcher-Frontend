@@ -24,7 +24,7 @@ describe("Cartas de movimietntos", () => {
             render(
                 <PartidaProvider>
                     <MovimientoContextProvider>
-                        <CartasMovimiento id_partida={1} id_jugador={1}/>
+                        <CartasMovimiento id_partida={1} id_jugador={1} />
                     </MovimientoContextProvider>
                 </PartidaProvider>
             );
@@ -40,7 +40,7 @@ describe("Cartas de movimietntos", () => {
             render(
                 <PartidaProvider>
                     <MovimientoContextProvider>
-                        <CartasMovimiento id_partida={1} id_jugador={1}/>
+                        <CartasMovimiento id_partida={1} id_jugador={1} />
                     </MovimientoContextProvider>
                 </PartidaProvider>
             );
@@ -58,7 +58,7 @@ describe("Cartas de movimietntos", () => {
             render(
                 <PartidaProvider>
                     <MovimientoContextProvider>
-                        <CartasMovimiento id_partida={1} id_jugador={1}/>
+                        <CartasMovimiento id_partida={1} id_jugador={1} />
                     </MovimientoContextProvider>
                 </PartidaProvider>
             );
