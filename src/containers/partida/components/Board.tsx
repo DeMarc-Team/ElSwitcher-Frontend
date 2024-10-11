@@ -99,16 +99,21 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             setPrimeraSeleccion({ row, col });
             setPasarTurno(false);
             resaltarCasillas(row, col);
-        } else if (primeraSeleccion && !segundaSeleccion) {
-            setSegundaSeleccion({ row, col });
-            enviarMovimiento(
-                { row: primeraSeleccion.row, col: primeraSeleccion.col },
-                { row, col }
-            ).then(() => {
+        } else if (primeraSeleccion && !segundaSeleccion && cartaSeleccionada) {
+            if (!esCasillaResaltada(row, col)) {
+                SetCasillasMovimientos([]);
                 setPrimeraSeleccion(null);
-                setSegundaSeleccion(null);
-            });
-            setPasarTurno(true);
+            } else {
+                setSegundaSeleccion({ row, col });
+                enviarMovimiento(
+                    { row: primeraSeleccion.row, col: primeraSeleccion.col },
+                    { row, col }
+                ).then(() => {
+                    setPrimeraSeleccion(null);
+                    setSegundaSeleccion(null);
+                });
+                setPasarTurno(true);
+            }
         } else {
             console.log("Ya has seleccionado ambas celdas.");
         }
@@ -142,10 +147,10 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                                         turno_actual?.id !== jugador?.id,
                                 },
                                 {
-                                    "border-indigo-500 bg-opacity-50":
-                                        segundaSeleccion &&
-                                        segundaSeleccion.row === rowIndex &&
-                                        segundaSeleccion.col === colIndex,
+                                    "border-red-500 bg-opacity-50":
+                                        primeraSeleccion &&
+                                        primeraSeleccion.row === rowIndex &&
+                                        primeraSeleccion.col === colIndex,
                                 },
                                 {
                                     "border-indigo-500 bg-opacity-50":
@@ -156,10 +161,8 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                                 handleButtonClick(rowIndex, colIndex)
                             }
                             disabled={
-                                cartaSeleccionada === null ||
-                                turno_actual?.id !== jugador?.id ||
-                                (primeraSeleccion !== null &&
-                                    !esCasillaResaltada(rowIndex, colIndex))
+                                cartaSeleccionada === undefined ||
+                                turno_actual?.id !== jugador?.id
                             }
                         ></button>
                     ))
