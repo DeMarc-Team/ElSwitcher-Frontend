@@ -31,6 +31,7 @@ export const useNotification = () => {
         toast({
             title: `INFO:`,
             description: message,
+            variant: "success",
         });
     };
 
