@@ -7,12 +7,12 @@ import {
     JugarCartaMovimiento,
     Casilla,
 } from "@/services/api/jugar_carta_movimiento";
-import { ResaltarCasillasMovimientos } from "@/containers/partida/components/ResalatarCasillasMovimientos";
-import { esTurnoDelJugador } from "@/containers/partida/components/EsTurnoDelJugador";
+import { ResaltarCasillasMovimientos } from "@/containers/partida/components/resalatar_casillas_movimientos";
+import { esTurnoDelJugador } from "@/containers/partida/components/es_turno_del_jugador";
 import {
     manejarSeleccion,
     reiniciarSeleccion,
-} from "@/containers/partida/components/ManejarSeleccion"; // Importamos aquí ambas funciones
+} from "@/containers/partida/components/manejar_seleccion"; // Importamos aquí ambas funciones
 import Celda from "@/containers/partida/components/Celda";
 
 interface DashboardProps {
@@ -138,7 +138,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     return (
         <div className="flex h-fit w-[388px] items-center justify-center">
             <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-4 border-black bg-yellow-100 p-2 shadow-2xl">
-                {tablero.map((row: any[], rowIndex: number) =>
+                {tablero.map((row: number[], rowIndex: number) =>
                     row.map((cell, colIndex) => (
                         <Celda
                             key={`${rowIndex}-${colIndex}`}

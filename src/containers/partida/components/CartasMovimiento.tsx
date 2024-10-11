@@ -53,7 +53,7 @@ const CartasMovimiento = ({
             setCodigoCartaMovimiento(code);
             setParcialmenteUsada(cartasMovimiento[index].parcialmente_usada);
             setRotVec(cartasMovimiento[index].rot_vec);
-            showToastInfo("Selecciona una casilla.");
+            showToastInfo("Selecciona una casilla.", true);
             setTimeout(() => {
                 closeToast();
             }, 1000);
@@ -71,10 +71,6 @@ const CartasMovimiento = ({
                 imageCartaMovimiento(carta.movimiento)
             );
             setCartasMovimiento(cartas);
-
-            if (data.length > 0) {
-                setParcialmenteUsada(data[0].parcialmente_usada);
-            }
         } catch (error) {
             console.error("Error fetching cartas movimiento:", error);
         }
