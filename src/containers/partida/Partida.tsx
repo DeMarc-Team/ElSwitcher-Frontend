@@ -9,7 +9,6 @@ import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -58,10 +57,7 @@ function Partida() {
                     <Board id_partida={partida.id} />
                 <div>
                     <div>
-                        <ScrollArea className="h-72 w-65 rounded-md border bg-yellow-100 ">
-                            <h2 className="text-center font-bold bg-yellow-100 ">Carta de los otros jugadores</h2>
-                            <CartasDeLosJugadores id_jugador={jugador.id} id_partida={id_partida}/>
-                        </ScrollArea>
+                        <CartasDeLosJugadores id_jugador={jugador.id} id_partida={id_partida}/>
                     </div>
                 </div>
             </div>

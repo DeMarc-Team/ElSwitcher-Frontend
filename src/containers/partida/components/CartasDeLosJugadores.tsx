@@ -3,6 +3,7 @@ import { imageCartaFigura, type CartaFigura } from "./img_cartas_figura";
 import { ObtenerCartasFiguras } from "@/services/api/obtener_carta_figura";
 import Cartas from "./Cartas";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
+import {Accordion,AccordionContent,AccordionItem,AccordionTrigger} from "@/components/ui/accordion"
 
 const CartasDeLosJugadores = ({id_partida,id_jugador,}: {id_partida: number;id_jugador: number;}) => {
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[][]>([]);
@@ -34,25 +35,31 @@ const CartasDeLosJugadores = ({id_partida,id_jugador,}: {id_partida: number;id_j
     };
 
     return (
-        <div className="flex flex-row gap-4">
+    <Accordion type="single" collapsible>
             {cartasFiguras.map((cartasJugador, indexJugador) => (
-                <div key={indexJugador} className="flex flex-col items-center">
-                    <h3 className="text-center font-bold mb-2">Cartas de: {nombresJugadores[indexJugador]}</h3> {/* Mostrar el nombre */}
-                    <div className="flex flex-row">
-                        {cartasJugador.map((carta, indexCarta) => (
-                            <div key={`${indexJugador}-${indexCarta}-carta-figura`} className="w-24 h-32 m-2">
-                                <Cartas
-                                    imgSrc={carta.img}
-                                    rotation={0}
-                                    middle={false}
-                                    altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
-                                />
+                <div key={indexJugador}>
+                    <AccordionItem value={`item-${indexJugador}`}>
+                        <AccordionTrigger className="text-sm px-10 py-1">
+                            Cartas de {nombresJugadores[indexJugador]}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            <div className="flex flex-row">
+                                {cartasJugador.map((carta, indexCarta) => (
+                                    <div key={`${indexJugador}-${indexCarta}-carta-figura`} className="m-2">
+                                        <Cartas
+                                            imgSrc={carta.img}
+                                            rotation={0}
+                                            middle={false}
+                                            altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
+                                        />
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </AccordionContent>
+                    </AccordionItem>
                 </div>
             ))}
-        </div>
+    </Accordion>
     );
 };
 
