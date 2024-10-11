@@ -99,7 +99,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             setPrimeraSeleccion({ row, col });
             setPasarTurno(false);
             resaltarCasillas(row, col);
-        } else if (primeraSeleccion && !segundaSeleccion && cartaSeleccionada) {
+        } else if (primeraSeleccion && !segundaSeleccion) {
             if (!esCasillaResaltada(row, col)) {
                 SetCasillasMovimientos([]);
                 setPrimeraSeleccion(null);
