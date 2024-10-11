@@ -12,8 +12,9 @@ import { esTurnoDelJugador } from "@/containers/partida/components/es_turno_del_
 import {
     manejarSeleccion,
     reiniciarSeleccion,
-} from "@/containers/partida/components/manejar_seleccion"; // Importamos aquí ambas funciones
+} from "@/containers/partida/components/manejar_seleccion";
 import Celda from "@/containers/partida/components/Celda";
+import { useNotification } from "@/hooks/useNotification";
 
 interface DashboardProps {
     id_partida: number;
@@ -37,6 +38,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         casillasMovimientos,
         setCasillasMovimientos,
     } = useMovimientoContext();
+    const { showToastInfo, closeToast } = useNotification();
 
     useEffect(() => {
         fetchTablero(); // Se ejecuta cuando el componente se monta
@@ -93,32 +95,37 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     };
 
     const manejarSeleccionClick = (row: number, col: number) => {
-        manejarSeleccion(
-            row,
-            col,
-            primeraSeleccion,
-            setPrimeraSeleccion,
-            segundaSeleccion,
-            setSegundaSeleccion,
-            setPasarTurno,
-            esCasillaResaltada,
-            resaltarCasillas,
-            enviarMovimiento,
-            () =>
-                reiniciarSeleccion(
-                    setPrimeraSeleccion,
-                    setSegundaSeleccion,
-                    setCartaSeleccionada,
-                    setCasillasMovimientos
-                )
-        );
+        if (cartaSeleccionada !== undefined) {
+            manejarSeleccion(
+                row,
+                col,
+                primeraSeleccion,
+                setPrimeraSeleccion,
+                segundaSeleccion,
+                setSegundaSeleccion,
+                setPasarTurno,
+                esCasillaResaltada,
+                resaltarCasillas,
+                enviarMovimiento,
+                () =>
+                    reiniciarSeleccion(
+                        setPrimeraSeleccion,
+                        setSegundaSeleccion,
+                        setCartaSeleccionada,
+                        setCasillasMovimientos
+                    )
+            );
+        } else {
+            showToastInfo("Selecciona primero una carta de movimiento.", true);
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
+        }
     };
 
     // Condición para deshabilitar botones
     const estaDeshabilitado = () => {
-        return (
-            cartaSeleccionada === undefined || turno_actual?.id !== jugador?.id
-        );
+        return turno_actual?.id !== jugador?.id;
     };
 
     // Verificar si una casilla está resaltada
