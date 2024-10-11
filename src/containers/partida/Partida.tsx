@@ -54,11 +54,12 @@ function Partida() {
                     <CardInfoDelTurno />
                     <ButtonPasarTurno />
                 </div>
-                    <Board id_partida={partida.id} />
+                <Board id_partida={partida.id} />
                 <div>
-                    <div>
-                        <CartasDeLosJugadores id_jugador={jugador.id} id_partida={id_partida}/>
-                    </div>
+                    <CartasDeLosJugadores
+                        id_jugador={jugador.id}
+                        id_partida={id_partida}
+                    />
                 </div>
             </div>
             <div className="flex flex-row gap-10">
@@ -68,7 +69,6 @@ function Partida() {
                 />
                 <CartasFigura id_partida={id_partida} id_jugador={jugador.id} />
             </div>
-            
         </div>
     );
 }

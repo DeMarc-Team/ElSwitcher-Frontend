@@ -7,8 +7,16 @@ import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimient
 import Cartas from "./Cartas";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
 
-const CartasDeLosJugadores = ({id_partida,id_jugador,}: {id_partida: number;id_jugador: number;}) => {
-    const [cartasMovimiento, setCartasMovimiento] = useState<CartaMovimiento[][]>([]);
+const CartasDeLosJugadores = ({
+    id_partida,
+    id_jugador,
+}: {
+    id_partida: number;
+    id_jugador: number;
+}) => {
+    const [cartasMovimiento, setCartasMovimiento] = useState<
+        CartaMovimiento[][]
+    >([]);
 
     useEffect(() => {
         fetchCartasMovimiento();
@@ -16,15 +24,20 @@ const CartasDeLosJugadores = ({id_partida,id_jugador,}: {id_partida: number;id_j
 
     const fetchCartasMovimiento = async () => {
         try {
-            const jugadores = (await ObtenerInfoPartida (id_partida)).jugadores
-            const jugadoresFiltrados = jugadores.filter(jugador => jugador.id_jugador !== id_jugador);
-            let cartaslist : CartaMovimiento[][] = []
-            for (const vercartas of jugadoresFiltrados){
-                const data = await ObtenerCartasMovimientos(id_partida, vercartas.id_jugador);
+            const jugadores = (await ObtenerInfoPartida(id_partida)).jugadores;
+            const jugadoresFiltrados = jugadores.filter(
+                (jugador) => jugador.id_jugador !== id_jugador
+            );
+            let cartaslist: CartaMovimiento[][] = [];
+            for (const vercartas of jugadoresFiltrados) {
+                const data = await ObtenerCartasMovimientos(
+                    id_partida,
+                    vercartas.id_jugador
+                );
                 const cartas = data.map((carta) =>
                     imageCartaMovimiento(carta.movimiento)
                 );
-                cartaslist.push(cartas)
+                cartaslist.push(cartas);
             }
             setCartasMovimiento(cartaslist);
         } catch (error) {
@@ -49,4 +62,4 @@ const CartasDeLosJugadores = ({id_partida,id_jugador,}: {id_partida: number;id_j
     );
 };
 
-export {CartasDeLosJugadores}
+export { CartasDeLosJugadores };
