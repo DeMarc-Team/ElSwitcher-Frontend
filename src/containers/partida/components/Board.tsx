@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ObtenerTablero } from "../../../services/api/ver_tablero";
-import { cn } from "@/services/shadcn_lib/utils";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import { usePartida } from "@/context/PartidaContext";
@@ -10,13 +9,11 @@ import {
 } from "@/services/api/jugar_carta_movimiento";
 import { ResaltarCasillasMovimientos } from "@/containers/partida/components/ResalatarCasillasMovimientos";
 import { esTurnoDelJugador } from "@/containers/partida/components/EsTurnoDelJugador";
-
-const COLORES: string[] = [
-    "red", // 0
-    "green", // 1
-    "blue", // 2
-    "yellow", // 3
-];
+import {
+    manejarSeleccion,
+    reiniciarSeleccion,
+} from "@/containers/partida/components/ManejarSeleccion"; // Importamos aquí ambas funciones
+import Celda from "@/containers/partida/components/Celda";
 
 interface DashboardProps {
     id_partida: number;
@@ -42,7 +39,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     } = useMovimientoContext();
 
     useEffect(() => {
-        fetchTablero(); // Se ejecuta solo cuando el componente se monta
+        fetchTablero(); // Se ejecuta cuando el componente se monta
     }, []);
 
     const fetchTablero = async () => {
@@ -54,6 +51,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         }
     };
 
+    // Resaltar casillas para los movimientos
     const resaltarCasillas = (row: number, col: number) => {
         if (rotVec && codigoCartaMovimiento) {
             const casillasMove = ResaltarCasillasMovimientos(
@@ -66,6 +64,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         }
     };
 
+    // Enviar movimiento al backend
     const enviarMovimiento = async (casilla1: Casilla, casilla2: Casilla) => {
         if (esTurnoDelJugador(cartaSeleccionada, turno_actual, jugador)) {
             if (codigoCartaMovimiento && jugador?.id) {
@@ -93,81 +92,64 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         }
     };
 
-    const handleButtonClick = (row: number, col: number) => {
-        console.log("Clicked cell:", { row, col });
-        if (!primeraSeleccion) {
-            setPrimeraSeleccion({ row, col });
-            setPasarTurno(false);
-            resaltarCasillas(row, col);
-        } else if (primeraSeleccion && !segundaSeleccion) {
-            if (!esCasillaResaltada(row, col)) {
-                setPrimeraSeleccion({ row, col });
-                setPasarTurno(false);
-                resaltarCasillas(row, col);
-            } else {
-                setSegundaSeleccion({ row, col });
-                enviarMovimiento(
-                    { row: primeraSeleccion.row, col: primeraSeleccion.col },
-                    { row, col }
-                ).then(() => {
-                    setPrimeraSeleccion(null);
-                    setSegundaSeleccion(null);
-                    setCartaSeleccionada(undefined);
-                    setCasillasMovimientos([]);
-                });
-                setPasarTurno(true);
-            }
-        } else {
-            console.log("Ya has seleccionado ambas celdas.");
-        }
+    const manejarSeleccionClick = (row: number, col: number) => {
+        manejarSeleccion(
+            row,
+            col,
+            primeraSeleccion,
+            setPrimeraSeleccion,
+            segundaSeleccion,
+            setSegundaSeleccion,
+            setPasarTurno,
+            esCasillaResaltada,
+            resaltarCasillas,
+            enviarMovimiento,
+            () =>
+                reiniciarSeleccion(
+                    setPrimeraSeleccion,
+                    setSegundaSeleccion,
+                    setCartaSeleccionada,
+                    setCasillasMovimientos
+                )
+        );
     };
 
-    useEffect(() => {
-        fetchTablero();
-        setCartaSeleccionada(undefined);
-        setCasillasMovimientos([]);
-    }, [triggeractualizarTablero]);
+    // Condición para deshabilitar botones
+    const estaDeshabilitado = () => {
+        return (
+            cartaSeleccionada === undefined || turno_actual?.id !== jugador?.id
+        );
+    };
 
+    // Verificar si una casilla está resaltada
     const esCasillaResaltada = (row: number, col: number) => {
         return casillasMovimientos.some(
             (casilla) => casilla.row === row && casilla.col === col
         );
     };
 
+    // Actualizar tablero cuando se detecte un cambio en el WebSocket
+    useEffect(() => {
+        fetchTablero();
+        setCartaSeleccionada(undefined);
+        setCasillasMovimientos([]);
+    }, [triggeractualizarTablero]);
+
     return (
         <div className="flex h-fit w-[388px] items-center justify-center">
             <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-4 border-black bg-yellow-100 p-2 shadow-2xl">
                 {tablero.map((row: any[], rowIndex: number) =>
                     row.map((cell, colIndex) => (
-                        <button
+                        <Celda
                             key={`${rowIndex}-${colIndex}`}
-                            className={cn(
-                                "flex h-12 w-12 items-center justify-center rounded-lg border-2 border-black shadow-lg hover:scale-110",
-                                `bg-${COLORES[cell - 1]}-400`,
-                                {
-                                    "cursor-not-allowed":
-                                        cartaSeleccionada === null ||
-                                        turno_actual?.id !== jugador?.id,
-                                },
-                                {
-                                    "scale-110 border-[3px] saturate-150":
-                                        primeraSeleccion &&
-                                        primeraSeleccion.row === rowIndex &&
-                                        primeraSeleccion.col === colIndex,
-                                },
-                                {
-                                    "animate-bounce-loop border-[3px] border-dashed saturate-150 hover:animate-none":
-                                        esCasillaResaltada(rowIndex, colIndex),
-                                }
-                            )}
-                            onClick={() =>
-                                handleButtonClick(rowIndex, colIndex)
-                            }
-                            disabled={
-                                cartaSeleccionada === undefined ||
-                                turno_actual?.id !== jugador?.id
-                            }
-                        ></button>
+                            rowIndex={rowIndex}
+                            colIndex={colIndex}
+                            cell={cell}
+                            handleClick={manejarSeleccionClick} // Cambia aquí
+                            esResaltada={esCasillaResaltada}
+                            primeraSeleccion={primeraSeleccion}
+                            estaDeshabilitado={estaDeshabilitado}
+                        />
                     ))
                 )}
             </div>
