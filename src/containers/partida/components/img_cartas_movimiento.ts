@@ -10,17 +10,58 @@ import DorsoCarta from "@/components/assets/cartas/DorsoCarta.png";
 interface CartaMovimiento {
     code: string;
     img: string;
+    parcialmente_usada: boolean;
+    rot_vec: { x: number; y: number };
 }
-
 const CARTAS_MOVIMIENTO: CartaMovimiento[] = [
-    { code: "m1", img: Movimiento1 },
-    { code: "m2", img: Movimiento2 },
-    { code: "m3", img: Movimiento3 },
-    { code: "m4", img: Movimiento4 },
-    { code: "m5", img: Movimiento5 },
-    { code: "m6", img: Movimiento6 },
-    { code: "m7", img: Movimiento7 },
-    { code: "dorso", img: DorsoCarta },
+    {
+        code: "m1",
+        img: Movimiento1,
+        parcialmente_usada: false,
+        rot_vec: { x: 2, y: 2 },
+    },
+    {
+        code: "m2",
+        img: Movimiento2,
+        parcialmente_usada: false,
+        rot_vec: { x: 2, y: 0 },
+    },
+    {
+        code: "m3",
+        img: Movimiento3,
+        parcialmente_usada: false,
+        rot_vec: { x: 1, y: 0 },
+    },
+    {
+        code: "m4",
+        img: Movimiento4,
+        parcialmente_usada: false,
+        rot_vec: { x: 1, y: 1 },
+    },
+    {
+        code: "m5",
+        img: Movimiento5,
+        parcialmente_usada: false,
+        rot_vec: { x: 2, y: 1 },
+    },
+    {
+        code: "m6",
+        img: Movimiento6,
+        parcialmente_usada: false,
+        rot_vec: { x: 1, y: 2 },
+    },
+    {
+        code: "m7",
+        img: Movimiento7,
+        parcialmente_usada: false,
+        rot_vec: { x: 4, y: 0 },
+    },
+    {
+        code: "dorso",
+        img: DorsoCarta,
+        parcialmente_usada: false,
+        rot_vec: { x: 0, y: 0 },
+    },
 ];
 
 const imageCartaMovimiento = (code: string): CartaMovimiento => {
@@ -34,5 +75,4 @@ const imageCartaMovimiento = (code: string): CartaMovimiento => {
         (carta) => carta.code === "dorso"
     ) as CartaMovimiento;
 };
-
 export { imageCartaMovimiento, CARTAS_MOVIMIENTO, type CartaMovimiento };

@@ -17,8 +17,8 @@ const PasarTurno = async (idPartida: number, idJugador: number) => {
 
         return response.json();
     } catch (error) {
-        console.error("Error al pasar el turno:", error);
-        throw new Error("Error al pasar el turno.");
+        console.error("Error al pasar el turno-:", error);
+        throw new Error("Error al pasar el turno-.");
     }
 };
 

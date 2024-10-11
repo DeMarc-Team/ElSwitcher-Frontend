@@ -53,6 +53,7 @@ const CartasFigura = ({
                         middle={isMiddleCard(cartasFiguras, index)}
                         altText={`Carta ${index + 1}`}
                         onClick={() => {}}
+                        isSelect={false}
                     />
                 );
             })}
