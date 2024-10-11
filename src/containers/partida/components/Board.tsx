@@ -24,6 +24,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const {turno_actual} = usePartida();
     const { showToastError, closeToast } = useNotification();
 
+
     const fetchTablero = async () => {
         try {
             const data = await ObtenerTablero(id_partida);
@@ -62,7 +63,9 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         if (figura && figura.nombre === cartaFSeleccionada) {
             setFiguraSeleccionada(figura); 
             //Acá debería de tirar la carta de la mano 
-            console.log("Jugada hecha")
+            setTimeout(() => {
+                setFiguraSeleccionada(null);
+            }, 5000);
         }
         else{
             setFiguraSeleccionada(null); 
@@ -98,7 +101,8 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                         ? "border-4 border-red-600"
                         : esParteDeFigura
                         ? "border-4 border-blue-600"
-                        : "border-2 border-black"
+                        : "border-2 border-black",
+                    cartaFSeleccionada ? "cursor-default":"cursor-not-allowed",
                 )}
                 disabled={!cartaFSeleccionada}
                 onClick={() => seleccionarFigura(rowIndex,colIndex)}
