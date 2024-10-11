@@ -14,7 +14,7 @@ const JugarCartaMovimiento = async (
     casilla2: Casilla,
     id_partida: number,
     id_jugador: number,
-    codCartaMov: string,
+    codCartaMov: string
 ): Promise<CoordenadasResponse> => {
     try {
         const response = await fetch(
@@ -33,7 +33,7 @@ const JugarCartaMovimiento = async (
                         row: casilla2.row,
                         col: casilla2.col,
                     },
-                    codeMove: codCartaMov
+                    codeMove: codCartaMov,
                 }),
             }
         );

@@ -29,7 +29,6 @@ const useWebSocketPartida = () => {
     // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
 
-
     const openConnectionToPartida = (
         partida_id: string,
         jugador_id: string
