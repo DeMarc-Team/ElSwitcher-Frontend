@@ -52,6 +52,7 @@ const CartasFigura = ({
                         rotation={Rotation(cartasFiguras, index)}
                         middle={isMiddleCard(cartasFiguras, index)}
                         altText={`Carta ${index + 1}`}
+                        isSelect={false}
                     />
                 );
             })}
