@@ -49,4 +49,20 @@ const mockCartasMovimiento: CartaMovimientoResponse[] = [
         movimiento: "m5",
         parcialmente_usada: false,
     },
+    {
+        movimiento: "m1",
+        parcialmente_usada: false,
+    },
+    {
+        movimiento: "m4",
+        parcialmente_usada: false,
+    },
+    {
+        movimiento: "m3",
+        parcialmente_usada: false,
+    },
+    {
+        movimiento: "m7",
+        parcialmente_usada: false,
+    },
 ];
