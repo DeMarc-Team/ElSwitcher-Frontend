@@ -4,6 +4,7 @@ import ButtonPasarTurno from "@/containers/partida/components/ButtonPasarTurno";
 import { PasarTurno } from "@/services/api/pasar_turno";
 import { usePartida } from "@/context/PartidaContext";
 import { useNotification } from "@/hooks/useNotification";
+import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 
 // Mockear `usePartida`
 vi.mock("@/context/PartidaContext", () => ({
@@ -59,7 +60,10 @@ describe("ButtonPasarTurno", () => {
         });
 
         // Renderizar el componente
-        render(<ButtonPasarTurno />);
+        render(
+            <MovimientoContextProvider>
+            <ButtonPasarTurno />
+            </MovimientoContextProvider>);
 
         // Verificar que se muestra "Pasar turno"
         expect(screen.getByText("Pasar turno")).toBeInTheDocument();
@@ -83,7 +87,10 @@ describe("ButtonPasarTurno", () => {
         });
 
         // Renderizar el componente
-        render(<ButtonPasarTurno />);
+        render(
+            <MovimientoContextProvider>
+            <ButtonPasarTurno />
+            </MovimientoContextProvider>);
 
         // Verificar que se muestra "Espera tú turno"
         expect(screen.getByText("Espera tú turno")).toBeInTheDocument();
@@ -102,7 +109,10 @@ describe("ButtonPasarTurno", () => {
         vi.mocked(PasarTurno).mockRejectedValue(new Error("Error de red"));
 
         // Renderizar el componente
-        render(<ButtonPasarTurno />);
+        render(
+            <MovimientoContextProvider>
+            <ButtonPasarTurno />
+            </MovimientoContextProvider>);
 
         // Simular el click en el botón de pasar turno
         await act(async () => {
