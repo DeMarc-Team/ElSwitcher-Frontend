@@ -7,6 +7,7 @@ import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimient
 import Cartas from "./Cartas";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { usePartida } from "@/context/PartidaContext";
+import { useNotification } from "@/hooks/useNotification";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
@@ -33,19 +34,29 @@ const CartasMovimiento = ({
         []
     );
     const {
+        cartaSeleccionada,
+        setPrimeraSeleccion,
+        setCasillasMovimientos,
         setCartaSeleccionada,
         setCodigoCartaMovimiento,
         setParcialmenteUsada,
         setRotVec,
     } = useMovimientoContext();
     const { turno_actual, jugador } = usePartida();
+    const { showToastInfo, closeToast } = useNotification();
 
     const cartaCodigoMovimiento = (index: number, code: string) => {
         if (turno_actual?.id == jugador?.id) {
+            setPrimeraSeleccion(null);
+            setCasillasMovimientos([]);
             setCartaSeleccionada(index);
             setCodigoCartaMovimiento(code);
             setParcialmenteUsada(cartasMovimiento[index].parcialmente_usada);
             setRotVec(cartasMovimiento[index].rot_vec);
+            showToastInfo("Selecciona una casilla.");
+            setTimeout(() => {
+                closeToast();
+            }, 1000);
         }
     };
 
@@ -82,6 +93,7 @@ const CartasMovimiento = ({
                         onClick={() => {
                             cartaCodigoMovimiento(index, carta.code);
                         }}
+                        isSelect={cartaSeleccionada === index}
                     />
                 );
             })}

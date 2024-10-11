@@ -24,9 +24,7 @@ interface DashboardProps {
 
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tablero, setTablero] = useState<number[][]>([]);
-    const [casillasMovimientos, SetCasillasMovimientos] = useState<Casilla[]>(
-        []
-    );
+
     const { turno_actual, jugador } = usePartida();
     const { triggeractualizarTablero } = useInsidePartidaWebSocket();
     const {
@@ -39,6 +37,8 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         codigoCartaMovimiento,
         setPasarTurno,
         rotVec,
+        casillasMovimientos,
+        setCasillasMovimientos,
     } = useMovimientoContext();
 
     useEffect(() => {
@@ -62,7 +62,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                 rotVec,
                 codigoCartaMovimiento
             );
-            SetCasillasMovimientos(casillasMove);
+            setCasillasMovimientos(casillasMove);
         }
     };
 
@@ -101,8 +101,9 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             resaltarCasillas(row, col);
         } else if (primeraSeleccion && !segundaSeleccion) {
             if (!esCasillaResaltada(row, col)) {
-                SetCasillasMovimientos([]);
-                setPrimeraSeleccion(null);
+                setPrimeraSeleccion({ row, col });
+                setPasarTurno(false);
+                resaltarCasillas(row, col);
             } else {
                 setSegundaSeleccion({ row, col });
                 enviarMovimiento(
@@ -111,6 +112,8 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                 ).then(() => {
                     setPrimeraSeleccion(null);
                     setSegundaSeleccion(null);
+                    setCartaSeleccionada(undefined);
+                    setCasillasMovimientos([]);
                 });
                 setPasarTurno(true);
             }
@@ -122,7 +125,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     useEffect(() => {
         fetchTablero();
         setCartaSeleccionada(undefined);
-        SetCasillasMovimientos([]);
+        setCasillasMovimientos([]);
     }, [triggeractualizarTablero]);
 
     const esCasillaResaltada = (row: number, col: number) => {
@@ -147,13 +150,13 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                                         turno_actual?.id !== jugador?.id,
                                 },
                                 {
-                                    "border-red-500 bg-opacity-50":
+                                    "scale-110 border-[3px] saturate-150":
                                         primeraSeleccion &&
                                         primeraSeleccion.row === rowIndex &&
                                         primeraSeleccion.col === colIndex,
                                 },
                                 {
-                                    "border-indigo-500 bg-opacity-50":
+                                    "animate-bounce-loop border-[3px] border-dashed saturate-150 hover:animate-none":
                                         esCasillaResaltada(rowIndex, colIndex),
                                 }
                             )}

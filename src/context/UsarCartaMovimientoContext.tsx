@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { Casilla } from "@/services/api/jugar_carta_movimiento";
 
 interface UsarCartaMovimientoContextProps {
     primeraSeleccion: { row: number; col: number } | null;
@@ -8,6 +9,7 @@ interface UsarCartaMovimientoContextProps {
     pasarTurno: boolean | null;
     parcialmenteUsada: boolean | null;
     rotVec: { x: number; y: number } | null;
+    casillasMovimientos: Casilla[];
     setPrimeraSeleccion: (
         primeraSeleccion: {
             row: number;
@@ -25,6 +27,7 @@ interface UsarCartaMovimientoContextProps {
     setPasarTurno: (pasarTurno: boolean | null) => void;
     setParcialmenteUsada: (parcialmenteUsada: boolean | null) => void;
     setRotVec: (rotVec: { x: number; y: number } | null) => void;
+    setCasillasMovimientos: (casillasMovimientos: Casilla[]) => void;
 }
 
 const MovimientoContext = createContext<
@@ -53,6 +56,9 @@ export const MovimientoContextProvider: React.FC<{
         null
     );
     const [rotVec, setRotVec] = useState<{ x: number; y: number } | null>(null);
+    const [casillasMovimientos, setCasillasMovimientos] = useState<Casilla[]>(
+        []
+    );
 
     return (
         <MovimientoContext.Provider
@@ -64,6 +70,7 @@ export const MovimientoContextProvider: React.FC<{
                 pasarTurno,
                 parcialmenteUsada,
                 rotVec,
+                casillasMovimientos,
                 setPrimeraSeleccion,
                 setSegundaSeleccion,
                 setCartaSeleccionada,
@@ -71,6 +78,7 @@ export const MovimientoContextProvider: React.FC<{
                 setPasarTurno,
                 setParcialmenteUsada,
                 setRotVec,
+                setCasillasMovimientos,
             }}
         >
             {children}
