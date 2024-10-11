@@ -115,11 +115,9 @@ export { ObtenerTablero, type Tablero, type Casilla, type Figura};
 
 // const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
 //     // Simulando la respuesta hardcoded
-//     return new Promise((resolve) => {
-//         resolve({
+//     return{
 //             tablero6x6: hardcodedTablero,
 //             figuras: hardcodedFiguras,
-//         });
-//     });
+//     };
 // };
-//export { ObtenerTablero, type Tablero, type Casilla, type Figura};
+// export { ObtenerTablero, type Tablero, type Casilla, type Figura};

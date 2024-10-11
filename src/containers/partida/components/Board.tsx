@@ -22,6 +22,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     const [figuraSeleccionada, setFiguraSeleccionada] = useState<Figura | null>(null);
     const { cartaFSeleccionada,setExisteFigura } = useFiguraContext();
     const {turno_actual} = usePartida();
+    const { showToastError, closeToast } = useNotification();
 
     const fetchTablero = async () => {
         try {
@@ -64,8 +65,11 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             console.log("Jugada hecha")
         }
         else{
-            console.log("Jugada NO hecha")
             setFiguraSeleccionada(null); 
+            showToastError("No se puede hacer esa jugada")
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
         }
     }
 
