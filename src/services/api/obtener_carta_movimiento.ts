@@ -10,7 +10,7 @@ const ObtenerCartasMovimientos = async (
     id_jugador: number
 ): Promise<CartaMovimientoResponse[]> => {
     try {
-        /*const response = await fetch(
+        const response = await fetch(
             `${API_HOST}/juego/${id_partida}/jugadores/${id_jugador}/cartas_movimiento`,
             {
                 method: "GET",
@@ -25,9 +25,16 @@ const ObtenerCartasMovimientos = async (
                 `Fallo obteniendo las cartas movimientos!  Status: ${response.status}`
             );
         }
+        let data = await response.json();
 
-        return await response.json();*/
-        return mockCartasMovimiento;
+        // TODO: cuando este el back, quitar esto:
+        data = data.map((carta: any) => {
+            return {
+                movimiento: carta.movimiento,
+                parcialmente_usada: false,
+            };
+        });
+        return data;
     } catch (error) {
         console.error("Error cartas de movimientos:", error);
         throw error;
