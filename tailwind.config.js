@@ -51,6 +51,15 @@ export default {
                     5: "hsl(var(--chart-5))",
                 },
             },
+            keyframes: {
+                bounceSmall: {
+                    "0%, 100%": { transform: "scale(1)" },
+                    "50%": { transform: "scale(1.10)" },
+                },
+            },
+            animation: {
+                "bounce-loop": "bounceSmall 1s ease-in-out infinite",
+            },
         },
     },
     plugins: [require("tailwindcss-animate")],
