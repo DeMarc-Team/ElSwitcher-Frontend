@@ -27,10 +27,11 @@ export const useNotification = () => {
         });
     };
 
-    const showToastInfo = (message: string) => {
+    const showToastInfo = (message: string, green = false) => {
         toast({
             title: `INFO:`,
             description: message,
+            variant: green ? "success" : "default",
         });
     };
 

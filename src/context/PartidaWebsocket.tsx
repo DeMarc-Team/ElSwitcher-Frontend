@@ -11,6 +11,7 @@ interface PartidaWebsocketContextType {
     triggerHayGanador: boolean;
     triggerActualizarSalaEspera: boolean;
     triggerActualizarTurno: boolean;
+    triggeractualizarTablero: boolean;
 }
 
 const PartidaWebsocketContext = createContext<
@@ -25,6 +26,7 @@ export const PartidaWebsocketProvider: React.FC<{ children: ReactNode }> = ({
         readyState,
         triggerActualizarTurno,
         triggerActualizarSalaEspera,
+        triggeractualizarTablero,
         triggerHayGanador,
         ganadorInfo,
         closeConnection,
@@ -40,6 +42,7 @@ export const PartidaWebsocketProvider: React.FC<{ children: ReactNode }> = ({
                 openConnectionToPartida,
                 triggerActualizarSalaEspera,
                 triggerActualizarTurno,
+                triggeractualizarTablero,
                 triggerHayGanador,
                 ganadorInfo,
             }}
