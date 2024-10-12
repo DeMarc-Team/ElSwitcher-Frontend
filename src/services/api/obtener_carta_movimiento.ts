@@ -2,7 +2,7 @@ import { API_HOST } from "./const";
 
 interface CartaMovimientoResponse {
     movimiento: string;
-    parcialmente_usada: boolean;
+    usada_en_movimiento_parcial: boolean;
 }
 
 const ObtenerCartasMovimientos = async (
@@ -26,14 +26,6 @@ const ObtenerCartasMovimientos = async (
             );
         }
         let data = await response.json();
-
-        // TODO: cuando este el back, quitar esto:
-        data = data.map((carta: any) => {
-            return {
-                movimiento: carta.movimiento,
-                parcialmente_usada: false,
-            };
-        });
         return data;
     } catch (error) {
         console.error("Error cartas de movimientos:", error);
