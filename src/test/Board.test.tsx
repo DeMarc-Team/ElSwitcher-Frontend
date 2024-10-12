@@ -102,8 +102,15 @@ describe("Componente Board", () => {
     });
 
     test("Se están detectando las figuras del tablero", async () => {
-        render(<Board id_partida={1} />);
-
+        render(
+            <PartidaWebsocketProvider>
+                <PartidaProvider>
+                    <MovimientoContextProvider>
+                        <Board id_partida={1} />
+                    </MovimientoContextProvider>
+                </PartidaProvider>
+            </PartidaWebsocketProvider>
+        );
         const buttons = await screen.findAllByRole("button");
 
         expect(buttons[0]).toHaveClass("border-4 border-blue-600");
