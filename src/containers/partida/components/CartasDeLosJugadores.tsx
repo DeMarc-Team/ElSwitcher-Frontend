@@ -9,13 +9,6 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
 
 const CartasDeLosJugadores = ({
     id_partida,
@@ -58,63 +51,66 @@ const CartasDeLosJugadores = ({
     };
 
     return (
-        <Carousel className="ml-12 border-2 border-black">
-            <CarouselContent>
+        <Accordion type="single" collapsible>
                 {cartasFiguras.map((cartasJugador, indexJugador) => (
-                    <CarouselItem key={indexJugador} className="bg-yellow-100">
-                        <h3 className="text-center text-lg font-bold">
-                            Cartas de {nombresJugadores[indexJugador]}
-                        </h3>
-                        <div className="flex flex-row">
-                            {cartasJugador.map((carta, indexCarta) => (
-                                <div
-                                    key={`${indexJugador}-${indexCarta}-carta-figura`}
-                                    className="m-2"
-                                >
-                                    <Cartas
-                                        imgSrc={carta.img}
-                                        rotation={0}
-                                        middle={false}
-                                        altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
-                                    />
+                    <div key={indexJugador}>
+                        <AccordionItem value={`item-${indexJugador}`}>
+                            <AccordionTrigger className="text-sm px-10 py-1">
+                                Cartas de {nombresJugadores[indexJugador]}
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <div className="flex flex-row justify-center">
+                                    {cartasJugador.map((carta, indexCarta) => (
+                                        <div key={`${indexJugador}-${indexCarta}-carta-figura`} className="m-2 w-20 h-full">
+                                            <Cartas
+                                                imgSrc={carta.img}
+                                                rotation={0}
+                                                middle={false}
+                                                altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </CarouselItem>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </div>
                 ))}
-            </CarouselContent>
-            <CarouselPrevious className="bg-yellow-100" />
-            <CarouselNext className="bg-yellow-100" />
-        </Carousel>
+        </Accordion>
     );
+    
 };
 
 export { CartasDeLosJugadores };
 
+
+
 // return (
-//     <Accordion type="single" collapsible>
+//     <Carousel className="ml-12 border-2 border-black">
+//         <CarouselContent>
 //             {cartasFiguras.map((cartasJugador, indexJugador) => (
-//                 <div key={indexJugador}>
-//                     <AccordionItem value={`item-${indexJugador}`}>
-//                         <AccordionTrigger className="text-sm px-10 py-1">
-//                             Cartas de {nombresJugadores[indexJugador]}
-//                         </AccordionTrigger>
-//                         <AccordionContent>
-//                             <div className="flex flex-row">
-//                                 {cartasJugador.map((carta, indexCarta) => (
-//                                     <div key={`${indexJugador}-${indexCarta}-carta-figura`} className="m-2">
-//                                         <Cartas
-//                                             imgSrc={carta.img}
-//                                             rotation={0}
-//                                             middle={false}
-//                                             altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
-//                                         />
-//                                     </div>
-//                                 ))}
+//                 <CarouselItem key={indexJugador} className="bg-yellow-100">
+//                     <h3 className="text-center text-lg font-bold">
+//                         Cartas de {nombresJugadores[indexJugador]}
+//                     </h3>
+//                     <div className="flex flex-row">
+//                         {cartasJugador.map((carta, indexCarta) => (
+//                             <div
+//                                 key={`${indexJugador}-${indexCarta}-carta-figura`}
+//                                 className="m-2"
+//                             >
+//                                 <Cartas
+//                                     imgSrc={carta.img}
+//                                     rotation={0}
+//                                     middle={false}
+//                                     altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
+//                                 />
 //                             </div>
-//                         </AccordionContent>
-//                     </AccordionItem>
-//                 </div>
+//                         ))}
+//                     </div>
+//                 </CarouselItem>
 //             ))}
-//     </Accordion>
-//     );
+//         </CarouselContent>
+//         <CarouselPrevious className="bg-yellow-100" />
+//         <CarouselNext className="bg-yellow-100" />
+//     </Carousel>
+// );
