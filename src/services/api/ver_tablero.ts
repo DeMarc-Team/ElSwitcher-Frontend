@@ -40,8 +40,7 @@ const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
         let tablero = data.tablero;
 
         const figuras = procesarFiguras(data.figuras_a_resaltar);
-        console.log("Lo que fetcheo")
-        console.log(figuras)
+
         return {
             tablero6x6: tablero,
             figuras,

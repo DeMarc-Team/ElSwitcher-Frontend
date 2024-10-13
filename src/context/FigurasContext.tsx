@@ -5,10 +5,10 @@ import React, { createContext, useContext, useState } from "react";
 
 interface UsarCartaFiguraContextProps {
     existeFigura: string[] | null;
-    cartaFSeleccionada: string | null;
+    cartaFSeleccionada: string | undefined;
     figuraSeleccionada: Figura | null;
     esParteDeFiguraSeleccionada: Boolean;
-    setCartaFSeleccionada: (cartaSeleccionada: string) => void;
+    setCartaFSeleccionada: (cartaSeleccionada: string | undefined) => void;
     setExisteFigura: (existeFigura: string[]) => void;
     setFiguraSeleccionada: (figuraSeleccionada: Figura | null) => void;
     setEsParteDeFiguraSeleccionada: (
@@ -23,8 +23,8 @@ const FiguraContext = createContext<UsarCartaFiguraContextProps | undefined>(
 export const FiguraContextProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const [cartaFSeleccionada, setCartaFSeleccionada] = useState<string | null>(
-        null
+    const [cartaFSeleccionada, setCartaFSeleccionada] = useState<string | undefined>(
+        undefined
     );
     const [existeFigura, setExisteFigura] = useState<string[] | null>(null);
     const [figuraSeleccionada, setFiguraSeleccionada] = useState<Figura | null>(

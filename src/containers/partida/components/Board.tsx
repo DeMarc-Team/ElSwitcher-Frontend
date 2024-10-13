@@ -16,7 +16,6 @@ import {
 import Celda from "@/containers/partida/components/Celda";
 import { useNotification } from "@/hooks/useNotification";
 import { useFiguraContext } from "@/context/FigurasContext";
-import { JugarCartaFigura } from "@/services/api/jugar_carta_figura";
 
 interface DashboardProps {
     id_partida: number;
@@ -111,7 +110,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
 
     const manejarSeleccionClick = (row: number, col: number) => {
         // Verificar si hay una carta seleccionada
-        if (cartaFSeleccionada !== undefined || cartaFSeleccionada !== null) {
+        if (cartaSeleccionada !== undefined || cartaFSeleccionada !== undefined) {
             // Si existe una carta seleccionada
             if (cartaSeleccionada !== undefined) {
                 // Manejar la lógica de selección de carta normal
@@ -146,7 +145,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                 if (figura && figura.nombre === cartaFSeleccionada) {
                     // Si la figura coincide, seleccionar la figura
                     setFiguraSeleccionada(figura);
-                    //ACÁ MANEJAR EL LLAMADO A LA API PARA LAS FIGURAS
+                    // ACÁ MANEJAR EL LLAMADO A LA API PARA LAS FIGURAS
                     // if (jugador != undefined) {
                     //     JugarCartaFigura(figura.casillas, id_partida, jugador.id, figura.nombre)
                     //         .then((response) => {

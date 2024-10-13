@@ -29,7 +29,7 @@ const CartasFigura = ({
     id_jugador: number;
 }) => {
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
-    const { showToastError, closeToast } = useNotification();
+    const { showToastInfo, showToastError, closeToast } = useNotification();
     const { turno_actual } = usePartida();
     const miSession = LoadSessionJugador();
     const { setCartaFSeleccionada, existeFigura } = useFiguraContext();
@@ -42,7 +42,7 @@ const CartasFigura = ({
         try {
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
             const cartas = data.map((carta) =>
-                imageCartaFigura(carta.figura, carta.revelada)
+                imageCartaFigura(carta.figura)
             );
             setCartasFiguras(cartas);
         } catch (error) {
@@ -51,13 +51,11 @@ const CartasFigura = ({
     };
 
     const seleccionarCarta = (codigo: string) => {
-        console.log(codigo);
-        console.log(existeFigura);
         if (turno_actual?.id == miSession?.id) {
             if (existeFigura?.includes(codigo)) {
                 setCartaFSeleccionada(codigo);
             } else {
-                showToastError("No se puede jugar esta carta");
+                showToastInfo("Tú carta no coincide con alguna figura del tablero.", true);
                 setTimeout(() => {
                     closeToast();
                 }, 2000);
@@ -72,8 +70,9 @@ const CartasFigura = ({
 
     //Los estados que debo de limpiar al cambiar de turno
     useEffect(() => {
-        setCartaFSeleccionada("");
+        setCartaFSeleccionada(undefined);
     }, [turno_actual]);
+    
     return (
         <div className="flex flex-row gap-2">
             {cartasFiguras.map((carta, index) => {
