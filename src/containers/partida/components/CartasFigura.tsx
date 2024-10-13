@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { imageCartaFigura, type CartaFigura } from "./img_cartas_figura";
 import { ObtenerCartasFiguras } from "@/services/api/obtener_carta_figura";
 import Cartas from "./Cartas";
+import { useNotification } from "@/hooks/useNotification";
+import { usePartida } from "@/context/PartidaContext";
+import { LoadSessionJugador } from "@/services/session_browser";
+import { useFiguraContext } from "@/context/FigurasContext";
+
 
 const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
     if (cartasFiguras.length === 3) {
@@ -25,6 +30,10 @@ const CartasFigura = ({
     id_jugador: number;
 }) => {
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
+    const { showToastError, closeToast } = useNotification();
+    const {turno_actual} = usePartida();
+    const miSession = LoadSessionJugador();
+    const{setCartaFSeleccionada,existeFigura} = useFiguraContext();
 
     useEffect(() => {
         fetchCartasFigura();
@@ -42,6 +51,30 @@ const CartasFigura = ({
         }
     };
 
+    const seleccionarCarta = (codigo: string) => {
+
+        if (turno_actual?.id == miSession?.id) {
+            if(existeFigura?.includes(codigo)){
+                setCartaFSeleccionada(codigo);
+            }
+            else{
+                showToastError("No se puede jugar esta carta");
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
+            }
+        } else {
+            showToastError("Espera tu turno para jugar");
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
+        }
+    };
+
+    //Los estados que debo de limpiar al cambiar de turno
+    useEffect(() => {
+        setCartaFSeleccionada("");
+    }, [turno_actual]);
     return (
         <div className="flex flex-row gap-2">
             {cartasFiguras.map((carta, index) => {
@@ -52,7 +85,7 @@ const CartasFigura = ({
                         rotation={Rotation(cartasFiguras, index)}
                         middle={isMiddleCard(cartasFiguras, index)}
                         altText={`Carta ${index + 1}`}
-                        onClick={() => {}}
+                        onClick={()=>seleccionarCarta(carta.code)}
                         isSelect={false}
                     />
                 );
