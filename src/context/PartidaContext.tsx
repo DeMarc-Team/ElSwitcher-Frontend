@@ -19,12 +19,9 @@ const PartidaContext = createContext<PartidaContextType | undefined>(undefined);
 export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const { partida, jugador, isDataLoaded, setPartida, setJugador } =
-        usePartidaSession();
+    const { partida, jugador, isDataLoaded, setPartida, setJugador } = usePartidaSession();
     const [ganador, setGanador] = useState<Jugador | undefined>(undefined);
-    const [turno_actual, setTurnoActual] = useState<Jugador | undefined>(
-        undefined
-    );
+    const [turno_actual, setTurnoActual] = useState<Jugador | undefined>(undefined);
 
     return (
         <PartidaContext.Provider

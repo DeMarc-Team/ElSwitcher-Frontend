@@ -77,7 +77,7 @@ const procesarFiguras = (figurasResaltadas: any): Figura[] => {
 
     return figuras;
 };
-
+export {ObtenerTablero,type Casilla,type Figura, type Tablero}
 
 //Hardcodeo para probar el destacado de las figuras
 // const hardcodedTablero: number[][] = [
