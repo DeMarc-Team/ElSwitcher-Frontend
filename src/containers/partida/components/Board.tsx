@@ -15,6 +15,7 @@ import {
 } from "@/containers/partida/components/manejar_seleccion";
 import Celda from "@/containers/partida/components/Celda";
 import { useNotification } from "@/hooks/useNotification";
+import { useFiguraContext } from "@/context/FigurasContext";
 
 interface DashboardProps {
     id_partida: number;
@@ -38,17 +39,31 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         casillasMovimientos,
         setCasillasMovimientos,
     } = useMovimientoContext();
-    const { showToastInfo, closeToast } = useNotification();
+    const { showToastError, showToastInfo, closeToast } = useNotification();
+    const { cartaFSeleccionada,
+            setExisteFigura,
+            figuraSeleccionada, 
+            setFiguraSeleccionada,
+            setEsParteDeFiguraSeleccionada } = useFiguraContext();
 
     const fetchTablero = async () => {
         try {
             const data = await ObtenerTablero(id_partida);
             setTablero(data.tablero6x6);
             setFiguras(data.figuras);
+            //Esto es para poder determinar que cartas de figuras puedo usar
+            if(data.figuras){
+                let quefiguras : string [] = []
+                for (const element of figuras) {
+                    quefiguras.push(element.nombre)
+                }
+                setExisteFigura(quefiguras)
+            }
         } catch (error) {
             console.error("Error al obtener el tablero:", error);
         }
     };
+
 
     // Resaltar casillas para los movimientos
     const resaltarCasillas = (row: number, col: number) => {
@@ -92,33 +107,61 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     };
 
     const manejarSeleccionClick = (row: number, col: number) => {
-        if (cartaSeleccionada !== undefined) {
-            manejarSeleccion(
-                row,
-                col,
-                primeraSeleccion,
-                setPrimeraSeleccion,
-                segundaSeleccion,
-                setSegundaSeleccion,
-                setPasarTurno,
-                esCasillaResaltada,
-                resaltarCasillas,
-                enviarMovimiento,
-                () =>
-                    reiniciarSeleccion(
+        // Verificar si hay una carta seleccionada
+        if (cartaFSeleccionada !== undefined || cartaFSeleccionada !== null) {
+            // Si existe una carta seleccionada
+            if (cartaSeleccionada !== undefined) {
+                // Manejar la lógica de selección de carta normal
+                manejarSeleccion(
+                    row,
+                    col,
+                    primeraSeleccion,
+                    setPrimeraSeleccion,
+                    segundaSeleccion,
+                    setSegundaSeleccion,
+                    setPasarTurno,
+                    esCasillaResaltada,
+                    resaltarCasillas,
+                    enviarMovimiento,
+                    () => reiniciarSeleccion(
                         setPrimeraSeleccion,
                         setSegundaSeleccion,
                         setCartaSeleccionada,
                         setCasillasMovimientos
                     )
-            );
+                );
+            } 
+            // Si hay una figura seleccionada
+            else if (cartaFSeleccionada !== null) {
+                const figura = figuras.find((f) =>
+                    f.casillas.some((casilla) => casilla.row === row && casilla.column === col)
+                );
+    
+                if (figura && figura.nombre === cartaFSeleccionada) {
+                    // Si la figura coincide, seleccionar la figura
+                    setFiguraSeleccionada(figura);
+                } else {
+                    // Si la figura no coincide, mostrar error
+                    setFiguraSeleccionada(null);
+                    showToastError("No se puede hacer esa jugada");
+    
+                    // Cerrar el toast de error después de 2 segundos
+                    setTimeout(() => {
+                        closeToast();
+                    }, 2000);
+                }
+            }
         } else {
-            showToastInfo("Selecciona primero una carta de movimiento.", true);
+            // Mostrar mensaje de información si no hay carta seleccionada
+            showToastInfo("Selecciona primero una carta", true);
+            
+            // Cerrar el toast de información después de 2 segundos
             setTimeout(() => {
                 closeToast();
             }, 2000);
         }
     };
+    
 
     // Condición para deshabilitar botones
     const estaDeshabilitado = () => {
@@ -153,6 +196,14 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         return esParteDeFigura;
     }
 
+    function figuraElegida(rowIndex: number, colIndex: number): boolean {
+        return figuras.some((figura) => 
+            figura.casillas.some((casilla) => 
+                casilla.row === rowIndex && casilla.column === colIndex && figura === figuraSeleccionada
+            )
+        );
+    }
+
     return (
         <div className="flex h-fit w-[388px] items-center justify-center">
             <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-4 border-black bg-yellow-100 p-2 shadow-2xl">
@@ -164,10 +215,11 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                             colIndex={colIndex}
                             cell={cell}
                             handleClick={manejarSeleccionClick}
-                            esResaltada={esCasillaResaltada}
-                            esParteDeFigura={esParteDeFigura}
+                            esResaltada={esCasillaResaltada} // Con respecto a movimiento
+                            esParteDeFigura={esParteDeFigura} // Para detectar figuras en el tablero
                             primeraSeleccion={primeraSeleccion}
                             estaDeshabilitado={estaDeshabilitado}
+                            destacarFigura = {figuraElegida}
                         />
                     ))
                 )}

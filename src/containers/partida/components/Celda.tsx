@@ -12,6 +12,7 @@ interface CeldaProps {
     esResaltada: (rowIndex: number, colIndex: number) => boolean;
     esParteDeFigura: (rowIndex: number, colIndex: number) => boolean;
     estaDeshabilitado: () => boolean;
+    destacarFigura: (rowIndex: number, colIndex: number) => boolean;
 }
 
 const Celda: React.FC<CeldaProps> = ({
@@ -23,6 +24,7 @@ const Celda: React.FC<CeldaProps> = ({
     esResaltada,
     estaDeshabilitado,
     esParteDeFigura,
+    destacarFigura,
 }) => (
     <button
         className={cn(
@@ -43,6 +45,9 @@ const Celda: React.FC<CeldaProps> = ({
             },
             {
                 "border-4 border-blue-600": esParteDeFigura(rowIndex, colIndex),
+            },
+            {
+                "border-4 border-red-600": destacarFigura(rowIndex, colIndex),
             }
         )}
         onClick={() => handleClick(rowIndex, colIndex)}
