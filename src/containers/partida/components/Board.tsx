@@ -147,20 +147,20 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                     // Si la figura coincide, seleccionar la figura
                     setFiguraSeleccionada(figura);
                     //ACÁ MANEJAR EL LLAMADO A LA API PARA LAS FIGURAS
-                    if (jugador != undefined) {
-                        JugarCartaFigura(figura.casillas, id_partida, jugador.id, figura.nombre)
-                            .then((response) => {
-                                // Si la API responde correctamente
-                                if (response.cartaJugada) {
-                                    console.log("Carta jugada exitosamente");
-                                    setFiguraSeleccionada(null); //Cuidado
-                                }
-                            })
-                            .catch((error) => {
-                                // Manejar el error si ocurre
-                                console.error("Error al jugar la carta de figura:", error);
-                            })
-                    }
+                    // if (jugador != undefined) {
+                    //     JugarCartaFigura(figura.casillas, id_partida, jugador.id, figura.nombre)
+                    //         .then((response) => {
+                    //             // Si la API responde correctamente
+                    //             if (response.cartaJugada) {
+                    //                 console.log("Carta jugada exitosamente");
+                    //                 setFiguraSeleccionada(null); //Cuidado
+                    //             }
+                    //         })
+                    //         .catch((error) => {
+                    //             // Manejar el error si ocurre
+                    //             console.error("Error al jugar la carta de figura:", error);
+                    //         })
+                    // }
                 } else {
                     // Si la figura no coincide, mostrar error
                     setFiguraSeleccionada(null);
