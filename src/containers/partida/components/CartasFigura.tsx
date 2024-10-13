@@ -7,7 +7,6 @@ import { usePartida } from "@/context/PartidaContext";
 import { LoadSessionJugador } from "@/services/session_browser";
 import { useFiguraContext } from "@/context/FigurasContext";
 
-
 const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
     if (cartasFiguras.length === 3) {
         return index === 0 ? -5 : index === 1 ? 0 : 5;
@@ -31,9 +30,9 @@ const CartasFigura = ({
 }) => {
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
     const { showToastError, closeToast } = useNotification();
-    const {turno_actual} = usePartida();
+    const { turno_actual } = usePartida();
     const miSession = LoadSessionJugador();
-    const{setCartaFSeleccionada,existeFigura} = useFiguraContext();
+    const { setCartaFSeleccionada, existeFigura } = useFiguraContext();
 
     useEffect(() => {
         fetchCartasFigura();
@@ -52,16 +51,16 @@ const CartasFigura = ({
     };
 
     const seleccionarCarta = (codigo: string) => {
-
+        console.log(codigo);
+        console.log(existeFigura);
         if (turno_actual?.id == miSession?.id) {
-            if(existeFigura?.includes(codigo)){
+            if (existeFigura?.includes(codigo)) {
                 setCartaFSeleccionada(codigo);
-            }
-            else{
+            } else {
                 showToastError("No se puede jugar esta carta");
-            setTimeout(() => {
-                closeToast();
-            }, 2000);
+                setTimeout(() => {
+                    closeToast();
+                }, 2000);
             }
         } else {
             showToastError("Espera tu turno para jugar");
@@ -85,7 +84,7 @@ const CartasFigura = ({
                         rotation={Rotation(cartasFiguras, index)}
                         middle={isMiddleCard(cartasFiguras, index)}
                         altText={`Carta ${index + 1}`}
-                        onClick={()=>seleccionarCarta(carta.code)}
+                        onClick={() => seleccionarCarta(carta.code)}
                         isSelect={false}
                     />
                 );

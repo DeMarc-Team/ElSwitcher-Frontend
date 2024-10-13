@@ -40,11 +40,12 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         setCasillasMovimientos,
     } = useMovimientoContext();
     const { showToastError, showToastInfo, closeToast } = useNotification();
-    const { cartaFSeleccionada,
-            setExisteFigura,
-            figuraSeleccionada, 
-            setFiguraSeleccionada,
-            setEsParteDeFiguraSeleccionada } = useFiguraContext();
+    const {
+        cartaFSeleccionada,
+        setExisteFigura,
+        figuraSeleccionada,
+        setFiguraSeleccionada,
+    } = useFiguraContext();
 
     const fetchTablero = async () => {
         try {
@@ -52,18 +53,19 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             setTablero(data.tablero6x6);
             setFiguras(data.figuras);
             //Esto es para poder determinar que cartas de figuras puedo usar
-            if(data.figuras){
-                let quefiguras : string [] = []
+            if (data.figuras) {
+                let quefiguras: string[] = [];
                 for (const element of figuras) {
-                    quefiguras.push(element.nombre)
+                    if (element.casillas.length > 0) {
+                        quefiguras.push(element.nombre);
+                    }
                 }
-                setExisteFigura(quefiguras)
+                setExisteFigura(quefiguras);
             }
         } catch (error) {
             console.error("Error al obtener el tablero:", error);
         }
     };
-
 
     // Resaltar casillas para los movimientos
     const resaltarCasillas = (row: number, col: number) => {
@@ -123,28 +125,32 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                     esCasillaResaltada,
                     resaltarCasillas,
                     enviarMovimiento,
-                    () => reiniciarSeleccion(
-                        setPrimeraSeleccion,
-                        setSegundaSeleccion,
-                        setCartaSeleccionada,
-                        setCasillasMovimientos
-                    )
+                    () =>
+                        reiniciarSeleccion(
+                            setPrimeraSeleccion,
+                            setSegundaSeleccion,
+                            setCartaSeleccionada,
+                            setCasillasMovimientos
+                        )
                 );
-            } 
+            }
             // Si hay una figura seleccionada
             else if (cartaFSeleccionada !== null) {
                 const figura = figuras.find((f) =>
-                    f.casillas.some((casilla) => casilla.row === row && casilla.column === col)
+                    f.casillas.some(
+                        (casilla) =>
+                            casilla.row === row && casilla.column === col
+                    )
                 );
-    
                 if (figura && figura.nombre === cartaFSeleccionada) {
                     // Si la figura coincide, seleccionar la figura
                     setFiguraSeleccionada(figura);
+                    //ACÁ MANEJAR EL LLAMADO A LA API PARA LAS FIGURAS
                 } else {
                     // Si la figura no coincide, mostrar error
                     setFiguraSeleccionada(null);
                     showToastError("No se puede hacer esa jugada");
-    
+
                     // Cerrar el toast de error después de 2 segundos
                     setTimeout(() => {
                         closeToast();
@@ -154,14 +160,13 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         } else {
             // Mostrar mensaje de información si no hay carta seleccionada
             showToastInfo("Selecciona primero una carta", true);
-            
+
             // Cerrar el toast de información después de 2 segundos
             setTimeout(() => {
                 closeToast();
             }, 2000);
         }
     };
-    
 
     // Condición para deshabilitar botones
     const estaDeshabilitado = () => {
@@ -180,6 +185,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         fetchTablero();
         setCartaSeleccionada(undefined);
         setCasillasMovimientos([]);
+        // setFiguraSeleccionada(null);
     }, [triggeractualizarTablero]);
 
     function esParteDeFigura(rowIndex: number, colIndex: number) {
@@ -197,9 +203,12 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     }
 
     function figuraElegida(rowIndex: number, colIndex: number): boolean {
-        return figuras.some((figura) => 
-            figura.casillas.some((casilla) => 
-                casilla.row === rowIndex && casilla.column === colIndex && figura === figuraSeleccionada
+        return figuras.some((figura) =>
+            figura.casillas.some(
+                (casilla) =>
+                    casilla.row === rowIndex &&
+                    casilla.column === colIndex &&
+                    figura === figuraSeleccionada
             )
         );
     }
@@ -219,7 +228,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                             esParteDeFigura={esParteDeFigura} // Para detectar figuras en el tablero
                             primeraSeleccion={primeraSeleccion}
                             estaDeshabilitado={estaDeshabilitado}
-                            destacarFigura = {figuraElegida}
+                            destacarFigura={figuraElegida}
                         />
                     ))
                 )}

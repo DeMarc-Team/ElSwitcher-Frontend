@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
-import Board from "../containers/partida/components/Board"; 
-import { Partida} from "@/models/types";
+import Board from "../containers/partida/components/Board";
+import { Partida } from "@/models/types";
 import { SaveSessionPartida } from "@/services/session_browser";
 import { FiguraContextProvider } from "@/context/FigurasContext";
 import { PartidaProvider } from "@/context/PartidaContext";
@@ -50,10 +50,9 @@ const mockPartida: Partida = {
     nombre: "Partida 1",
 };
 
-
 describe("Componente Board", () => {
     SaveSessionPartida(mockPartida);
-    
+
     test("Se renderiza todo el tablero", async () => {
         render(
             <PartidaWebsocketProvider>
@@ -66,7 +65,7 @@ describe("Componente Board", () => {
                 </PartidaProvider>
             </PartidaWebsocketProvider>
         );
-        
+
         const buttons = await screen.findAllByRole("button");
 
         // Verificar que se rendericen 36 botones (6x6)
