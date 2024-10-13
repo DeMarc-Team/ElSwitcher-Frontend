@@ -37,6 +37,7 @@ const CardMovParciales = () => {
                 partida.id,
                 jugador.id
             );
+            if (!data) return; // Si no llega data, no hago nada.
             const cartas = data.map((carta) =>
                 imageCartaMovimiento(carta.movimiento)
             );
