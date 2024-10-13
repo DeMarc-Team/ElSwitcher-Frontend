@@ -60,4 +60,40 @@ describe("Componente ButtonAbandonarPartida", () => {
         expect(RemoveSessionPartida).toHaveBeenCalledTimes(1);
         expect(navigateMock).toHaveBeenCalledWith("/#listapartidas");
     });
+
+    test("Verificamos el botón de cancelar", async () => {
+        render(
+            <ButtonAbandonarPartida
+                idPartida={123}
+                idJugador={321}
+                owner_quiere_cancelar={true}
+            />
+        );
+
+        expect(await screen.findByText("Cancelar Partida")).toBeInTheDocument();
+
+        await act(async () => {
+            fireEvent.click(screen.getByText("Cancelar Partida"));
+        });
+
+        expect(
+            await screen.findByText(
+                "¿Estás seguro que deseas cancelar la partida?"
+            )
+        ).toBeInTheDocument();
+
+        expect(await screen.findByText("Sí")).toBeInTheDocument();
+        expect(await screen.findByText("No")).toBeInTheDocument();
+
+        // Simular el click en el botón "Sí"
+        await act(async () => {
+            fireEvent.click(screen.getByText("Sí"));
+        });
+
+        // Verifico que se llamen a las funciones necesarias
+        expect(AbandonarPartida).toHaveBeenCalledWith(123, 321);
+        expect(RemoveSessionJugador).toHaveBeenCalled();
+        expect(RemoveSessionPartida).toHaveBeenCalled();
+        expect(navigateMock).toHaveBeenCalledWith("/#listapartidas");
+    });
 });
