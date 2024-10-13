@@ -7,6 +7,7 @@ import Movimiento2 from "@/components/assets/cartas/CartaMovimiento/Movimiento2.
 import Movimiento3 from "@/components/assets/cartas/CartaMovimiento/Movimiento3.png";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 import { PartidaProvider } from "@/context/PartidaContext";
+import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
 
 vi.mock("@/services/api/obtener_carta_movimiento", () => ({
     ObtenerCartasMovimientos: vi.fn((id_partida: number, id_jugador: number) =>
@@ -22,11 +23,13 @@ describe("Cartas de movimietntos", () => {
     test("Se renderizan las 3 cartas", async () => {
         await act(async () => {
             render(
-                <PartidaProvider>
-                    <MovimientoContextProvider>
-                        <CartasMovimiento id_partida={1} id_jugador={1} />
-                    </MovimientoContextProvider>
-                </PartidaProvider>
+                <PartidaWebsocketProvider>
+                    <PartidaProvider>
+                        <MovimientoContextProvider>
+                            <CartasMovimiento id_partida={1} id_jugador={1} />
+                        </MovimientoContextProvider>
+                    </PartidaProvider>
+                </PartidaWebsocketProvider>
             );
         });
 
@@ -38,11 +41,13 @@ describe("Cartas de movimietntos", () => {
     test("Tienen bien su texto alternativo", async () => {
         await act(async () => {
             render(
-                <PartidaProvider>
-                    <MovimientoContextProvider>
-                        <CartasMovimiento id_partida={1} id_jugador={1} />
-                    </MovimientoContextProvider>
-                </PartidaProvider>
+                <PartidaWebsocketProvider>
+                    <PartidaProvider>
+                        <MovimientoContextProvider>
+                            <CartasMovimiento id_partida={1} id_jugador={1} />
+                        </MovimientoContextProvider>
+                    </PartidaProvider>
+                </PartidaWebsocketProvider>
             );
         });
 
@@ -56,11 +61,13 @@ describe("Cartas de movimietntos", () => {
     test("Se muestra la imagen que se debe mostrar", async () => {
         await act(async () => {
             render(
-                <PartidaProvider>
-                    <MovimientoContextProvider>
-                        <CartasMovimiento id_partida={1} id_jugador={1} />
-                    </MovimientoContextProvider>
-                </PartidaProvider>
+                <PartidaWebsocketProvider>
+                    <PartidaProvider>
+                        <MovimientoContextProvider>
+                            <CartasMovimiento id_partida={1} id_jugador={1} />
+                        </MovimientoContextProvider>
+                    </PartidaProvider>
+                </PartidaWebsocketProvider>
             );
         });
         const cartasImg = await screen.findAllByRole("img");

@@ -8,6 +8,7 @@ import Cartas from "./Cartas";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { usePartida } from "@/context/PartidaContext";
 import { useNotification } from "@/hooks/useNotification";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
@@ -44,6 +45,8 @@ const CartasMovimiento = ({
     } = useMovimientoContext();
     const { turno_actual, jugador } = usePartida();
     const { showToastInfo, closeToast } = useNotification();
+    const { triggerActualizarCartasMovimiento, triggerActualizarTurno } =
+        useInsidePartidaWebSocket();
 
     const cartaCodigoMovimiento = (index: number, code: string) => {
         if (turno_actual?.id == jugador?.id) {
@@ -62,14 +65,14 @@ const CartasMovimiento = ({
 
     useEffect(() => {
         fetchCartasMovimiento();
-    }, []);
+    }, [triggerActualizarCartasMovimiento, triggerActualizarTurno]);
 
     const fetchCartasMovimiento = async () => {
         try {
             const data = await ObtenerCartasMovimientos(id_partida, id_jugador);
-            const cartas = data.map((carta) =>
-                imageCartaMovimiento(carta.movimiento)
-            );
+            const cartas = data // Solo se muestran las cartas que no han sido usadas
+                .filter((carta) => !carta.usada_en_movimiento_parcial)
+                .map((carta) => imageCartaMovimiento(carta.movimiento));
             setCartasMovimiento(cartas);
         } catch (error) {
             console.error("Error fetching cartas movimiento:", error);

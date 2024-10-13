@@ -10,6 +10,7 @@ import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 import CardDespedida from "./components/CardDespedida";
 import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
+import CardMovParciales from "./components/CardMovParciales";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -56,7 +57,7 @@ function Partida() {
                 <div
                     className={`flex h-[100vh] w-full flex-col items-center justify-center gap-10 py-5 transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
                 >
-                    <div className="grid h-fit grid-cols-3">
+                    <div className="grid h-fit grid-cols-3 items-center justify-items-center">
                         <div className="flex flex-col items-center justify-center gap-2">
                             <ButtonAbandonarPartida
                                 idPartida={id_partida}
@@ -66,7 +67,9 @@ function Partida() {
                             <ButtonPasarTurno />
                         </div>
                         <Board id_partida={partida.id} />
-                        <div></div>
+                        <div>
+                            <CardMovParciales />
+                        </div>
                     </div>
                     <div className="flex flex-row gap-10">
                         <CartasMovimiento
