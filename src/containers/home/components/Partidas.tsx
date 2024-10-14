@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
     const { triggerActualizaPartidas } = useWebSocketListaPartidas();
-    const [filtro, setFiltro] = useState("");
+    const [filtroPorNombre, setFiltroPorNombre] = useState("");
     const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
 
     useEffect(() => {
@@ -16,8 +16,8 @@ function Partidas() {
     }, [triggerActualizaPartidas]);
 
     useEffect(() => {
-        filtrarPartidas(filtro);
-    }, [filtro, partidas]);
+        filtrarPartidas(filtroPorNombre);
+    }, [filtroPorNombre, partidas]);
 
     const fetchPartidas = async () => {
         try {
@@ -51,8 +51,8 @@ function Partidas() {
             <div className="flex max-w-sm items-center m-4">
                 <Input 
                     placeholder="Filtrar por nombre" 
-                    value={filtro} 
-                    onChange={(e) => setFiltro(e.target.value)} 
+                    value={filtroPorNombre} 
+                    onChange={(e) => setFiltroPorNombre(e.target.value)} 
                 />
             </div>
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
