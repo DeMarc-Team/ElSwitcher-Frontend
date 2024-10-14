@@ -1,5 +1,11 @@
 import { describe, expect, test, vi } from "vitest";
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+    act,
+    fireEvent,
+    render,
+    screen,
+    waitFor,
+} from "@testing-library/react";
 import Partidas from "@/containers/home/components/Partidas";
 import { MemoryRouter } from "react-router-dom";
 
@@ -14,18 +20,18 @@ describe("Filtro de cantidad de jugadores", () => {
             closeConnection: vi.fn(),
         })),
     }));
-    
+
     vi.mock("@/services/websockets/websockets_lista_partidas", () => ({
         useWebSocketListaPartidas: vi.fn(() => ({
-            message: null, 
-            readyState: 1, 
-            closeConnection: vi.fn(), 
+            message: null,
+            readyState: 1,
+            closeConnection: vi.fn(),
             openConnectionToPartida: vi.fn(),
             triggerActualizarSalaEspera: false,
-            triggerActualizarTurno: false, 
+            triggerActualizarTurno: false,
         })),
     }));
-    
+
     vi.mock("@/services/api/obtener_partidas", () => ({
         ObtenerPartidas: vi.fn(() =>
             Promise.resolve([
@@ -35,7 +41,7 @@ describe("Filtro de cantidad de jugadores", () => {
             ])
         ),
     }));
-    
+
     vi.mock("@/services/api/obtener_info_partida", () => ({
         ObtenerInfoPartida: vi.fn((nombre_partida) => {
             if (nombre_partida === "Partida 1") {
@@ -43,9 +49,7 @@ describe("Filtro de cantidad de jugadores", () => {
                     nombre_partida: "Partida 1",
                     nombre_creador: "Jugador 1",
                     id_creador: 123,
-                    jugadores: [
-                        { id_jugador: 123, nombre: "Jugador 1" },
-                    ],
+                    jugadores: [{ id_jugador: 123, nombre: "Jugador 1" }],
                     cantidad_jugadores: 1,
                     iniciada: false,
                 });
@@ -79,7 +83,7 @@ describe("Filtro de cantidad de jugadores", () => {
             }
         }),
     }));
-    
+
     test("Se renderiza la componente", async () => {
         await act(async () => {
             render(
@@ -112,7 +116,7 @@ describe("Filtro de cantidad de jugadores", () => {
             expect(screen.findByText("Partida 1")).toBeDefined();
             expect(screen.findByText("2 jugadores")).toBeDefined();
             expect(screen.findByText("200 veces")).toBeDefined();
-        })
+        });
     });
 
     test("Filtro por un checkbox", async () => {
@@ -124,19 +128,18 @@ describe("Filtro de cantidad de jugadores", () => {
                 </MemoryRouter>
             );
         });
-        
+
         const checkbox = screen.getByLabelText("1 Jugador");
-    
+
         fireEvent.click(checkbox);
-    
+
         await waitFor(() => {
-            screen.queryByText("Partida 1")
+            screen.queryByText("Partida 1");
         });
         expect(screen.queryByText("Partida 1")).toBeDefined();
         expect(screen.queryByText("2 jugadores")).toBeNull();
         expect(screen.queryByText("200 veces")).toBeNull();
     });
-    
 
     test("Filtro por dos checkboxes", async () => {
         await act(async () => {
@@ -147,7 +150,7 @@ describe("Filtro de cantidad de jugadores", () => {
                 </MemoryRouter>
             );
         });
-        
+
         const checkbox1 = screen.getByLabelText("1 Jugador");
         const checkbox2 = screen.getByLabelText("2 Jugadores");
 
@@ -155,10 +158,9 @@ describe("Filtro de cantidad de jugadores", () => {
         fireEvent.click(checkbox2);
 
         await waitFor(() => {
-            screen.queryByText("Partida 1")
-            screen.queryByText("2 jugadores")
+            screen.queryByText("Partida 1");
+            screen.queryByText("2 jugadores");
         });
         expect(screen.queryByText("200 veces")).toBeNull();
-        
     });
 });

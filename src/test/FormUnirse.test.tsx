@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Partidas from "../containers/home/components/Partidas";
 import { BrowserRouter } from "react-router-dom";
 
-    //Necesito una partida para probar el form
+//Necesito una partida para probar el form
 vi.mock("@/services/api/obtener_partidas", () => ({
     ObtenerPartidas: vi.fn(() =>
         Promise.resolve([{ id: 1, nombre_partida: "Partida 1" }])
@@ -12,18 +12,18 @@ vi.mock("@/services/api/obtener_partidas", () => ({
 
 vi.mock("@/services/api/obtener_info_partida", () => ({
     ObtenerInfoPartida: vi.fn(() => {
-            return Promise.resolve({
-                nombre_partida: "Partida 1",
-                nombre_creador: "Jugador 1",
-                id_creador: 123,
-                jugadores: [
-                    { id_jugador: 123, nombre: "Jugador 1" },
-                    { id_jugador: 125, nombre: "Jugador 2" },
-                ],
-                cantidad_jugadores: 2,
-                iniciada: false,
-            });
-        })
+        return Promise.resolve({
+            nombre_partida: "Partida 1",
+            nombre_creador: "Jugador 1",
+            id_creador: 123,
+            jugadores: [
+                { id_jugador: 123, nombre: "Jugador 1" },
+                { id_jugador: 125, nombre: "Jugador 2" },
+            ],
+            cantidad_jugadores: 2,
+            iniciada: false,
+        });
+    }),
 }));
 
 vi.mock("@/services/api/unirse_partida", () => ({

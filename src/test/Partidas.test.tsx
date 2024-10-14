@@ -16,12 +16,12 @@ vi.mock("@/services/websockets/websockets", () => ({
 
 vi.mock("@/services/websockets/websockets_lista_partidas", () => ({
     useWebSocketListaPartidas: vi.fn(() => ({
-        message: null, 
-        readyState: 1, 
-        closeConnection: vi.fn(), 
+        message: null,
+        readyState: 1,
+        closeConnection: vi.fn(),
         openConnectionToPartida: vi.fn(),
         triggerActualizarSalaEspera: false,
-        triggerActualizarTurno: false, 
+        triggerActualizarTurno: false,
     })),
 }));
 
@@ -50,8 +50,7 @@ describe("Partidas Component", () => {
         expect(screen.getByText("Lista de partidas")).toBeDefined();
     });
 
-    test("Mocker las partidas", async () => {    
-    
+    test("Mocker las partidas", async () => {
         await act(async () => {
             render(
                 <MemoryRouter>
@@ -66,17 +65,17 @@ describe("Partidas Component", () => {
     });
 
     test("No hay partidas", async () => {
-            vi.mock("@/services/api/obtener_partidas", () => ({
-                ObtenerPartidas: vi.fn(() => Promise.resolve([])),
-            }));
-            await act(async () => {
-                render(
-                    <MemoryRouter>
-                        {" "}
-                        <Partidas />
-                    </MemoryRouter>
-                );
-            });
-            expect(screen.findByText("No hay partidas creadas.")).toBeDefined();
+        vi.mock("@/services/api/obtener_partidas", () => ({
+            ObtenerPartidas: vi.fn(() => Promise.resolve([])),
+        }));
+        await act(async () => {
+            render(
+                <MemoryRouter>
+                    {" "}
+                    <Partidas />
+                </MemoryRouter>
+            );
         });
+        expect(screen.findByText("No hay partidas creadas.")).toBeDefined();
+    });
 });
