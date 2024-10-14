@@ -56,9 +56,9 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             if (data.figuras) {
                 let quefiguras: string[] = [];
                 for (const element of data.figuras) {
-                   if (element.casillas.length > 0) {
+                    if (element.casillas.length > 0) {
                         quefiguras.push(element.nombre);
-                   }
+                    }
                 }
                 setExisteFigura(quefiguras);
             }
@@ -110,7 +110,10 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
 
     const manejarSeleccionClick = (row: number, col: number) => {
         // Verificar si hay una carta seleccionada
-        if (cartaSeleccionada !== undefined || cartaFSeleccionada !== undefined) {
+        if (
+            cartaSeleccionada !== undefined ||
+            cartaFSeleccionada !== undefined
+        ) {
             // Si existe una carta seleccionada
             if (cartaSeleccionada !== undefined) {
                 // Manejar la lógica de selección de carta normal

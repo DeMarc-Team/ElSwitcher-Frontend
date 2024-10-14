@@ -90,7 +90,7 @@ export { ObtenerTablero, type Casilla, type Figura, type Tablero };
 //         [4, 1, 2, 3, 4, 1],
 //         [1, 2, 3, 4, 1, 2],
 //     ];
-    
+
 //     const figuras: Figura[] = [
 //         {
 //             nombre: "f2",

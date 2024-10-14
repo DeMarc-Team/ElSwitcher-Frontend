@@ -28,7 +28,7 @@ const Celda: React.FC<CeldaProps> = ({
 }) => (
     <button
         className={cn(
-            "flex h-12 w-12 items-center justify-center rounded-lg border-2 border-black  shadow-lg hover:scale-110",
+            "flex h-12 w-12 items-center justify-center rounded-lg border-2 border-black shadow-lg hover:scale-110",
             `bg-${COLORES[cell - 1]}-400`,
             {
                 "cursor-not-allowed": estaDeshabilitado(),
@@ -44,7 +44,10 @@ const Celda: React.FC<CeldaProps> = ({
                     esResaltada(rowIndex, colIndex),
             },
             {
-                "border-4 border-indigo-800 border-double" : esParteDeFigura(rowIndex, colIndex),
+                "border-4 border-double border-indigo-800": esParteDeFigura(
+                    rowIndex,
+                    colIndex
+                ),
             },
             {
                 "border-4 border-red-600": destacarFigura(rowIndex, colIndex),

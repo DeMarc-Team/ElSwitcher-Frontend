@@ -68,7 +68,7 @@ export const MovimientoContextProvider: React.FC<{
         setSegundaSeleccion(null);
         setCasillasMovimientos([]);
         setPasarTurno(null);
-    }
+    };
 
     return (
         <MovimientoContext.Provider

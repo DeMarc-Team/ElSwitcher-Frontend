@@ -3,7 +3,7 @@ import { useNotification } from "@/hooks/useNotification";
 import { PasarTurno } from "@/services/api/pasar_turno";
 import { usePartida } from "@/context/PartidaContext";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
-import { useFiguraContext} from "@/context/FigurasContext"
+import { useFiguraContext } from "@/context/FigurasContext";
 
 export default function ButtonPasarTurno() {
     const { turno_actual, jugador, partida } = usePartida();

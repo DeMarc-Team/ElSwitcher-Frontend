@@ -33,8 +33,13 @@ const CartasFigura = ({
     const { showToastInfo, showToastError, closeToast } = useNotification();
     const { turno_actual } = usePartida();
     const miSession = LoadSessionJugador();
-    const { setCartaFSeleccionada, existeFigura, setCartaFiguraIndexSeleccionada, cartaFiguraIndexSeleccionada} = useFiguraContext();
-    const {cleanMovimientoContexto} = useMovimientoContext();
+    const {
+        setCartaFSeleccionada,
+        existeFigura,
+        setCartaFiguraIndexSeleccionada,
+        cartaFiguraIndexSeleccionada,
+    } = useFiguraContext();
+    const { cleanMovimientoContexto } = useMovimientoContext();
 
     useEffect(() => {
         fetchCartasFigura();
@@ -43,9 +48,7 @@ const CartasFigura = ({
     const fetchCartasFigura = async () => {
         try {
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
-            const cartas = data.map((carta) =>
-                imageCartaFigura(carta.figura)
-            );
+            const cartas = data.map((carta) => imageCartaFigura(carta.figura));
             setCartasFiguras(cartas);
         } catch (error) {
             console.error("Error fetching cartas figuras:", error);
@@ -58,7 +61,10 @@ const CartasFigura = ({
                 setCartaFSeleccionada(codigo);
                 setCartaFiguraIndexSeleccionada(index);
             } else {
-                showToastInfo("Tú carta no coincide con alguna figura del tablero.", true);
+                showToastInfo(
+                    "Tú carta no coincide con alguna figura del tablero.",
+                    true
+                );
                 setTimeout(() => {
                     closeToast();
                 }, 2000);
@@ -75,7 +81,7 @@ const CartasFigura = ({
     useEffect(() => {
         setCartaFSeleccionada(undefined);
     }, [turno_actual]);
-    
+
     return (
         <div className="flex flex-row gap-2">
             {cartasFiguras.map((carta, index) => {
