@@ -7,6 +7,7 @@ import Figura2 from "@/components/assets/cartas/CartasFiguras/Figura2.png";
 import Figura3 from "@/components/assets/cartas/CartasFiguras/Figura3.png";
 import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 import { PartidaProvider } from "@/context/PartidaContext";
+import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 
 vi.mock("@/services/api/obtener_carta_figura", () => ({
     ObtenerCartasFiguras: vi.fn((id_partida: number, id_jugador: number) =>
@@ -23,9 +24,11 @@ describe("Cartas de figuras", () => {
         await act(async () => {
             render(
                 <PartidaProvider>
-                    <FiguraContextProvider>
-                        <CartasFigura id_partida={1} id_jugador={1} />
-                    </FiguraContextProvider>
+                    <MovimientoContextProvider>
+                        <FiguraContextProvider>
+                            <CartasFigura id_partida={1} id_jugador={1} />
+                        </FiguraContextProvider>
+                    </MovimientoContextProvider>
                 </PartidaProvider>
             );
         });
@@ -38,9 +41,11 @@ describe("Cartas de figuras", () => {
         await act(async () => {
             render(
                 <PartidaProvider>
-                    <FiguraContextProvider>
-                        <CartasFigura id_partida={1} id_jugador={1} />
-                    </FiguraContextProvider>
+                    <MovimientoContextProvider>
+                        <FiguraContextProvider>
+                            <CartasFigura id_partida={1} id_jugador={1} />
+                        </FiguraContextProvider>
+                    </MovimientoContextProvider>
                 </PartidaProvider>
             );
         });
@@ -56,9 +61,11 @@ describe("Cartas de figuras", () => {
         await act(async () => {
             render(
                 <PartidaProvider>
-                    <FiguraContextProvider>
-                        <CartasFigura id_partida={1} id_jugador={1} />
-                    </FiguraContextProvider>
+                    <MovimientoContextProvider>
+                        <FiguraContextProvider>
+                            <CartasFigura id_partida={1} id_jugador={1} />
+                        </FiguraContextProvider>
+                    </MovimientoContextProvider>
                 </PartidaProvider>
             );
         });

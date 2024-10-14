@@ -132,14 +132,14 @@ describe("Componente Board", () => {
 
         const buttons = await screen.findAllByRole("button");
 
-        expect(buttons[0]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[1]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[6]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[7]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[29]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[33]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[34]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[35]).toHaveClass("border-4 border-blue-600");
+        expect(buttons[0]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[1]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[6]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[7]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[29]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[33]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[34]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[35]).toHaveClass("border-4 border-indigo-500");
 
         expect(buttons[20]).toHaveClass("border-2 border-black");
         expect(buttons[18]).toHaveClass("border-2 border-black");

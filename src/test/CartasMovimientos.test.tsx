@@ -8,6 +8,7 @@ import Movimiento3 from "@/components/assets/cartas/CartaMovimiento/Movimiento3.
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 import { PartidaProvider } from "@/context/PartidaContext";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
+import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 
 vi.mock("@/services/api/obtener_carta_movimiento", () => ({
     ObtenerCartasMovimientos: vi.fn((id_partida: number, id_jugador: number) =>
@@ -26,7 +27,9 @@ describe("Cartas de movimietntos", () => {
                 <PartidaWebsocketProvider>
                     <PartidaProvider>
                         <MovimientoContextProvider>
-                            <CartasMovimiento id_partida={1} id_jugador={1} />
+                            <FiguraContextProvider>
+                                <CartasMovimiento id_partida={1} id_jugador={1} />
+                            </FiguraContextProvider>
                         </MovimientoContextProvider>
                     </PartidaProvider>
                 </PartidaWebsocketProvider>
@@ -44,7 +47,9 @@ describe("Cartas de movimietntos", () => {
                 <PartidaWebsocketProvider>
                     <PartidaProvider>
                         <MovimientoContextProvider>
-                            <CartasMovimiento id_partida={1} id_jugador={1} />
+                            <FiguraContextProvider>
+                                <CartasMovimiento id_partida={1} id_jugador={1} />
+                            </FiguraContextProvider>
                         </MovimientoContextProvider>
                     </PartidaProvider>
                 </PartidaWebsocketProvider>
@@ -64,7 +69,9 @@ describe("Cartas de movimietntos", () => {
                 <PartidaWebsocketProvider>
                     <PartidaProvider>
                         <MovimientoContextProvider>
-                            <CartasMovimiento id_partida={1} id_jugador={1} />
+                            <FiguraContextProvider>
+                                <CartasMovimiento id_partida={1} id_jugador={1} />
+                            </FiguraContextProvider>
                         </MovimientoContextProvider>
                     </PartidaProvider>
                 </PartidaWebsocketProvider>
