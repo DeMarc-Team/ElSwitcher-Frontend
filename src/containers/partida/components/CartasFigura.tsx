@@ -7,6 +7,7 @@ import { usePartida } from "@/context/PartidaContext";
 import { LoadSessionJugador } from "@/services/session_browser";
 import { useFiguraContext } from "@/context/FigurasContext";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
     if (cartasFiguras.length === 3) {
@@ -40,10 +41,11 @@ const CartasFigura = ({
         cartaFiguraIndexSeleccionada,
     } = useFiguraContext();
     const { cleanMovimientoContexto } = useMovimientoContext();
+    const { triggerActualizarCartasFiguras, triggerActualizarTurno } = useInsidePartidaWebSocket();
 
     useEffect(() => {
         fetchCartasFigura();
-    }, []);
+    }, [triggerActualizarCartasFiguras, triggerActualizarTurno]);
 
     const fetchCartasFigura = async () => {
         try {

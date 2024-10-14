@@ -16,6 +16,7 @@ import {
 import Celda from "@/containers/partida/components/Celda";
 import { useNotification } from "@/hooks/useNotification";
 import { useFiguraContext } from "@/context/FigurasContext";
+import { JugarCartaFigura } from "@/services/api/jugar_carta_figura";
 
 interface DashboardProps {
     id_partida: number;
@@ -148,21 +149,15 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                 if (figura && figura.nombre === cartaFSeleccionada) {
                     // Si la figura coincide, seleccionar la figura
                     setFiguraSeleccionada(figura);
-                    // ACÁ MANEJAR EL LLAMADO A LA API PARA LAS FIGURAS
-                    // if (jugador != undefined) {
-                    //     JugarCartaFigura(figura.casillas, id_partida, jugador.id, figura.nombre)
-                    //         .then((response) => {
-                    //             // Si la API responde correctamente
-                    //             if (response.cartaJugada) {
-                    //                 console.log("Carta jugada exitosamente");
-                    //                 setFiguraSeleccionada(null); //Cuidado
-                    //             }
-                    //         })
-                    //         .catch((error) => {
-                    //             // Manejar el error si ocurre
-                    //             console.error("Error al jugar la carta de figura:", error);
-                    //         })
-                    // }
+                    // Llamar a la API para jugar la figura
+                    if (jugador) {
+                        try{
+                            JugarCartaFigura(figura.casillas, id_partida, jugador.id, figura.nombre)
+                            }
+                            catch (error){
+                                console.error("Error al jugar la carta de figura:", error);
+                            };
+                }
                 } else {
                     // Si la figura no coincide, mostrar error
                     setFiguraSeleccionada(null);

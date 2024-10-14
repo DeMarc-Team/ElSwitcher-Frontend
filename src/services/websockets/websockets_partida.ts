@@ -10,6 +10,7 @@ import { Jugador } from "@/models/types";
  * - `triggerHayGanador`: Trigger para indicar si hay un ganador.
  * - `triggeractualizarTablero`: Trigger para actualizar tablero.
  * - `triggerActualizarCartasMovimiento`: Trigger para actualizar las cartas de movimiento.
+ * - `triggerActualizarCartasFigura`: Trigger para actualizar las cartas de figura.
  * - `ganadorInfo`: Información del jugador ganador.
  * @note También se retorna la información de la conexión WebSocket:
  *  - `message`: El último mensaje recibido.
@@ -30,6 +31,11 @@ const useWebSocketPartida = () => {
         triggerActualizarCartasMovimiento,
         setTriggerActualizarCartasMovimiento,
     ] = useState(false);
+    const [
+        triggerActualizarCartasFiguras,
+        settriggerActualizarCartasFiguras,
+    ] = useState(false);
+    
 
     // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
@@ -55,6 +61,10 @@ const useWebSocketPartida = () => {
             setTriggerActualizarCartasMovimiento(
                 !triggerActualizarCartasMovimiento
             );
+        }else if(message.action === "actualizar_cartas_figura"){
+            settriggerActualizarCartasFiguras(
+                !triggerActualizarCartasFiguras
+            )
         }
     }, [message]);
 
@@ -69,6 +79,7 @@ const useWebSocketPartida = () => {
         ganadorInfo,
         triggeractualizarTablero,
         triggerActualizarCartasMovimiento,
+        triggerActualizarCartasFiguras,
     };
 };
 export { useWebSocketPartida };
