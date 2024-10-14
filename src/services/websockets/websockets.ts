@@ -1,5 +1,5 @@
 import { WS_HOST } from "./const";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import useWebSocket from "react-use-websocket";
 
 interface WebSocketMessage {
@@ -33,17 +33,33 @@ const useCustomWebSocket = () => {
         socketUrl !== null // Solo habilita la conexión si socketUrl no es null
     );
 
-    // Manejar el último mensaje recibido
+    const messageQueue = useRef<string[]>([]);
+
+    // Manejar el último mensaje recibido y agregarlo a la cola
     useEffect(() => {
         if (lastMessage?.data) {
-            const { action, data } = JSON.parse(lastMessage.data);
-            if (action && data) {
-                setMessage({ action, data });
-            } else if (action) {
-                setMessage({ action });
-            }
+            messageQueue.current.push(lastMessage.data);
         }
     }, [lastMessage]);
+
+    // Procesar los mensajes de la cola en intervalos regulares
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (messageQueue.current.length > 0) {
+                const data = messageQueue.current.shift();
+                if (data) {
+                    const { action, data: messageData } = JSON.parse(data);
+                    if (action && messageData) {
+                        setMessage({ action, data: messageData });
+                    } else if (action) {
+                        setMessage({ action });
+                    }
+                }
+            }
+        }, 50); // Ajustar el intervalo según sea necesario
+
+        return () => clearInterval(interval);
+    }, []);
 
     /**
      * Conectar al WebSocket con un path específico.
