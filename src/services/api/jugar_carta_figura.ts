@@ -24,11 +24,11 @@ const JugarCartaFigura = async (
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    carta_fig: codCartaFig,
                     figura: figura.map((casilla) => ({
                         row: casilla.row,
-                        column: casilla.column,
+                        col: casilla.column,
                     })),
+                    carta_fig: codCartaFig,
                 }),
             }
         );

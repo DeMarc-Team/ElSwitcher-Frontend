@@ -9,6 +9,7 @@ import {
     manejarSeleccion,
     reiniciarSeleccion,
 } from "@/containers/partida/components/manejar_seleccion_movimiento";
+import { JugarCartaFigura } from "@/services/api/jugar_carta_figura";
 
 export const useFuncionesSeleccion = (figuras: Figura[]) => {
     const {
@@ -27,7 +28,7 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
     const { showToastError, showToastInfo, closeToast } = useNotification();
     const { codigoCartaFigura, setFiguraSeleccionada, figuraSeleccionada } =
         useFiguraContext();
-    const { turno_actual, jugador } = usePartida();
+    const { turno_actual, jugador, partida } = usePartida();
     const { enviarMovimiento } = useMovimientos();
 
     // Manejar la lógica de selección de figura
@@ -40,8 +41,22 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
 
         if (figura && figura.nombre === codigoCartaFigura) {
             setFiguraSeleccionada(figura);
-            // Aquí puedes manejar el llamado a la API para las figuras
-            // realizarJugadaFigura(figura);
+            if (jugador && partida) {
+                try{
+                    console.log("Se esta intentando jugar")
+                    console.log("Figura",figura.casillas,figura.nombre)
+                    console.log("Partida",partida.id)
+                    console.log("Jugador",jugador.id)
+                    
+                    JugarCartaFigura(figura.casillas, partida.id , jugador.id, figura.nombre)
+                }
+                catch (error){
+                    console.error("Error al jugar la carta de figura:", error);
+                }
+            }
+            else{
+                console.error("Partida o jugador no definido");
+            }
         } else {
             manejarErrorSeleccionFigura();
         }

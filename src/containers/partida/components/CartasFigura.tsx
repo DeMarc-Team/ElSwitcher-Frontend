@@ -7,6 +7,7 @@ import { usePartida } from "@/context/PartidaContext";
 import { LoadSessionJugador } from "@/services/session_browser";
 import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
     if (cartasFiguras.length === 3) {
@@ -40,10 +41,11 @@ const CartasFigura = ({
         cartaFiguraSeleccionada,
     } = useFiguraContext();
     const { cleanMovimientoContexto } = useMovimientoContext();
+    const {triggerActualizarCartasFigura, triggerActualizarTurno} = useInsidePartidaWebSocket();
 
     useEffect(() => {
         fetchCartasFigura();
-    }, []);
+    }, [triggerActualizarCartasFigura, triggerActualizarTurno]);
 
     const fetchCartasFigura = async () => {
         try {
@@ -76,11 +78,6 @@ const CartasFigura = ({
             }, 2000);
         }
     };
-
-    //Los estados que debo de limpiar al cambiar de turno
-    useEffect(() => {
-        setCodigoCartaFigura(undefined);
-    }, [turno_actual]);
 
     return (
         <div className="flex flex-row gap-2">
