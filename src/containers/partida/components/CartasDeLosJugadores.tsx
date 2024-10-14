@@ -52,6 +52,7 @@ const CartasDeLosJugadores = ({
 
     return (
         <Accordion type="single" collapsible>
+                <h3 className="flex font-extrabold justify-center">Cartas de otros jugadores</h3>
                 {cartasFiguras.map((cartasJugador, indexJugador) => (
                     <div key={indexJugador}>
                         <AccordionItem value={`item-${indexJugador}`}>
