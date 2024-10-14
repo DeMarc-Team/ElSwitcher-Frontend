@@ -1,5 +1,11 @@
 import { describe, expect, test, vi } from "vitest";
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+    act,
+    fireEvent,
+    render,
+    screen,
+    waitFor,
+} from "@testing-library/react";
 import Partidas from "@/containers/home/components/Partidas";
 import { MemoryRouter } from "react-router-dom";
 
@@ -35,7 +41,7 @@ describe("Filtro de nombre de partidas", () => {
                 </MemoryRouter>
             );
         });
-        
+
         expect(screen.getByPlaceholderText("Filtrar por nombre")).toBeDefined();
     });
 
@@ -86,10 +92,12 @@ describe("Filtro de nombre de partidas", () => {
                 </MemoryRouter>
             );
         });
-    
-        const input = screen.getByPlaceholderText("Filtrar por nombre") as HTMLInputElement;
+
+        const input = screen.getByPlaceholderText(
+            "Filtrar por nombre"
+        ) as HTMLInputElement;
         fireEvent.change(input, { target: { value: "Partida" } });
-    
+
         await waitFor(() => {
             expect(screen.queryByText("Partida 1")).toBeDefined();
             expect(screen.queryByText("Partida 2")).toBeDefined();
@@ -98,7 +106,7 @@ describe("Filtro de nombre de partidas", () => {
             expect(screen.queryByText("200 veces")).toBeNull();
         });
     });
-    
+
     test("Filtro por número en el nombre", async () => {
         await act(async () => {
             render(
@@ -107,10 +115,12 @@ describe("Filtro de nombre de partidas", () => {
                 </MemoryRouter>
             );
         });
-    
-        const input = screen.getByPlaceholderText("Filtrar por nombre") as HTMLInputElement;
+
+        const input = screen.getByPlaceholderText(
+            "Filtrar por nombre"
+        ) as HTMLInputElement;
         fireEvent.change(input, { target: { value: "2" } });
-    
+
         await waitFor(() => {
             expect(screen.queryByText("2 Jugadores")).toBeDefined();
             expect(screen.queryByText("200 veces")).toBeDefined();
@@ -119,7 +129,7 @@ describe("Filtro de nombre de partidas", () => {
             expect(screen.queryByText("Partida 3")).toBeNull();
         });
     });
-    
+
     test("Filtro sin coincidencias", async () => {
         await act(async () => {
             render(
@@ -128,10 +138,12 @@ describe("Filtro de nombre de partidas", () => {
                 </MemoryRouter>
             );
         });
-    
-        const input = screen.getByPlaceholderText("Filtrar por nombre") as HTMLInputElement;
+
+        const input = screen.getByPlaceholderText(
+            "Filtrar por nombre"
+        ) as HTMLInputElement;
         fireEvent.change(input, { target: { value: "No existe" } });
-    
+
         await waitFor(() => {
             expect(screen.queryByText("Partida 1")).toBeNull();
             expect(screen.queryByText("Partida 2")).toBeNull();
@@ -140,5 +152,4 @@ describe("Filtro de nombre de partidas", () => {
             expect(screen.queryByText("200 veces")).toBeNull();
         });
     });
-    
 });

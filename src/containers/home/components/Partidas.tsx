@@ -3,7 +3,7 @@ import FormUnirse from "./FormUnirse";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
@@ -34,7 +34,9 @@ function Partidas() {
             setPartidasFiltradas(partidas);
         } else {
             const listaAux = partidas.filter((partida) =>
-                partida.nombre_partida.toLowerCase().includes(filtroDeFuncion.toLowerCase())
+                partida.nombre_partida
+                    .toLowerCase()
+                    .includes(filtroDeFuncion.toLowerCase())
             );
             setPartidasFiltradas(listaAux);
         }
@@ -48,11 +50,11 @@ function Partidas() {
             <p className="mb-2 text-center text-2xl font-black uppercase">
                 Lista de partidas
             </p>
-            <div className="flex max-w-sm items-center m-4">
-                <Input 
-                    placeholder="Filtrar por nombre" 
-                    value={filtroPorNombre} 
-                    onChange={(e) => setFiltroPorNombre(e.target.value)} 
+            <div className="m-4 flex max-w-sm items-center">
+                <Input
+                    placeholder="Filtrar por nombre"
+                    value={filtroPorNombre}
+                    onChange={(e) => setFiltroPorNombre(e.target.value)}
                 />
             </div>
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
