@@ -64,7 +64,11 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
 
     // Mostrar mensaje si no hay carta seleccionada
     const mostrarMensajeSinSeleccion = () => {
-        showToastInfo("No has seleccionado ninguna carta de movimiento.", true);
+        showToastInfo("No has seleccionado ninguna carta.", true);
+        
+        setTimeout(() => {
+            closeToast();
+        }, 2000);
     };
 
     // Manejar el error si la figura no coincide

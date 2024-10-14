@@ -50,7 +50,6 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         fetchTablero();
         setCartaMovimientoSeleccionada(undefined);
         setCasillasMovimientos([]);
-        // setFiguraSeleccionada(null);
     }, [triggeractualizarTablero]);
 
     return (
