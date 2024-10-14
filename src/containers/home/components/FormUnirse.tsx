@@ -5,11 +5,12 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { CircleArrowRight, User } from "lucide-react";
+import { CircleArrowRight, UserRound } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
@@ -21,10 +22,14 @@ import {
 interface FormUnirseProps {
     partidaId: number;
     partidaName: string;
-    partidaJugadores : number;
+    partidaJugadores: number;
 }
 
-function FormUnirse({ partidaId, partidaName,partidaJugadores }: Readonly<FormUnirseProps>) {
+function FormUnirse({
+    partidaId,
+    partidaName,
+    partidaJugadores,
+}: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
 
     const [username, setUsername] = useState("");
@@ -89,8 +94,12 @@ function FormUnirse({ partidaId, partidaName,partidaJugadores }: Readonly<FormUn
                         <b>{partidaName}</b>
                     </span>
                     <div className="flex items-center justify-center gap-2">
-                        <span className="font font-extrabold">{partidaJugadores}</span>
-                        <User/> 
+                        <span className="mr-5 flex h-[1.3rem] items-center justify-center gap-2 rounded-lg border-2 border-black px-2">
+                            <span className="font font-bold">
+                                {partidaJugadores}
+                            </span>
+                            <UserRound className="w-4" />
+                        </span>
                         <span className="underline">Unirse</span>
                         <CircleArrowRight className="w-5" />
                     </div>
@@ -103,6 +112,7 @@ function FormUnirse({ partidaId, partidaName,partidaJugadores }: Readonly<FormUn
                         <span className="underline">{partidaName}</span>
                     </DialogTitle>
                 </DialogHeader>
+                <DialogDescription />
                 <form onSubmit={handleSubmit}>
                     <div className="mt-5 flex w-full flex-col gap-5">
                         <div className="w-full">
