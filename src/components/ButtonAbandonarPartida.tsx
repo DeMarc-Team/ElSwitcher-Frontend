@@ -19,9 +19,11 @@ import { useState } from "react";
 export default function ButtonAbandonarPartida({
     idPartida,
     idJugador,
+    owner_quiere_cancelar = false,
 }: Readonly<{
     idPartida: number;
     idJugador: number;
+    owner_quiere_cancelar?: boolean;
 }>) {
     const [isOpen, setIsOpen] = useState(false);
     const { showToastError } = useNotification();
@@ -44,13 +46,17 @@ export default function ButtonAbandonarPartida({
                     className="border-2 border-black hover:bg-red-600"
                     variant="destructive"
                 >
-                    Abandonar Partida
+                    {owner_quiere_cancelar
+                        ? "Cancelar Partida"
+                        : "Abandonar Partida"}
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
-                        ¿Estás seguro que deseas abandonar la partida?
+                        {owner_quiere_cancelar
+                            ? "¿Estás seguro que deseas cancelar la partida?"
+                            : "¿Estás seguro que deseas abandonar la partida?"}
                     </DialogTitle>
                 </DialogHeader>
                 <DialogDescription></DialogDescription>
