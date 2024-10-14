@@ -3,7 +3,7 @@ import { describe, expect, test, vi } from "vitest";
 import Board from "../containers/partida/components/Board";
 import { Partida } from "@/models/types";
 import { SaveSessionPartida } from "@/services/session_browser";
-import { FiguraContextProvider } from "@/context/FigurasContext";
+import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 import { PartidaProvider } from "@/context/PartidaContext";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";

@@ -5,7 +5,7 @@ import Cartas from "./Cartas";
 import { useNotification } from "@/hooks/useNotification";
 import { usePartida } from "@/context/PartidaContext";
 import { LoadSessionJugador } from "@/services/session_browser";
-import { useFiguraContext } from "@/context/FigurasContext";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 
 const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
@@ -34,10 +34,10 @@ const CartasFigura = ({
     const { turno_actual } = usePartida();
     const miSession = LoadSessionJugador();
     const {
-        setCartaFSeleccionada,
+        setCodigoCartaFigura,
         existeFigura,
-        setCartaFiguraIndexSeleccionada,
-        cartaFiguraIndexSeleccionada,
+        setCartaFiguraSeleccionada,
+        cartaFiguraSeleccionada,
     } = useFiguraContext();
     const { cleanMovimientoContexto } = useMovimientoContext();
 
@@ -58,8 +58,8 @@ const CartasFigura = ({
     const seleccionarCarta = (codigo: string, index: number) => {
         if (turno_actual?.id == miSession?.id) {
             if (existeFigura?.includes(codigo)) {
-                setCartaFSeleccionada(codigo);
-                setCartaFiguraIndexSeleccionada(index);
+                setCodigoCartaFigura(codigo);
+                setCartaFiguraSeleccionada(index);
             } else {
                 showToastInfo(
                     "Tú carta no coincide con alguna figura del tablero.",
@@ -79,7 +79,7 @@ const CartasFigura = ({
 
     //Los estados que debo de limpiar al cambiar de turno
     useEffect(() => {
-        setCartaFSeleccionada(undefined);
+        setCodigoCartaFigura(undefined);
     }, [turno_actual]);
 
     return (
@@ -96,7 +96,7 @@ const CartasFigura = ({
                             cleanMovimientoContexto();
                             seleccionarCarta(carta.code, index);
                         }}
-                        isSelect={cartaFiguraIndexSeleccionada === index}
+                        isSelect={cartaFiguraSeleccionada === index}
                     />
                 );
             })}

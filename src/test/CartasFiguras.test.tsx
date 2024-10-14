@@ -5,7 +5,7 @@ import { describe } from "node:test";
 import Figura1 from "@/components/assets/cartas/CartasFiguras/Figura1.png";
 import Figura2 from "@/components/assets/cartas/CartasFiguras/Figura2.png";
 import Figura3 from "@/components/assets/cartas/CartasFiguras/Figura3.png";
-import { FiguraContextProvider } from "@/context/FigurasContext";
+import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 import { PartidaProvider } from "@/context/PartidaContext";
 
 vi.mock("@/services/api/obtener_carta_figura", () => ({

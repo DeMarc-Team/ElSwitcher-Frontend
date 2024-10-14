@@ -4,7 +4,7 @@ import { Casilla } from "@/services/api/jugar_carta_movimiento";
 interface UsarCartaMovimientoContextProps {
     primeraSeleccion: { row: number; col: number } | null;
     segundaSeleccion: { row: number; col: number } | null;
-    cartaSeleccionada: number | undefined;
+    cartaMovimientoSeleccionada: number | undefined;
     codigoCartaMovimiento: string | null;
     pasarTurno: boolean | null;
     parcialmenteUsada: boolean | null;
@@ -22,7 +22,9 @@ interface UsarCartaMovimientoContextProps {
             col: number;
         } | null
     ) => void;
-    setCartaSeleccionada: (cartaSeleccionada: number | undefined) => void;
+    setCartaMovimientoSeleccionada: (
+        cartaMovimientoSeleccionada: number | undefined
+    ) => void;
     setCodigoCartaMovimiento: (codigoCartaMovimiento: string | null) => void;
     setPasarTurno: (pasarTurno: boolean | null) => void;
     setParcialmenteUsada: (parcialmenteUsada: boolean | null) => void;
@@ -46,9 +48,8 @@ export const MovimientoContextProvider: React.FC<{
         row: number;
         col: number;
     } | null>(null);
-    const [cartaSeleccionada, setCartaSeleccionada] = useState<
-        number | undefined
-    >(undefined);
+    const [cartaMovimientoSeleccionada, setCartaMovimientoSeleccionada] =
+        useState<number | undefined>(undefined);
     const [codigoCartaMovimiento, setCodigoCartaMovimiento] = useState<
         string | null
     >(null);
@@ -63,7 +64,7 @@ export const MovimientoContextProvider: React.FC<{
 
     const cleanMovimientoContexto = () => {
         setCodigoCartaMovimiento(null);
-        setCartaSeleccionada(undefined);
+        setCartaMovimientoSeleccionada(undefined);
         setPrimeraSeleccion(null);
         setSegundaSeleccion(null);
         setCasillasMovimientos([]);
@@ -75,7 +76,7 @@ export const MovimientoContextProvider: React.FC<{
             value={{
                 primeraSeleccion,
                 segundaSeleccion,
-                cartaSeleccionada,
+                cartaMovimientoSeleccionada,
                 codigoCartaMovimiento,
                 pasarTurno,
                 parcialmenteUsada,
@@ -83,7 +84,7 @@ export const MovimientoContextProvider: React.FC<{
                 casillasMovimientos,
                 setPrimeraSeleccion,
                 setSegundaSeleccion,
-                setCartaSeleccionada,
+                setCartaMovimientoSeleccionada,
                 setCodigoCartaMovimiento,
                 setPasarTurno,
                 setParcialmenteUsada,

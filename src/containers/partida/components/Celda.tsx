@@ -44,7 +44,7 @@ const Celda: React.FC<CeldaProps> = ({
                     esResaltada(rowIndex, colIndex),
             },
             {
-                "border-4 border-double border-indigo-800": esParteDeFigura(
+                "border-4 border-double border-indigo-500": esParteDeFigura(
                     rowIndex,
                     colIndex
                 ),
