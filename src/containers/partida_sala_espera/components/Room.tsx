@@ -16,8 +16,13 @@ import {
 import { IniciarPartida } from "@/services/api/iniciar_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import { LoadSessionJugador } from "@/services/session_browser";
+import {
+    LoadSessionJugador,
+    RemoveSessionJugador,
+    RemoveSessionPartida,
+} from "@/services/session_browser";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
+import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 
 interface CardHomeProps {
     title: string;
@@ -33,8 +38,12 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
     const [partidaIniciada, setPartidaIniciada] = useState<boolean>(false);
     const session_jugador = LoadSessionJugador();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
-    const { triggerActualizarSalaEspera, openConnectionToPartida } =
-        useInsidePartidaWebSocket();
+    const {
+        triggerActualizarSalaEspera,
+        openConnectionToPartida,
+        triggerSeCanceloPartida,
+        closeConnection,
+    } = useInsidePartidaWebSocket();
 
     const navigate = useNavigate();
 
@@ -58,6 +67,13 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
             redirectPartida();
         }
     }, [partidaIniciada]);
+
+    useEffectSkipFirst(() => {
+        closeConnection();
+        RemoveSessionJugador();
+        RemoveSessionPartida();
+        navigate("/#listapartidas");
+    }, [triggerSeCanceloPartida]);
 
     const info_partida = async () => {
         try {
@@ -158,8 +174,8 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                             Se completó la cantidad de jugadores.
                         </div>
                     )}
-                    <div className="mt-4">
-                        {session_jugador?.id == idCreador ? (
+                    <div className="mt-4 flex flex-col gap-2">
+                        {session_jugador?.id == idCreador && (
                             <Button
                                 onClick={() => {
                                     start_play(id_partida);
@@ -167,12 +183,14 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                             >
                                 Iniciar partida
                             </Button>
-                        ) : (
-                            <ButtonAbandonarPartida
-                                idPartida={id_partida}
-                                idJugador={Number(session_jugador?.id)}
-                            />
                         )}
+                        <ButtonAbandonarPartida
+                            idPartida={id_partida}
+                            idJugador={Number(session_jugador?.id)}
+                            owner_quiere_cancelar={
+                                session_jugador?.id == idCreador
+                            }
+                        />
                     </div>
                 </CardContent>
             </Card>

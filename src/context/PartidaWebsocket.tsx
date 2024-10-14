@@ -1,13 +1,19 @@
 import { createContext, useContext, ReactNode } from "react";
 import { useWebSocketPartida } from "@/services/websockets/websockets_partida";
+import { Jugador } from "@/models/types";
 
 interface PartidaWebsocketContextType {
     message: any;
     readyState: number;
+    ganadorInfo: Jugador | null;
     closeConnection: () => void;
     openConnectionToPartida: (partida_id: string, jugador_id: string) => void;
+    triggerHayGanador: boolean;
     triggerActualizarSalaEspera: boolean;
     triggerActualizarTurno: boolean;
+    triggeractualizarTablero: boolean;
+    triggerActualizarCartasMovimiento: boolean;
+    triggerSeCanceloPartida: boolean;
 }
 
 const PartidaWebsocketContext = createContext<
@@ -22,6 +28,11 @@ export const PartidaWebsocketProvider: React.FC<{ children: ReactNode }> = ({
         readyState,
         triggerActualizarTurno,
         triggerActualizarSalaEspera,
+        triggeractualizarTablero,
+        triggerHayGanador,
+        ganadorInfo,
+        triggerActualizarCartasMovimiento,
+        triggerSeCanceloPartida,
         closeConnection,
         openConnectionToPartida,
     } = useWebSocketPartida();
@@ -35,6 +46,11 @@ export const PartidaWebsocketProvider: React.FC<{ children: ReactNode }> = ({
                 openConnectionToPartida,
                 triggerActualizarSalaEspera,
                 triggerActualizarTurno,
+                triggeractualizarTablero,
+                triggerHayGanador,
+                ganadorInfo,
+                triggerActualizarCartasMovimiento,
+                triggerSeCanceloPartida,
             }}
         >
             {children}
