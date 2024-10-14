@@ -95,7 +95,7 @@ describe("Filtro de cantidad de jugadores", () => {
         });
 
         await waitFor(() => {
-            expect(screen.getByText("Cantidad de jugadores :")).toBeDefined();
+            expect(screen.getByText("Filtrar por :")).toBeDefined();
             expect(screen.getByText("1 Jugador")).toBeDefined();
             expect(screen.getByText("2 Jugadores")).toBeDefined();
             expect(screen.getByText("3 Jugadores")).toBeDefined();

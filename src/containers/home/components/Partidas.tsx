@@ -4,6 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
+import FiltroCantJugadores from "./FiltroCantJugadores";
 
 interface PartidaConJugadores extends Partida {
     cantidad_jugadores: number;
@@ -14,7 +15,8 @@ function Partidas() {
     const [partidasFiltradas, setPartidasFiltradas] = useState<
         PartidaConJugadores[]
     >([]);
-    const [filtros, setFiltros] = useState<number[]>([]); // Estado para saber que checkboxes están activos
+    const [filtrosActivosCantJugadores, setFiltrosActivosCantJugadores] =
+        useState<number[]>([]); // Estado para saber que checkboxes están activos
     const { triggerActualizaPartidas } = useWebSocketListaPartidas();
 
     useEffect(() => {
@@ -45,28 +47,28 @@ function Partidas() {
 
     useEffect(() => {
         filtrarPartidas();
-    }, [filtros]);
+    }, [filtrosActivosCantJugadores]);
 
-    const manejarFiltro = (cantidad: number) => {
-        setFiltros((prevFiltros) => {
+    const filtrarPartidas = () => {
+        if (filtrosActivosCantJugadores.length === 0) {
+            // Si no hay filtros seleccionados, mostrar todas las partidas
+            setPartidasFiltradas(partidas);
+        } else {
+            const listaAux = partidas.filter((partida) =>
+                filtrosActivosCantJugadores.includes(partida.cantidad_jugadores)
+            );
+            setPartidasFiltradas(listaAux);
+        }
+    };
+
+    const manejarFiltroCantJugadores = (cantidad: number) => {
+        setFiltrosActivosCantJugadores((prevFiltros) => {
             if (prevFiltros.includes(cantidad)) {
                 return prevFiltros.filter((filtro) => filtro !== cantidad);
             } else {
                 return prevFiltros.concat(cantidad);
             }
         });
-    };
-
-    const filtrarPartidas = () => {
-        if (filtros.length === 0) {
-            // Si no hay filtros seleccionados, mostrar todas las partidas
-            setPartidasFiltradas(partidas);
-        } else {
-            const listaAux = partidas.filter((partida) =>
-                filtros.includes(partida.cantidad_jugadores)
-            );
-            setPartidasFiltradas(listaAux);
-        }
     };
 
     return (
@@ -78,41 +80,10 @@ function Partidas() {
                 Lista de partidas
             </p>
 
-            <div className="flex flex-row items-start">
-                <label className="m-2 flex items-center font-bold">
-                    Cantidad de jugadores :
-                </label>
-                <label className="m-2 flex items-center">
-                    <input
-                        type="checkbox"
-                        className="h-5 w-5 accent-green-800"
-                        value={1}
-                        onChange={() => manejarFiltro(1)}
-                        checked={filtros.includes(1)}
-                    />
-                    <span className="ml-2 font-bold">1 Jugador</span>
-                </label>
-                <label className="m-2 flex items-center">
-                    <input
-                        type="checkbox"
-                        className="h-5 w-5 accent-green-800"
-                        value={2}
-                        onChange={() => manejarFiltro(2)}
-                        checked={filtros.includes(2)}
-                    />
-                    <span className="ml-2 font-bold">2 Jugadores</span>
-                </label>
-                <label className="m-2 flex items-center">
-                    <input
-                        type="checkbox"
-                        className="h-5 w-5 accent-green-800"
-                        value={3}
-                        onChange={() => manejarFiltro(3)}
-                        checked={filtros.includes(3)}
-                    />
-                    <span className="ml-2 font-bold">3 Jugadores</span>
-                </label>
-            </div>
+            <FiltroCantJugadores
+                filtros={filtrosActivosCantJugadores}
+                manejarFiltro={manejarFiltroCantJugadores}
+            />
 
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
                 <div className="flex flex-col space-y-4 p-4">
