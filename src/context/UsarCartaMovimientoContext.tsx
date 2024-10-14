@@ -28,6 +28,7 @@ interface UsarCartaMovimientoContextProps {
     setParcialmenteUsada: (parcialmenteUsada: boolean | null) => void;
     setRotVec: (rotVec: { x: number; y: number } | null) => void;
     setCasillasMovimientos: (casillasMovimientos: Casilla[]) => void;
+    cleanMovimientoContexto: () => void;
 }
 
 const MovimientoContext = createContext<
@@ -60,6 +61,15 @@ export const MovimientoContextProvider: React.FC<{
         []
     );
 
+    const cleanMovimientoContexto = () => {
+        setCodigoCartaMovimiento(null);
+        setCartaSeleccionada(undefined);
+        setPrimeraSeleccion(null);
+        setSegundaSeleccion(null);
+        setCasillasMovimientos([]);
+        setPasarTurno(null);
+    }
+
     return (
         <MovimientoContext.Provider
             value={{
@@ -79,6 +89,7 @@ export const MovimientoContextProvider: React.FC<{
                 setParcialmenteUsada,
                 setRotVec,
                 setCasillasMovimientos,
+                cleanMovimientoContexto,
             }}
         >
             {children}

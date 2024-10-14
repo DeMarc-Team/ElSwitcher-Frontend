@@ -8,6 +8,7 @@ import Cartas from "./Cartas";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { usePartida } from "@/context/PartidaContext";
 import { useNotification } from "@/hooks/useNotification";
+import { useFiguraContext } from "@/context/FigurasContext";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
@@ -44,6 +45,7 @@ const CartasMovimiento = ({
     } = useMovimientoContext();
     const { turno_actual, jugador } = usePartida();
     const { showToastInfo, closeToast } = useNotification();
+    const { cleanFiguraContexto } = useFiguraContext();
 
     const cartaCodigoMovimiento = (index: number, code: string) => {
         if (turno_actual?.id == jugador?.id) {
@@ -87,6 +89,7 @@ const CartasMovimiento = ({
                         middle={isMiddleCard(cartasMovimiento, index)}
                         altText={`Carta ${index + 1}`}
                         onClick={() => {
+                            cleanFiguraContexto();
                             cartaCodigoMovimiento(index, carta.code);
                         }}
                         isSelect={cartaSeleccionada === index}

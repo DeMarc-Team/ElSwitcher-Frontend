@@ -6,6 +6,7 @@ import { useNotification } from "@/hooks/useNotification";
 import { usePartida } from "@/context/PartidaContext";
 import { LoadSessionJugador } from "@/services/session_browser";
 import { useFiguraContext } from "@/context/FigurasContext";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 
 const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
     if (cartasFiguras.length === 3) {
@@ -32,7 +33,8 @@ const CartasFigura = ({
     const { showToastInfo, showToastError, closeToast } = useNotification();
     const { turno_actual } = usePartida();
     const miSession = LoadSessionJugador();
-    const { setCartaFSeleccionada, existeFigura } = useFiguraContext();
+    const { setCartaFSeleccionada, existeFigura, setCartaFiguraIndexSeleccionada, cartaFiguraIndexSeleccionada} = useFiguraContext();
+    const {cleanMovimientoContexto} = useMovimientoContext();
 
     useEffect(() => {
         fetchCartasFigura();
@@ -50,10 +52,11 @@ const CartasFigura = ({
         }
     };
 
-    const seleccionarCarta = (codigo: string) => {
+    const seleccionarCarta = (codigo: string, index: number) => {
         if (turno_actual?.id == miSession?.id) {
             if (existeFigura?.includes(codigo)) {
                 setCartaFSeleccionada(codigo);
+                setCartaFiguraIndexSeleccionada(index);
             } else {
                 showToastInfo("Tú carta no coincide con alguna figura del tablero.", true);
                 setTimeout(() => {
@@ -83,8 +86,11 @@ const CartasFigura = ({
                         rotation={Rotation(cartasFiguras, index)}
                         middle={isMiddleCard(cartasFiguras, index)}
                         altText={`Carta ${index + 1}`}
-                        onClick={() => seleccionarCarta(carta.code)}
-                        isSelect={false}
+                        onClick={() => {
+                            cleanMovimientoContexto();
+                            seleccionarCarta(carta.code, index);
+                        }}
+                        isSelect={cartaFiguraIndexSeleccionada === index}
                     />
                 );
             })}
