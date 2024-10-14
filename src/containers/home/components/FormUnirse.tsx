@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { CircleArrowRight } from "lucide-react";
+import { CircleArrowRight, User } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
@@ -21,9 +21,10 @@ import {
 interface FormUnirseProps {
     partidaId: number;
     partidaName: string;
+    partidaJugadores : number;
 }
 
-function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
+function FormUnirse({ partidaId, partidaName,partidaJugadores }: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
 
     const [username, setUsername] = useState("");
@@ -88,6 +89,8 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
                         <b>{partidaName}</b>
                     </span>
                     <div className="flex items-center justify-center gap-2">
+                        <span className="font font-extrabold">{partidaJugadores}</span>
+                        <User/> 
                         <span className="underline">Unirse</span>
                         <CircleArrowRight className="w-5" />
                     </div>
