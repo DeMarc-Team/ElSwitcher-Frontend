@@ -8,6 +8,7 @@ import Figura3 from "@/components/assets/cartas/CartasFiguras/Figura3.png";
 import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 import { PartidaProvider } from "@/context/PartidaContext";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
+import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
 
 vi.mock("@/services/api/obtener_carta_figura", () => ({
     ObtenerCartasFiguras: vi.fn((id_partida: number, id_jugador: number) =>
@@ -23,13 +24,15 @@ describe("Cartas de figuras", () => {
     test("Se renderizan las 3 cartas", async () => {
         await act(async () => {
             render(
-                <PartidaProvider>
-                    <MovimientoContextProvider>
-                        <FiguraContextProvider>
-                            <CartasFigura id_partida={1} id_jugador={1} />
-                        </FiguraContextProvider>
-                    </MovimientoContextProvider>
-                </PartidaProvider>
+                <PartidaWebsocketProvider>
+                    <PartidaProvider>
+                        <MovimientoContextProvider>
+                            <FiguraContextProvider>
+                                <CartasFigura id_partida={1} id_jugador={1} />
+                            </FiguraContextProvider>
+                        </MovimientoContextProvider>
+                    </PartidaProvider>
+                </PartidaWebsocketProvider>
             );
         });
 
@@ -40,13 +43,15 @@ describe("Cartas de figuras", () => {
     test("Tienen bien su texto alternativo", async () => {
         await act(async () => {
             render(
-                <PartidaProvider>
-                    <MovimientoContextProvider>
-                        <FiguraContextProvider>
-                            <CartasFigura id_partida={1} id_jugador={1} />
-                        </FiguraContextProvider>
-                    </MovimientoContextProvider>
-                </PartidaProvider>
+                <PartidaWebsocketProvider>
+                    <PartidaProvider>
+                        <MovimientoContextProvider>
+                            <FiguraContextProvider>
+                                <CartasFigura id_partida={1} id_jugador={1} />
+                            </FiguraContextProvider>
+                        </MovimientoContextProvider>
+                    </PartidaProvider>
+                </PartidaWebsocketProvider>
             );
         });
 
@@ -60,13 +65,15 @@ describe("Cartas de figuras", () => {
     test("Se muestra la imagen correcta", async () => {
         await act(async () => {
             render(
-                <PartidaProvider>
-                    <MovimientoContextProvider>
-                        <FiguraContextProvider>
-                            <CartasFigura id_partida={1} id_jugador={1} />
-                        </FiguraContextProvider>
-                    </MovimientoContextProvider>
-                </PartidaProvider>
+                <PartidaWebsocketProvider>
+                    <PartidaProvider>
+                        <MovimientoContextProvider>
+                            <FiguraContextProvider>
+                                <CartasFigura id_partida={1} id_jugador={1} />
+                            </FiguraContextProvider>
+                        </MovimientoContextProvider>
+                    </PartidaProvider>
+                </PartidaWebsocketProvider>
             );
         });
 

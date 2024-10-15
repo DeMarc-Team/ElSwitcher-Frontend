@@ -41,7 +41,8 @@ const CartasFigura = ({
         cartaFiguraSeleccionada,
     } = useFiguraContext();
     const { cleanMovimientoContexto } = useMovimientoContext();
-    const {triggerActualizarCartasFigura, triggerActualizarTurno} = useInsidePartidaWebSocket();
+    const { triggerActualizarCartasFigura, triggerActualizarTurno } =
+        useInsidePartidaWebSocket();
 
     useEffect(() => {
         fetchCartasFigura();

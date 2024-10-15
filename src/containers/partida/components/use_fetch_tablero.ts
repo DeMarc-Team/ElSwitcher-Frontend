@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ObtenerTablero, Figura } from "@/services/api/ver_tablero";
 import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 
-
 const useFetchTablero = (id_partida: number) => {
     const [tablero, setTablero] = useState<number[][]>([]);
     const [figuras, setFiguras] = useState<Figura[]>([]);

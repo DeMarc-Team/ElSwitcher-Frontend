@@ -42,17 +42,20 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
         if (figura && figura.nombre === codigoCartaFigura) {
             setFiguraSeleccionada(figura);
             if (jugador && partida) {
-                try{ 
-                    JugarCartaFigura(figura.casillas, partida.id , jugador.id, figura.nombre)
+                try {
+                    JugarCartaFigura(
+                        figura.casillas,
+                        partida.id,
+                        jugador.id,
+                        figura.nombre
+                    );
                     setTimeout(() => {
-                        setFiguraSeleccionada(null)
-                    },1000);
-                }
-                catch (error){
+                        setFiguraSeleccionada(null);
+                    }, 1000);
+                } catch (error) {
                     console.error("Error al jugar la carta de figura:", error);
                 }
-            }
-            else{
+            } else {
                 console.error("Partida o jugador no definido");
             }
         } else {
@@ -63,7 +66,7 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
     // Mostrar mensaje si no hay carta seleccionada
     const mostrarMensajeSinSeleccion = () => {
         showToastInfo("No has seleccionado ninguna carta.", true);
-        
+
         setTimeout(() => {
             closeToast();
         }, 2000);

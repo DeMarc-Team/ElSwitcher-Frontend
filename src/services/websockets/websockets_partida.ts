@@ -31,11 +31,8 @@ const useWebSocketPartida = () => {
         triggerActualizarCartasMovimiento,
         setTriggerActualizarCartasMovimiento,
     ] = useState(false);
-    const [
-        triggerActualizarCartasFigura, 
-        setTriggerActualizarCartasFigura,
-
-    ] = useState(false)
+    const [triggerActualizarCartasFigura, setTriggerActualizarCartasFigura] =
+        useState(false);
 
     // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
@@ -61,10 +58,8 @@ const useWebSocketPartida = () => {
             setTriggerActualizarCartasMovimiento(
                 !triggerActualizarCartasMovimiento
             );
-        } else if (message.action === "actualizar_cartas_figura"){
-            setTriggerActualizarCartasFigura(
-                !triggerActualizarCartasFigura
-            );
+        } else if (message.action === "actualizar_cartas_figura") {
+            setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
         }
     }, [message]);
 

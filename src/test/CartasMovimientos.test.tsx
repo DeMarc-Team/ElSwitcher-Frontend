@@ -28,7 +28,10 @@ describe("Cartas de movimietntos", () => {
                     <PartidaProvider>
                         <MovimientoContextProvider>
                             <FiguraContextProvider>
-                                <CartasMovimiento id_partida={1} id_jugador={1} />
+                                <CartasMovimiento
+                                    id_partida={1}
+                                    id_jugador={1}
+                                />
                             </FiguraContextProvider>
                         </MovimientoContextProvider>
                     </PartidaProvider>
@@ -48,7 +51,10 @@ describe("Cartas de movimietntos", () => {
                     <PartidaProvider>
                         <MovimientoContextProvider>
                             <FiguraContextProvider>
-                                <CartasMovimiento id_partida={1} id_jugador={1} />
+                                <CartasMovimiento
+                                    id_partida={1}
+                                    id_jugador={1}
+                                />
                             </FiguraContextProvider>
                         </MovimientoContextProvider>
                     </PartidaProvider>
@@ -70,7 +76,10 @@ describe("Cartas de movimietntos", () => {
                     <PartidaProvider>
                         <MovimientoContextProvider>
                             <FiguraContextProvider>
-                                <CartasMovimiento id_partida={1} id_jugador={1} />
+                                <CartasMovimiento
+                                    id_partida={1}
+                                    id_jugador={1}
+                                />
                             </FiguraContextProvider>
                         </MovimientoContextProvider>
                     </PartidaProvider>
