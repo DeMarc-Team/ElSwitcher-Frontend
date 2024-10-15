@@ -2,10 +2,15 @@ import { Button } from "@/components/ui/button";
 import { useNotification } from "@/hooks/useNotification";
 import { PasarTurno } from "@/services/api/pasar_turno";
 import { usePartida } from "@/context/PartidaContext";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 
 export default function ButtonPasarTurno() {
     const { turno_actual, jugador, partida } = usePartida();
     const { showToastAlert, closeToast } = useNotification();
+    const { cleanMovimientoContexto } = useMovimientoContext();
+    const { cleanFiguraContexto } = useFiguraContext();
+
     const handlePasarTurno = async () => {
         if (!partida || !jugador || !turno_actual) {
             return;
@@ -13,6 +18,8 @@ export default function ButtonPasarTurno() {
         if (turno_actual.id == jugador.id) {
             try {
                 await PasarTurno(partida.id, jugador.id);
+                cleanMovimientoContexto();
+                cleanFiguraContexto();
             } catch (error) {
                 showToastAlert("Error al pasar el turno.");
                 setTimeout(() => {
