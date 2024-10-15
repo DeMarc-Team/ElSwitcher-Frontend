@@ -1,46 +1,74 @@
-import React, { useEffect, useState } from "react";
-import { ObtenerTablero } from "../../../services/api/ver_tablero";
-import { cn } from "@/services/shadcn_lib/utils";
-
-const COLORES: string[] = [
-    "red", // 0
-    "green", // 1
-    "blue", // 2
-    "yellow", // 3
-];
-
+import React, { useEffect } from "react";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
+import Celda from "@/containers/partida/components/Celda";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
+import { useFuncionesSeleccion } from "./funciones_seleccion";
+import useFetchTablero from "./use_fetch_tablero";
 interface DashboardProps {
     id_partida: number;
 }
 
 const Board: React.FC<DashboardProps> = ({ id_partida }) => {
-    const [tablero, setTablero] = useState<number[][]>([]);
+    const { tablero, figuras, fetchTablero } = useFetchTablero(id_partida);
+    const { triggeractualizarTablero } = useInsidePartidaWebSocket();
+    const {
+        primeraSeleccion,
+        cartaMovimientoSeleccionada,
+        setCartaMovimientoSeleccionada,
+        setCasillasMovimientos,
+    } = useMovimientoContext();
+    const { codigoCartaFigura } = useFiguraContext();
+    const {
+        manejarSeleccionFigura,
+        mostrarMensajeSinSeleccion,
+        esCasillaResaltada,
+        estaDeshabilitado,
+        esParteDeFigura,
+        figuraElegida,
+        manejarSeleccionMovimiento,
+    } = useFuncionesSeleccion(figuras);
 
-    const fetchTablero = async () => {
-        try {
-            const data = await ObtenerTablero(id_partida);
-            setTablero(data.tablero6x6);
-        } catch (error) {
-            console.error("Error al obtener el tablero:", error);
+    const manejarSeleccionClick = (row: number, col: number) => {
+        // Verificar si hay una carta seleccionada
+        if (
+            cartaMovimientoSeleccionada !== undefined ||
+            codigoCartaFigura !== undefined
+        ) {
+            if (cartaMovimientoSeleccionada !== undefined) {
+                manejarSeleccionMovimiento(row, col);
+            } else {
+                manejarSeleccionFigura(row, col);
+            }
+        } else {
+            mostrarMensajeSinSeleccion();
         }
     };
 
+    // Actualizar tablero cuando se detecte un cambio en el WebSocket
     useEffect(() => {
         fetchTablero();
-    }, [id_partida]);
+        setCartaMovimientoSeleccionada(undefined);
+        setCasillasMovimientos([]);
+    }, [triggeractualizarTablero]);
 
     return (
         <div className="flex h-fit w-[388px] items-center justify-center">
             <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-4 border-black bg-yellow-100 p-2 shadow-2xl">
-                {tablero.map((row, rowIndex) =>
+                {tablero.map((row: number[], rowIndex: number) =>
                     row.map((cell, colIndex) => (
-                        <button
+                        <Celda
                             key={`${rowIndex}-${colIndex}`}
-                            className={cn(
-                                "flex h-12 w-12 items-center justify-center rounded-lg border-2 border-black bg-blue-400 shadow-lg hover:scale-110 hover:border-indigo-500",
-                                `bg-${COLORES[cell - 1]}-400`
-                            )}
-                        ></button>
+                            rowIndex={rowIndex}
+                            colIndex={colIndex}
+                            cell={cell}
+                            handleClick={manejarSeleccionClick}
+                            esResaltada={esCasillaResaltada} // Con respecto a movimiento
+                            esParteDeFigura={esParteDeFigura} // Para detectar figuras en el tablero
+                            primeraSeleccion={primeraSeleccion}
+                            estaDeshabilitado={estaDeshabilitado}
+                            destacarFigura={figuraElegida}
+                        />
                     ))
                 )}
             </div>

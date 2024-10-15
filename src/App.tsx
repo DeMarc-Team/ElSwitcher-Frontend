@@ -5,6 +5,8 @@ import SalaEspera from "@/containers/partida_sala_espera/SalaEspera";
 import Partida from "@/containers/partida/Partida";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
 import { PartidaProvider } from "@/context/PartidaContext";
+import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
+import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 
 function App() {
     return (
@@ -21,7 +23,11 @@ function App() {
                             path="/partidas/:id_partida"
                             element={
                                 <PartidaProvider>
-                                    <Partida />
+                                    <MovimientoContextProvider>
+                                        <FiguraContextProvider>
+                                            <Partida />
+                                        </FiguraContextProvider>
+                                    </MovimientoContextProvider>
                                 </PartidaProvider>
                             }
                         />

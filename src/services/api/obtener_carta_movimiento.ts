@@ -2,6 +2,7 @@ import { API_HOST } from "./const";
 
 interface CartaMovimientoResponse {
     movimiento: string;
+    usada_en_movimiento_parcial: boolean;
 }
 
 const ObtenerCartasMovimientos = async (
@@ -24,8 +25,8 @@ const ObtenerCartasMovimientos = async (
                 `Fallo obteniendo las cartas movimientos!  Status: ${response.status}`
             );
         }
-
-        return await response.json();
+        let data = await response.json();
+        return data;
     } catch (error) {
         console.error("Error cartas de movimientos:", error);
         throw error;
