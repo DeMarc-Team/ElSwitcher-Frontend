@@ -1,5 +1,3 @@
-import { UserRound } from "lucide-react";
-
 interface FiltroCantJugadoresProps {
     filtros: number[];
     manejarFiltro: (cantidad: number) => void;
