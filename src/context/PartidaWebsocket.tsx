@@ -13,6 +13,7 @@ interface PartidaWebsocketContextType {
     triggerActualizarTurno: boolean;
     triggeractualizarTablero: boolean;
     triggerActualizarCartasMovimiento: boolean;
+    triggerSeCanceloPartida: boolean;
     triggerActualizarCartasFigura: boolean;
 }
 
@@ -32,6 +33,7 @@ export const PartidaWebsocketProvider: React.FC<{ children: ReactNode }> = ({
         triggerHayGanador,
         ganadorInfo,
         triggerActualizarCartasMovimiento,
+        triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
         closeConnection,
         openConnectionToPartida,
@@ -50,6 +52,7 @@ export const PartidaWebsocketProvider: React.FC<{ children: ReactNode }> = ({
                 triggerHayGanador,
                 ganadorInfo,
                 triggerActualizarCartasMovimiento,
+                triggerSeCanceloPartida,
                 triggerActualizarCartasFigura,
             }}
         >
