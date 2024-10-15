@@ -6,6 +6,7 @@ import Partida from "@/containers/partida/Partida";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
 import { PartidaProvider } from "@/context/PartidaContext";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
+import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 
 function App() {
     return (
@@ -23,7 +24,9 @@ function App() {
                             element={
                                 <PartidaProvider>
                                     <MovimientoContextProvider>
-                                        <Partida />
+                                        <FiguraContextProvider>
+                                            <Partida />
+                                        </FiguraContextProvider>
                                     </MovimientoContextProvider>
                                 </PartidaProvider>
                             }

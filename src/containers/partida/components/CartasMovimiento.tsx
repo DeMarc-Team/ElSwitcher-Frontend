@@ -8,6 +8,7 @@ import Cartas from "./Cartas";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { usePartida } from "@/context/PartidaContext";
 import { useNotification } from "@/hooks/useNotification";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
@@ -35,16 +36,17 @@ const CartasMovimiento = ({
         []
     );
     const {
-        cartaSeleccionada,
+        cartaMovimientoSeleccionada,
         setPrimeraSeleccion,
         setCasillasMovimientos,
-        setCartaSeleccionada,
+        setCartaMovimientoSeleccionada,
         setCodigoCartaMovimiento,
         setParcialmenteUsada,
         setRotVec,
     } = useMovimientoContext();
     const { turno_actual, jugador } = usePartida();
     const { showToastInfo, closeToast } = useNotification();
+    const { cleanFiguraContexto } = useFiguraContext();
     const { triggerActualizarCartasMovimiento, triggerActualizarTurno } =
         useInsidePartidaWebSocket();
 
@@ -52,7 +54,7 @@ const CartasMovimiento = ({
         if (turno_actual?.id == jugador?.id) {
             setPrimeraSeleccion(null);
             setCasillasMovimientos([]);
-            setCartaSeleccionada(index);
+            setCartaMovimientoSeleccionada(index);
             setCodigoCartaMovimiento(code);
             setParcialmenteUsada(cartasMovimiento[index].parcialmente_usada);
             setRotVec(cartasMovimiento[index].rot_vec);
@@ -90,9 +92,10 @@ const CartasMovimiento = ({
                         middle={isMiddleCard(cartasMovimiento, index)}
                         altText={`Carta ${index + 1}`}
                         onClick={() => {
+                            cleanFiguraContexto();
                             cartaCodigoMovimiento(index, carta.code);
                         }}
-                        isSelect={cartaSeleccionada === index}
+                        isSelect={cartaMovimientoSeleccionada === index}
                     />
                 );
             })}

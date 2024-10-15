@@ -74,52 +74,50 @@ const procesarFiguras = (figurasResaltadas: any): Figura[] => {
 
         figuras.push(figura);
     }
-
     return figuras;
 };
-
-export { ObtenerTablero, type Tablero, type Casilla, type Figura };
+export { ObtenerTablero, type Casilla, type Figura, type Tablero };
 
 //Hardcodeo para probar el destacado de las figuras
-// const hardcodedTablero: number[][] = [
-//     [3, 3, 2, 1, 4, 1],
-//     [1, 2, 3, 4, 1, 2],
-//     [2, 3, 4, 1, 2, 3],
-//     [3, 4, 1, 2, 3, 4],
-//     [4, 1, 2, 3, 4, 1],
-//     [1, 2, 3, 4, 1, 2],
-// ];
-
-// const hardcodedFiguras: Figura[] = [
-//     {
-//         nombre: "f2",
-//         casillas: [
-//             { row: 0, column: 0 },
-//             { row: 0, column: 1 },
-//             { row: 1, column: 1 },
-//             { row: 1, column: 2 },
-//             { row: 1, column: 3 },
-//         ],
-//     },
-//     {
-//         nombre: "f1",
-//         casillas: [
-//             { row: 3, column: 0 },
-//             { row: 3, column: 1 },
-//             { row: 3, column: 2 },
-//             { row: 4, column: 1 },
-//             { row: 5, column: 1 },
-//         ],
-//     },
-// ];
 
 // const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
 //     // Simulando la respuesta hardcoded
-//     return new Promise((resolve) => {
-//         resolve({
-//             tablero6x6: hardcodedTablero,
-//             figuras: hardcodedFiguras,
-//         });
-//     });
+//     const tablero6x6: number[][] = [
+//         [3, 3, 2, 1, 4, 1],
+//         [1, 2, 3, 4, 1, 2],
+//         [2, 3, 4, 1, 2, 3],
+//         [3, 4, 1, 2, 3, 4],
+//         [4, 1, 2, 3, 4, 1],
+//         [1, 2, 3, 4, 1, 2],
+//     ];
+
+//     const figuras: Figura[] = [
+//         {
+//             nombre: "f2",
+//             casillas: [
+//                 { row: 0, column: 0 },
+//                 { row: 0, column: 1 },
+//                 { row: 1, column: 1 },
+//                 { row: 1, column: 2 },
+//                 { row: 1, column: 3 },
+//             ],
+//         },
+//         {
+//             nombre: "f1",
+//             casillas: [
+//                 { row: 3, column: 0 },
+//                 { row: 3, column: 1 },
+//                 { row: 3, column: 2 },
+//                 { row: 4, column: 1 },
+//                 { row: 5, column: 1 },
+//             ],
+//         },
+//     ];
+//     console.log("Lo que fetcheo")
+//         console.log(figuras)
+//     return{
+//             tablero6x6,
+//             figuras,
+//     };
 // };
-//export { ObtenerTablero, type Tablero, type Casilla, type Figura};
+// export { ObtenerTablero, type Tablero, type Casilla, type Figura};

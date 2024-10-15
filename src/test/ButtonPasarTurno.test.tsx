@@ -5,6 +5,7 @@ import { PasarTurno } from "@/services/api/pasar_turno";
 import { usePartida } from "@/context/PartidaContext";
 import { useNotification } from "@/hooks/useNotification";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
+import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 
 // Mockear `usePartida`
 vi.mock("@/context/PartidaContext", () => ({
@@ -62,7 +63,9 @@ describe("ButtonPasarTurno", () => {
         // Renderizar el componente
         render(
             <MovimientoContextProvider>
-                <ButtonPasarTurno />
+                <FiguraContextProvider>
+                    <ButtonPasarTurno />
+                </FiguraContextProvider>
             </MovimientoContextProvider>
         );
 
@@ -90,7 +93,9 @@ describe("ButtonPasarTurno", () => {
         // Renderizar el componente
         render(
             <MovimientoContextProvider>
-                <ButtonPasarTurno />
+                <FiguraContextProvider>
+                    <ButtonPasarTurno />
+                </FiguraContextProvider>
             </MovimientoContextProvider>
         );
 
@@ -113,7 +118,9 @@ describe("ButtonPasarTurno", () => {
         // Renderizar el componente
         render(
             <MovimientoContextProvider>
-                <ButtonPasarTurno />
+                <FiguraContextProvider>
+                    <ButtonPasarTurno />
+                </FiguraContextProvider>
             </MovimientoContextProvider>
         );
 
