@@ -42,13 +42,11 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
         if (figura && figura.nombre === codigoCartaFigura) {
             setFiguraSeleccionada(figura);
             if (jugador && partida) {
-                try{
-                    console.log("Se esta intentando jugar")
-                    console.log("Figura",figura.casillas,figura.nombre)
-                    console.log("Partida",partida.id)
-                    console.log("Jugador",jugador.id)
-                    
+                try{ 
                     JugarCartaFigura(figura.casillas, partida.id , jugador.id, figura.nombre)
+                    setTimeout(() => {
+                        setFiguraSeleccionada(null)
+                    },1000);
                 }
                 catch (error){
                     console.error("Error al jugar la carta de figura:", error);
