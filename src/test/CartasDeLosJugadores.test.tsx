@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+    act,
+    fireEvent,
+    render,
+    screen,
+    waitFor,
+} from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { CartasDeLosJugadores } from "@/containers/partida/components/CartasDeLosJugadores";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
@@ -33,15 +39,12 @@ vi.mock("@/services/api/obtener_carta_figura", () => ({
 }));
 
 describe("Componente CartasDeLosJugadores", () => {
-
     test("Renderiza el espacio de las cartas de los otros jugadores", async () => {
-        render(
-        <CartasDeLosJugadores id_partida={1} id_jugador={123} />
-        );
+        render(<CartasDeLosJugadores id_partida={1} id_jugador={123} />);
         await waitFor(() => {
             // Verificar que el título se renderiza
             expect(screen.getByText("Cartas de otros jugadores")).toBeDefined();
-            
+
             // Verificar que el nombre del segundo jugador se renderiza
             expect(screen.getByText("Cartas de Jugador 2")).toBeDefined();
         });
@@ -49,9 +52,7 @@ describe("Componente CartasDeLosJugadores", () => {
 
     test("Se muestran las cartas del jugador", async () => {
         await act(async () => {
-            render(
-                <CartasDeLosJugadores id_partida={1} id_jugador={123} />
-            );
+            render(<CartasDeLosJugadores id_partida={1} id_jugador={123} />);
         });
         await waitFor(() => {
             //Está ese jugador
@@ -59,15 +60,14 @@ describe("Componente CartasDeLosJugadores", () => {
 
             //Clickeo sobre su nombre
             const nombreJugador = screen.getByText("Cartas de Jugador 2");
-            fireEvent.click(nombreJugador)
+            fireEvent.click(nombreJugador);
 
             //Veo sus cartas
-            expect(screen.findAllByRole("img"))
+            expect(screen.findAllByRole("img"));
         });
-        const cartasImg = await screen.findAllByRole("img")
+        const cartasImg = await screen.findAllByRole("img");
         expect(cartasImg[0]).toHaveAttribute("src", Figura1);
         expect(cartasImg[1]).toHaveAttribute("src", Figura2);
         expect(cartasImg[2]).toHaveAttribute("src", Figura3);
     });
-
 });

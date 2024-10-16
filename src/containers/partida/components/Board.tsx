@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ObtenerTablero, Figura } from "../../../services/api/ver_tablero";
-import { cn } from "@/services/shadcn_lib/utils";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import { usePartida } from "@/context/PartidaContext";
