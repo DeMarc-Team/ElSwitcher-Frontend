@@ -3,17 +3,12 @@ import FormUnirse from "./FormUnirse";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
-import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
 import FiltroCantJugadores from "./FiltroCantJugadores";
 
-interface PartidaConJugadores extends Partida {
-    cantidad_jugadores: number;
-}
-
 function Partidas() {
-    const [partidas, setPartidas] = useState<PartidaConJugadores[]>([]);
+    const [partidas, setPartidas] = useState<Partida[]>([]);
     const [partidasFiltradas, setPartidasFiltradas] = useState<
-        PartidaConJugadores[]
+        Partida[]
     >([]);
     const [filtrosActivosCantJugadores, setFiltrosActivosCantJugadores] =
         useState<number[]>([]); // Estado para saber que checkboxes están activos
@@ -26,20 +21,9 @@ function Partidas() {
     const fetchPartidas = async () => {
         try {
             const data = await ObtenerPartidas();
-            const partidasConJugadores: PartidaConJugadores[] = [];
-
-            for (const partida of data) {
-                const infoData = await ObtenerInfoPartida(partida.id);
-                let partidaConCantidadJugadores: PartidaConJugadores = {
-                    id: partida.id,
-                    nombre_partida: partida.nombre_partida,
-                    cantidad_jugadores: infoData.cantidad_jugadores,
-                };
-                partidasConJugadores.push(partidaConCantidadJugadores);
-            }
-
-            setPartidas(partidasConJugadores);
-            setPartidasFiltradas(partidasConJugadores);
+            console.log(data)
+            setPartidas(data);
+            setPartidasFiltradas(data);
         } catch (err) {
             console.error("No se pudieron obtener las partidas.");
         }
@@ -55,7 +39,7 @@ function Partidas() {
             setPartidasFiltradas(partidas);
         } else {
             const listaAux = partidas.filter((partida) =>
-                filtrosActivosCantJugadores.includes(partida.cantidad_jugadores)
+                filtrosActivosCantJugadores.includes(partida.numero_de_jugadores)
             );
             setPartidasFiltradas(listaAux);
         }
@@ -94,7 +78,7 @@ function Partidas() {
                                     partidaId={partida.id}
                                     partidaName={partida.nombre_partida}
                                     partidaJugadores={
-                                        partida.cantidad_jugadores
+                                        partida.numero_de_jugadores
                                     }
                                 />
                             </li>
