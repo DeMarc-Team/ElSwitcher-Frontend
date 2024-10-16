@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { imageCartaFigura, type CartaFigura } from "./img_cartas_figura";
 import { ObtenerCartasFiguras } from "@/services/api/obtener_carta_figura";
 import Cartas from "./Cartas";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 const CartasDeJugador = ({
     id_partida,
@@ -12,11 +13,12 @@ const CartasDeJugador = ({
     id_jugador: number;
     nombre_jugador: string;
 }) => {
+    const { triggerActualizarCartasFigura } = useInsidePartidaWebSocket();
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
 
     useEffect(() => {
         fetchCartasMovimiento();
-    }, []);
+    }, [triggerActualizarCartasFigura]);
 
     const fetchCartasMovimiento = async () => {
         try {
