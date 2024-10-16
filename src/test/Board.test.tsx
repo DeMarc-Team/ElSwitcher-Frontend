@@ -1,6 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
-import Board from "../containers/partida/components/Board"; // Ajusta la ruta según tu proyecto
+import Board from "../containers/partida/components/Board";
+import { Partida } from "@/models/types";
+import { SaveSessionPartida } from "@/services/session_browser";
+import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 import { PartidaProvider } from "@/context/PartidaContext";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
@@ -42,13 +45,22 @@ vi.mock("@/services/api/ver_tablero", () => ({
     ),
 }));
 
+const mockPartida: Partida = {
+    id: 1,
+    nombre: "Partida 1",
+};
+
 describe("Componente Board", () => {
+    SaveSessionPartida(mockPartida);
+
     test("Se renderiza todo el tablero", async () => {
         render(
             <PartidaWebsocketProvider>
                 <PartidaProvider>
                     <MovimientoContextProvider>
-                        <Board id_partida={1} />
+                        <FiguraContextProvider>
+                            <Board id_partida={1} />
+                        </FiguraContextProvider>
                     </MovimientoContextProvider>
                 </PartidaProvider>
             </PartidaWebsocketProvider>
@@ -65,7 +77,9 @@ describe("Componente Board", () => {
             <PartidaWebsocketProvider>
                 <PartidaProvider>
                     <MovimientoContextProvider>
-                        <Board id_partida={1} />
+                        <FiguraContextProvider>
+                            <Board id_partida={1} />
+                        </FiguraContextProvider>
                     </MovimientoContextProvider>
                 </PartidaProvider>
             </PartidaWebsocketProvider>
@@ -85,7 +99,9 @@ describe("Componente Board", () => {
             <PartidaWebsocketProvider>
                 <PartidaProvider>
                     <MovimientoContextProvider>
-                        <Board id_partida={1} />
+                        <FiguraContextProvider>
+                            <Board id_partida={1} />
+                        </FiguraContextProvider>
                     </MovimientoContextProvider>
                 </PartidaProvider>
             </PartidaWebsocketProvider>
@@ -106,21 +122,24 @@ describe("Componente Board", () => {
             <PartidaWebsocketProvider>
                 <PartidaProvider>
                     <MovimientoContextProvider>
-                        <Board id_partida={1} />
+                        <FiguraContextProvider>
+                            <Board id_partida={1} />
+                        </FiguraContextProvider>
                     </MovimientoContextProvider>
                 </PartidaProvider>
             </PartidaWebsocketProvider>
         );
+
         const buttons = await screen.findAllByRole("button");
 
-        expect(buttons[0]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[1]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[6]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[7]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[29]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[33]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[34]).toHaveClass("border-4 border-blue-600");
-        expect(buttons[35]).toHaveClass("border-4 border-blue-600");
+        expect(buttons[0]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[1]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[6]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[7]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[29]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[33]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[34]).toHaveClass("border-4 border-indigo-500");
+        expect(buttons[35]).toHaveClass("border-4 border-indigo-500");
 
         expect(buttons[20]).toHaveClass("border-2 border-black");
         expect(buttons[18]).toHaveClass("border-2 border-black");

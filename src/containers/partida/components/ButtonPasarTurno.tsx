@@ -3,18 +3,23 @@ import { useNotification } from "@/hooks/useNotification";
 import { PasarTurno } from "@/services/api/pasar_turno";
 import { usePartida } from "@/context/PartidaContext";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 
 export default function ButtonPasarTurno() {
     const { turno_actual, jugador, partida } = usePartida();
     const { showToastAlert, closeToast } = useNotification();
-    const { pasarTurno } = useMovimientoContext();
+    const { cleanMovimientoContexto } = useMovimientoContext();
+    const { cleanFiguraContexto } = useFiguraContext();
+
     const handlePasarTurno = async () => {
-        if (!partida || !jugador || !turno_actual || !pasarTurno) {
+        if (!partida || !jugador || !turno_actual) {
             return;
         }
         if (turno_actual.id == jugador.id) {
             try {
                 await PasarTurno(partida.id, jugador.id);
+                cleanMovimientoContexto();
+                cleanFiguraContexto();
             } catch (error) {
                 showToastAlert("Error al pasar el turno.");
                 setTimeout(() => {

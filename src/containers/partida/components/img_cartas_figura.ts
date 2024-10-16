@@ -28,7 +28,6 @@ import DorsoCarta from "@/components/assets/cartas/DorsoCarta.png";
 interface CartaFigura {
     code: string;
     img: string;
-    revelada?: boolean;
 }
 
 const CARTAS_FIGURA: CartaFigura[] = [
@@ -60,11 +59,11 @@ const CARTAS_FIGURA: CartaFigura[] = [
     { code: "dorso", img: DorsoCarta },
 ];
 
-const imageCartaFigura = (code: string, revelada: boolean): CartaFigura => {
+const imageCartaFigura = (code: string): CartaFigura => {
     const carta = CARTAS_FIGURA.find(
         (carta) => carta.code === code
     ) as CartaFigura;
-    if (revelada && carta) {
+    if (carta) {
         return carta;
     } else {
         return CARTAS_FIGURA.find(

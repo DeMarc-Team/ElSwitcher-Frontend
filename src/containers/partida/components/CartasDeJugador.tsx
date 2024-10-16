@@ -21,9 +21,7 @@ const CartasDeJugador = ({
     const fetchCartasMovimiento = async () => {
         try {
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
-            const cartas = data.map((carta) =>
-                imageCartaFigura(carta.figura, carta.revelada)
-            );
+            const cartas = data.map((carta) => imageCartaFigura(carta.figura));
             setCartasFiguras(cartas);
         } catch (error) {
             console.error("Error fetching cartas movimiento:", error);
