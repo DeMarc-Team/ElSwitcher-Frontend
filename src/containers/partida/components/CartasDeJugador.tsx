@@ -32,9 +32,9 @@ const CartasDeJugador = ({
 
     return (
         <div
-            className={`flex w-fit flex-row justify-center gap-1 rounded-md border-2 border-black bg-yellow-100 px-2 pt-2`}
+            className={`flex flex-row justify-center gap-1 rounded-md border-2 border-black bg-yellow-100 px-2 pt-2`}
         >
-            <div className="flex justify-center gap-2">
+            <div className="flex min-w-[204px] justify-center gap-2">
                 {cartasFiguras.map((carta, indexCarta) => (
                     <div
                         key={`${id_jugador}-${indexCarta}-carta-figura`}
