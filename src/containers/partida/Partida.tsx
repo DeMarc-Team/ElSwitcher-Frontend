@@ -8,10 +8,10 @@ import ButtonPasarTurno from "./components/ButtonPasarTurno";
 import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
-import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
 import CardDespedida from "./components/CardDespedida";
 import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 import CardMovParciales from "./components/CardMovParciales";
+import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -45,7 +45,7 @@ function Partida() {
     }, [isDataLoaded]);
 
     useEffectSkipFirst(() => {
-        setHayUnGanador(true);
+        //setHayUnGanador(true);
     }, [triggerHayGanador]);
 
     if (!jugador || !partida || partida.id !== id_partida) return;
@@ -56,7 +56,7 @@ function Partida() {
                 <CardDespedida />
             ) : (
                 <div
-                    className={`flex h-[100vh] w-full flex-col items-center justify-center gap-10 transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
+                    className={`flex h-[100vh] w-full flex-col items-center justify-center transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
                 >
                     <div className="grid h-fit w-full grid-cols-3 items-center justify-items-center">
                         <div className="flex w-full scale-95 flex-col items-center justify-center gap-2">
@@ -65,14 +65,9 @@ function Partida() {
                             <CardMovParciales />
                         </div>
                         <Board id_partida={partida.id} />
-                        <div>
-                            <CartasDeLosJugadores
-                                id_jugador={jugador.id}
-                                id_partida={id_partida}
-                            />
-                        </div>
+                        <CartasDeLosJugadores />
                     </div>
-                    <div className="flex flex-row gap-10">
+                    <div className="mt-10 flex scale-90 flex-row gap-10">
                         <CartasMovimiento
                             id_partida={partida.id}
                             id_jugador={jugador.id}
@@ -82,7 +77,7 @@ function Partida() {
                             id_jugador={jugador.id}
                         />
                     </div>
-                    <div className="fixed right-5 top-5">
+                    <div className="fixed bottom-5 left-5">
                         <ButtonAbandonarPartida
                             idPartida={id_partida}
                             idJugador={jugador.id}

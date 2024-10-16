@@ -1,120 +1,50 @@
 import { useState, useEffect } from "react";
-import { imageCartaFigura, type CartaFigura } from "./img_cartas_figura";
-import { ObtenerCartasFiguras } from "@/services/api/obtener_carta_figura";
-import Cartas from "./Cartas";
+import { Jugador } from "@/models/types";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion";
+import { usePartida } from "@/context/PartidaContext";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
+import CartasDeJugador from "./CartasDeJugador";
 
-const CartasDeLosJugadores = ({
-    id_partida,
-    id_jugador,
-}: {
-    id_partida: number;
-    id_jugador: number;
-}) => {
-    const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[][]>([]);
-    const [nombresJugadores, setNombresJugadores] = useState<string[]>([]);
+const CartasDeLosJugadores = () => {
+    const { partida, jugador } = usePartida();
+    const { triggerActualizarSalaEspera } = useInsidePartidaWebSocket();
+    const [jugadores, setJugadores] = useState<Jugador[]>([]);
 
     useEffect(() => {
-        fetchCartasMovimiento();
-    }, []);
+        fetchJugadores();
+    }, [triggerActualizarSalaEspera]);
 
-    const fetchCartasMovimiento = async () => {
+    const fetchJugadores = async () => {
+        if (!partida || !jugador) return;
         try {
-            const jugadores = (await ObtenerInfoPartida(id_partida)).jugadores;
+            const jugadores = (await ObtenerInfoPartida(partida?.id)).jugadores;
             const jugadoresFiltrados = jugadores.filter(
-                (jugador) => jugador.id_jugador !== id_jugador
+                (j) => j.id_jugador !== jugador.id
             );
-            let cartaslist: CartaFigura[][] = [];
-            let nombres: string[] = [];
-            for (const jugadoresPartida of jugadoresFiltrados) {
-                const data = await ObtenerCartasFiguras(
-                    id_partida,
-                    jugadoresPartida.id_jugador
-                );
-                nombres.push(jugadoresPartida.nombre);
-                const cartas = data.map((carta) =>
-                    imageCartaFigura(carta.figura, carta.revelada)
-                );
-                cartaslist.push(cartas);
-            }
-            setCartasFiguras(cartaslist);
-            setNombresJugadores(nombres);
+            const parseJugadores = jugadoresFiltrados.map((j) => ({
+                id: j.id_jugador,
+                nombre: j.nombre,
+            }));
+            setJugadores(parseJugadores);
         } catch (error) {
-            console.error("Error fetching cartas movimiento:", error);
+            console.error("Error al obtener jugadores:", error);
         }
     };
 
+    if (!partida || !jugador) return;
+
     return (
-        <Accordion type="single" collapsible>
-            <h3 className="flex justify-center font-extrabold">
-                Cartas de otros jugadores
-            </h3>
-            {cartasFiguras.map((cartasJugador, indexJugador) => (
-                <div key={indexJugador}>
-                    <AccordionItem value={`item-${indexJugador}`}>
-                        <AccordionTrigger className="px-10 py-1 text-sm">
-                            Cartas de {nombresJugadores[indexJugador]}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <div className="flex flex-row justify-center">
-                                {cartasJugador.map((carta, indexCarta) => (
-                                    <div
-                                        key={`${indexJugador}-${indexCarta}-carta-figura`}
-                                        className="m-2 h-full w-20"
-                                    >
-                                        <Cartas
-                                            imgSrc={carta.img}
-                                            rotation={0}
-                                            middle={false}
-                                            altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
-                                            isSelect={false}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                </div>
+        <div className="flex flex-col gap-2">
+            {jugadores.map((j) => (
+                <CartasDeJugador
+                    key={`cartas-jugador-${j.id}`}
+                    id_partida={partida?.id}
+                    id_jugador={j.id}
+                    nombre_jugador={j.nombre}
+                />
             ))}
-        </Accordion>
+        </div>
     );
 };
 
 export { CartasDeLosJugadores };
-
-// return (
-//     <Carousel className="ml-12 border-2 border-black">
-//         <CarouselContent>
-//             {cartasFiguras.map((cartasJugador, indexJugador) => (
-//                 <CarouselItem key={indexJugador} className="bg-yellow-100">
-//                     <h3 className="text-center text-lg font-bold">
-//                         Cartas de {nombresJugadores[indexJugador]}
-//                     </h3>
-//                     <div className="flex flex-row">
-//                         {cartasJugador.map((carta, indexCarta) => (
-//                             <div
-//                                 key={`${indexJugador}-${indexCarta}-carta-figura`}
-//                                 className="m-2"
-//                             >
-//                                 <Cartas
-//                                     imgSrc={carta.img}
-//                                     rotation={0}
-//                                     middle={false}
-//                                     altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
-//                                 />
-//                             </div>
-//                         ))}
-//                     </div>
-//                 </CarouselItem>
-//             ))}
-//         </CarouselContent>
-//         <CarouselPrevious className="bg-yellow-100" />
-//         <CarouselNext className="bg-yellow-100" />
-//     </Carousel>
-// );
