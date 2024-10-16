@@ -64,15 +64,15 @@ const CardMovParciales = () => {
     if (!jugador || !partida) return null;
 
     return (
-        <Card className="h-fit w-fit border-2 border-black bg-yellow-100 p-4">
-            <CardHeader className="p-0 uppercase">
-                <CardTitle>Historial de jugadas</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col justify-center pb-0 pt-2">
+        <Card className="w-full border-2 border-black bg-yellow-100 p-4">
+            <CardContent className="flex flex-col justify-center pb-0">
                 <CardDescription />
-                {turno_actual && jugador.id === turno_actual.id ? (
-                    <>
-                        <div className="flex h-20 w-full items-center justify-center">
+                <div className="flex items-center justify-center gap-2">
+                    <CardTitle className="text-left uppercase">
+                        Historial jugadas
+                    </CardTitle>
+                    {turno_actual && jugador.id === turno_actual.id ? (
+                        <div className="flex min-h-20 w-full items-center justify-center">
                             {cartasMovParciales.length > 0 ? (
                                 <div className="flex w-full justify-center gap-3">
                                     {cartasMovParciales.map((carta, index) => {
@@ -94,23 +94,23 @@ const CardMovParciales = () => {
                                 </span>
                             )}
                         </div>
-                        {cartasMovParciales.length > 0 && (
-                            <Button
-                                className="mt-2 w-full border-2 border-black bg-white"
-                                variant="outline"
-                                onClick={handleCancelarMovParcial}
-                            >
-                                Deshacer última jugada
-                            </Button>
-                        )}
-                    </>
-                ) : (
-                    <div className="flex h-20 items-center justify-center">
-                        <span className="text-center text-gray-500">
-                            No es tú turno.
-                        </span>
-                    </div>
-                )}
+                    ) : (
+                        <div className="flex h-20 w-full items-center justify-center">
+                            <span className="text-center text-gray-500">
+                                ...
+                            </span>
+                        </div>
+                    )}{" "}
+                </div>
+
+                <Button
+                    className="mt-2 w-full border-2 border-black bg-white transition-transform duration-75"
+                    variant="outline"
+                    onClick={handleCancelarMovParcial}
+                    disabled={turno_actual && jugador.id !== turno_actual.id}
+                >
+                    Deshacer última jugada
+                </Button>
             </CardContent>
         </Card>
     );

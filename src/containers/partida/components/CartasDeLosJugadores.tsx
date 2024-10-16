@@ -52,38 +52,41 @@ const CartasDeLosJugadores = ({
 
     return (
         <Accordion type="single" collapsible>
-                <h3 className="flex font-extrabold justify-center">Cartas de otros jugadores</h3>
-                {cartasFiguras.map((cartasJugador, indexJugador) => (
-                    <div key={indexJugador}>
-                        <AccordionItem value={`item-${indexJugador}`}>
-                            <AccordionTrigger className="text-sm px-10 py-1">
-                                Cartas de {nombresJugadores[indexJugador]}
-                            </AccordionTrigger>
-                            <AccordionContent>
-                                <div className="flex flex-row justify-center">
-                                    {cartasJugador.map((carta, indexCarta) => (
-                                        <div key={`${indexJugador}-${indexCarta}-carta-figura`} className="m-2 w-20 h-full">
-                                            <Cartas
-                                                imgSrc={carta.img}
-                                                rotation={0}
-                                                middle={false}
-                                                altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </div>
-                ))}
+            <h3 className="flex justify-center font-extrabold">
+                Cartas de otros jugadores
+            </h3>
+            {cartasFiguras.map((cartasJugador, indexJugador) => (
+                <div key={indexJugador}>
+                    <AccordionItem value={`item-${indexJugador}`}>
+                        <AccordionTrigger className="px-10 py-1 text-sm">
+                            Cartas de {nombresJugadores[indexJugador]}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            <div className="flex flex-row justify-center">
+                                {cartasJugador.map((carta, indexCarta) => (
+                                    <div
+                                        key={`${indexJugador}-${indexCarta}-carta-figura`}
+                                        className="m-2 h-full w-20"
+                                    >
+                                        <Cartas
+                                            imgSrc={carta.img}
+                                            rotation={0}
+                                            middle={false}
+                                            altText={`Carta del jugador ${indexJugador + 1} - Carta ${indexCarta + 1}`}
+                                            isSelect={false}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                </div>
+            ))}
         </Accordion>
     );
-    
 };
 
 export { CartasDeLosJugadores };
-
-
 
 // return (
 //     <Carousel className="ml-12 border-2 border-black">
