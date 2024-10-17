@@ -3,6 +3,7 @@ import {
     Dialog,
     DialogContent,
     DialogHeader,
+    DialogDescription,
     DialogTitle,
     DialogTrigger,
     DialogDescription,
