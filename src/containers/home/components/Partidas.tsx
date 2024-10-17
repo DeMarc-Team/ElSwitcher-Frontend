@@ -4,19 +4,23 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
 import FiltroCantJugadores from "./FiltroCantJugadores";
+import { Input } from "@/components/ui/input";
 
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
-    const [partidasFiltradas, setPartidasFiltradas] = useState<
-        Partida[]
-    >([]);
     const [filtrosActivosCantJugadores, setFiltrosActivosCantJugadores] =
         useState<number[]>([]); // Estado para saber que checkboxes están activos
     const { triggerActualizaPartidas } = useWebSocketListaPartidas();
+    const [filtroPorNombre, setFiltroPorNombre] = useState("");
+    const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
 
     useEffect(() => {
         fetchPartidas();
     }, [triggerActualizaPartidas]);
+
+    useEffect(() => {
+        filtrarPartidas(filtroPorNombre);
+    }, [filtroPorNombre, partidas]);
 
     const fetchPartidas = async () => {
         try {
@@ -30,16 +34,25 @@ function Partidas() {
     };
 
     useEffect(() => {
-        filtrarPartidas();
-    }, [filtrosActivosCantJugadores]);
+        filtrarPartidas(filtroPorNombre);
+    }, [filtrosActivosCantJugadores,filtroPorNombre]);
 
-    const filtrarPartidas = () => {
+    const filtrarPartidas = async (filtroDeFuncion: string)  => {
         if (filtrosActivosCantJugadores.length === 0) {
             // Si no hay filtros seleccionados, mostrar todas las partidas
             setPartidasFiltradas(partidas);
         } else {
             const listaAux = partidas.filter((partida) =>
-                filtrosActivosCantJugadores.includes(partida.numero_de_jugadores)
+                filtrosActivosCantJugadores.includes(partida.numero_de_jugadores))
+            setPartidasFiltradas(listaAux);
+        }
+        if (filtroDeFuncion === "") {
+            setPartidasFiltradas(partidas);
+        } else {
+            const listaAux = partidas.filter((partida) =>
+                partida.nombre_partida
+                    .toLowerCase()
+                    .includes(filtroDeFuncion.toLowerCase())
             );
             setPartidasFiltradas(listaAux);
         }
@@ -69,6 +82,13 @@ function Partidas() {
                 manejarFiltro={manejarFiltroCantJugadores}
             />
 
+            <div className="m-4 flex max-w-sm items-center">
+                <Input
+                    placeholder="Filtrar por nombre"
+                    value={filtroPorNombre}
+                    onChange={(e) => setFiltroPorNombre(e.target.value)}
+                />
+            </div>
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
                 <div className="flex flex-col space-y-4 p-4">
                     <ul>
