@@ -38,7 +38,7 @@ export default function CardInfoDelTurno() {
         return <div>Cargando...</div>;
     }
     return (
-        <Card className="h-fit w-fit border-2 border-black bg-yellow-100 p-4">
+        <Card className="h-fit w-full border-2 border-black bg-yellow-100 p-4">
             <CardContent className="flex flex-row items-center justify-center gap-6 p-0">
                 <div>
                     {" "}

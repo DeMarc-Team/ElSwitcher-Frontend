@@ -32,7 +32,7 @@ export default function ButtonPasarTurno() {
     return (
         <Button
             onClick={handlePasarTurno}
-            className={`rounded border-2 border-black px-12 py-2 font-bold ${turno_actual?.id == jugador?.id ? "bg-blue-500 text-white hover:bg-blue-700" : "bg-gray-400 hover:bg-gray-400"}`}
+            className={`w-full rounded-md border-2 border-black px-12 py-2 font-bold ${turno_actual?.id == jugador?.id ? "bg-blue-500 text-white hover:bg-blue-700" : "bg-gray-400 hover:bg-gray-400"}`}
         >
             {turno_actual?.id == jugador?.id
                 ? "Pasar turno"

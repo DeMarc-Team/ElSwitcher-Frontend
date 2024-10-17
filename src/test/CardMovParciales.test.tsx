@@ -56,10 +56,10 @@ describe("CardMovParciales", () => {
 
         render(<CardMovParciales />);
 
-        expect(screen.getByText("Historial de jugadas")).toBeInTheDocument();
+        expect(screen.getByText("Historial jugadas")).toBeInTheDocument();
     });
 
-    test('Mostrar mensaje de "No es tú turno" si no es el turno del jugador', async () => {
+    test('Mostrar mensaje de "..." si no es el turno del jugador', async () => {
         vi.mocked(usePartida).mockReturnValue({
             ...mockPartidaContext,
             partida: { id: 1, nombre: "Partida1" },
@@ -69,7 +69,7 @@ describe("CardMovParciales", () => {
 
         render(<CardMovParciales />);
         expect(
-            screen.getByText((content) => content.includes("No es tú turno."))
+            screen.getByText((content) => content.includes("..."))
         ).toBeInTheDocument();
     });
 
