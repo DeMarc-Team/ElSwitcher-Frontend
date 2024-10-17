@@ -48,7 +48,6 @@ function Partidas() {
         }
 
         setPartidasFiltradas(partidasFiltradasAux);
-        console.log("Partidas filtradas",partidasFiltradas)
     };
 
     const manejarFiltroCantJugadores = (cantidad: number) => {
@@ -63,43 +62,45 @@ function Partidas() {
 
     return (
         <div className="flex flex-col items-center justify-center pt-10" id="listapartidas">
-            <p className="mb-2 text-center text-2xl font-black uppercase">Lista de partidas</p>
-
+          <p className="mb-2 text-center text-2xl font-black uppercase">Lista de partidas</p>
+      
+          <div className="flex justify-between w-full px-4 mb-4">
             <FiltroCantJugadores
-                filtros={filtrosActivosCantJugadores}
-                manejarFiltro={manejarFiltroCantJugadores}
+              filtros={filtrosActivosCantJugadores}
+              manejarFiltro={manejarFiltroCantJugadores}
             />
-
-            <div className="m-4 flex max-w-sm items-center">
-                <Input
-                    placeholder="Filtrar por nombre"
-                    value={filtroPorNombre}
-                    onChange={(e) => setFiltroPorNombre(e.target.value)}
-                />
+      
+            <Input
+              className="w-2/4"
+              placeholder="Filtrar por nombre"
+              value={filtroPorNombre}
+              onChange={(e) => setFiltroPorNombre(e.target.value)}
+            />
+          </div>
+      
+          <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
+            <div className="flex flex-col space-y-4 p-4">
+              <ul>
+                {partidasFiltradas.map((partida) => (
+                  <li key={partida.id}>
+                    <FormUnirse
+                      partidaId={partida.id}
+                      partidaName={partida.nombre_partida}
+                      partidaJugadores={partida.numero_de_jugadores}
+                    />
+                  </li>
+                ))}
+                {partidasFiltradas.length === 0 && (
+                  <div className="flex h-80 items-center justify-center">
+                    <p className="text-center opacity-65">No hay partidas creadas.</p>
+                  </div>
+                )}
+              </ul>
             </div>
-
-            <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
-                <div className="flex flex-col space-y-4 p-4">
-                    <ul>
-                        {partidasFiltradas.map((partida) => (
-                            <li key={partida.id}>
-                                <FormUnirse
-                                    partidaId={partida.id}
-                                    partidaName={partida.nombre_partida}
-                                    partidaJugadores={partida.numero_de_jugadores}
-                                />
-                            </li>
-                        ))}
-                        {partidasFiltradas.length === 0 && (
-                            <div className="flex h-80 items-center justify-center">
-                                <p className="text-center opacity-65">No hay partidas creadas.</p>
-                            </div>
-                        )}
-                    </ul>
-                </div>
-            </ScrollArea>
+          </ScrollArea>
         </div>
-    );
+      );
+      
 }
 
 export default Partidas;
