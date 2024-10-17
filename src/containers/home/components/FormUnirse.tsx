@@ -3,6 +3,7 @@ import {
     Dialog,
     DialogContent,
     DialogHeader,
+    DialogDescription,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
@@ -100,6 +101,7 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
                         <span className="underline">{partidaName}</span>
                     </DialogTitle>
                 </DialogHeader>
+                <DialogDescription />
                 <form onSubmit={handleSubmit}>
                     <div className="mt-5 flex w-full flex-col gap-5">
                         <div className="w-full">
