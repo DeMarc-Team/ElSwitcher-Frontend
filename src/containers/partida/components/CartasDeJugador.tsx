@@ -38,7 +38,7 @@ const CartasDeJugador = ({
                 {cartasFiguras.map((carta, indexCarta) => (
                     <div
                         key={`${id_jugador}-${indexCarta}-carta-figura`}
-                        className="w-[68px] max-lg:w-[70px]"
+                        className="w-[68px]"
                     >
                         <Cartas
                             imgSrc={carta.img}
@@ -46,6 +46,7 @@ const CartasDeJugador = ({
                             middle={false}
                             altText={`Carta del jugador ${id_jugador + 1} - Carta ${indexCarta + 1}`}
                             isSelect={false}
+                            automatic_tam={false}
                         />
                     </div>
                 ))}

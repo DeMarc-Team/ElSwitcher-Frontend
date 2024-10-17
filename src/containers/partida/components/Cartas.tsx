@@ -6,6 +6,7 @@ interface CartasProps {
     middle?: boolean;
     altText: string;
     isSelect: boolean;
+    automatic_tam?: boolean;
     onClick?: () => void;
 }
 
@@ -15,6 +16,7 @@ const Cartas = ({
     altText,
     middle = false,
     isSelect = false,
+    automatic_tam = true,
     onClick,
 }: CartasProps) => {
     let classRotation = "";
@@ -35,13 +37,13 @@ const Cartas = ({
             <img
                 src={imgSrc}
                 className={cn(
-                    `h-50 max-lg:w-30 w-40 rounded-lg border-2 border-black shadow-md transition-transform duration-300 hover:scale-105 hover:border-indigo-500 max-lg:h-40`,
+                    `rounded-lg border-2 border-black object-contain shadow-md transition-transform duration-300 hover:scale-105 hover:border-indigo-500`,
                     classRotation,
                     isSelect &&
-                        "scale-110 border-4 border-indigo-500 transition-all duration-100 hover:scale-110"
+                        "scale-110 border-4 border-indigo-500 transition-all duration-100 hover:scale-110",
+                    automatic_tam && "h-60 max-lg:h-auto max-lg:max-h-40"
                 )}
                 alt={altText}
-                onClick={onClick}
             />
         </button>
     );
