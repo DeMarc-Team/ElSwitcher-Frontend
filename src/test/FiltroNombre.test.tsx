@@ -26,7 +26,7 @@ vi.mock("@/services/api/obtener_partidas", () => ({
             { id: 1, nombre_partida: "Partida 1" },
             { id: 2, nombre_partida: "Partida 2" },
             { id: 3, nombre_partida: "Partida 3" },
-            { id: 4, nombre_partida: "2 Jugadores" },
+            { id: 4, nombre_partida: "Hay 2 Jugadores" },
             { id: 5, nombre_partida: "200 veces" },
         ])
     ),
@@ -56,7 +56,7 @@ describe("Filtro de nombre de partidas", () => {
         expect(await screen.findByText("Partida 1")).toBeDefined();
         expect(await screen.findByText("Partida 2")).toBeDefined();
         expect(await screen.findByText("Partida 3")).toBeDefined();
-        expect(await screen.findByText("2 Jugadores")).toBeDefined();
+        expect(await screen.findByText("Hay 2 Jugadores")).toBeDefined();
         expect(await screen.findByText("200 veces")).toBeDefined();
     });
 
@@ -79,7 +79,7 @@ describe("Filtro de nombre de partidas", () => {
         await waitFor(() => {
             expect(screen.queryByText("Partida 2")).toBeNull();
             expect(screen.queryByText("Partida 3")).toBeNull();
-            expect(screen.queryByText("2 Jugadores")).toBeNull();
+            expect(screen.queryByText("Hay 2 Jugadores")).toBeNull();
             expect(screen.queryByText("200 veces")).toBeNull();
         });
     });
@@ -102,7 +102,7 @@ describe("Filtro de nombre de partidas", () => {
             expect(screen.queryByText("Partida 1")).toBeDefined();
             expect(screen.queryByText("Partida 2")).toBeDefined();
             expect(screen.queryByText("Partida 3")).toBeDefined();
-            expect(screen.queryByText("2 Jugadores")).toBeNull();
+            expect(screen.queryByText("Hay 2 Jugadores")).toBeNull();
             expect(screen.queryByText("200 veces")).toBeNull();
         });
     });
@@ -122,7 +122,7 @@ describe("Filtro de nombre de partidas", () => {
         fireEvent.change(input, { target: { value: "2" } });
 
         await waitFor(() => {
-            expect(screen.queryByText("2 Jugadores")).toBeDefined();
+            expect(screen.queryByText("Hay 2 Jugadores")).toBeDefined();
             expect(screen.queryByText("200 veces")).toBeDefined();
             expect(screen.queryByText("Partida 2")).toBeDefined();
             expect(screen.queryByText("Partida 1")).toBeNull();
@@ -148,7 +148,7 @@ describe("Filtro de nombre de partidas", () => {
             expect(screen.queryByText("Partida 1")).toBeNull();
             expect(screen.queryByText("Partida 2")).toBeNull();
             expect(screen.queryByText("Partida 3")).toBeNull();
-            expect(screen.queryByText("2 Jugadores")).toBeNull();
+            expect(screen.queryByText("Hay 2 Jugadores")).toBeNull();
             expect(screen.queryByText("200 veces")).toBeNull();
         });
     });
