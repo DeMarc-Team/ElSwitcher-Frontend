@@ -31,7 +31,7 @@ function FormUnirse({
     partidaJugadores,
 }: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
-
+    console.log("Que numero de jugadores",partidaName,partidaJugadores)
     const [username, setUsername] = useState("");
     const [uniendose, setUniendose] = useState(false);
     const navigate = useNavigate();

@@ -8,8 +8,7 @@ import { Input } from "@/components/ui/input";
 
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
-    const [filtrosActivosCantJugadores, setFiltrosActivosCantJugadores] =
-        useState<number[]>([]); // Estado para saber que checkboxes están activos
+    const [filtrosActivosCantJugadores, setFiltrosActivosCantJugadores] = useState<number[]>([]);
     const { triggerActualizaPartidas } = useWebSocketListaPartidas();
     const [filtroPorNombre, setFiltroPorNombre] = useState("");
     const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
@@ -19,43 +18,37 @@ function Partidas() {
     }, [triggerActualizaPartidas]);
 
     useEffect(() => {
-        filtrarPartidas(filtroPorNombre);
-    }, [filtroPorNombre, partidas]);
+        filtrarPartidas();
+    }, [filtrosActivosCantJugadores, filtroPorNombre, partidas]);
 
     const fetchPartidas = async () => {
         try {
             const data = await ObtenerPartidas();
-            console.log(data)
             setPartidas(data);
-            setPartidasFiltradas(data);
         } catch (err) {
             console.error("No se pudieron obtener las partidas.");
         }
     };
 
-    useEffect(() => {
-        filtrarPartidas(filtroPorNombre);
-    }, [filtrosActivosCantJugadores,filtroPorNombre]);
+    const filtrarPartidas = () => {
+        let partidasFiltradasAux = partidas;
 
-    const filtrarPartidas = async (filtroDeFuncion: string)  => {
-        if (filtrosActivosCantJugadores.length === 0) {
-            // Si no hay filtros seleccionados, mostrar todas las partidas
-            setPartidasFiltradas(partidas);
-        } else {
-            const listaAux = partidas.filter((partida) =>
-                filtrosActivosCantJugadores.includes(partida.numero_de_jugadores))
-            setPartidasFiltradas(listaAux);
-        }
-        if (filtroDeFuncion === "") {
-            setPartidasFiltradas(partidas);
-        } else {
-            const listaAux = partidas.filter((partida) =>
-                partida.nombre_partida
-                    .toLowerCase()
-                    .includes(filtroDeFuncion.toLowerCase())
+        // Filtrar por cantidad de jugadores
+        if (filtrosActivosCantJugadores.length > 0) {
+            partidasFiltradasAux = partidasFiltradasAux.filter((partida) =>
+                filtrosActivosCantJugadores.includes(partida.numero_de_jugadores)
             );
-            setPartidasFiltradas(listaAux);
         }
+
+        // Filtrar por nombre de partida
+        if (filtroPorNombre !== "") {
+            partidasFiltradasAux = partidasFiltradasAux.filter((partida) =>
+                partida.nombre_partida.toLowerCase().includes(filtroPorNombre.toLowerCase())
+            );
+        }
+
+        setPartidasFiltradas(partidasFiltradasAux);
+        console.log("Partidas filtradas",partidasFiltradas)
     };
 
     const manejarFiltroCantJugadores = (cantidad: number) => {
@@ -69,13 +62,8 @@ function Partidas() {
     };
 
     return (
-        <div
-            className="flex flex-col items-center justify-center pt-10"
-            id="listapartidas"
-        >
-            <p className="mb-2 text-center text-2xl font-black uppercase">
-                Lista de partidas
-            </p>
+        <div className="flex flex-col items-center justify-center pt-10" id="listapartidas">
+            <p className="mb-2 text-center text-2xl font-black uppercase">Lista de partidas</p>
 
             <FiltroCantJugadores
                 filtros={filtrosActivosCantJugadores}
@@ -89,6 +77,7 @@ function Partidas() {
                     onChange={(e) => setFiltroPorNombre(e.target.value)}
                 />
             </div>
+
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
                 <div className="flex flex-col space-y-4 p-4">
                     <ul>
@@ -97,17 +86,13 @@ function Partidas() {
                                 <FormUnirse
                                     partidaId={partida.id}
                                     partidaName={partida.nombre_partida}
-                                    partidaJugadores={
-                                        partida.numero_de_jugadores
-                                    }
+                                    partidaJugadores={partida.numero_de_jugadores}
                                 />
                             </li>
                         ))}
                         {partidasFiltradas.length === 0 && (
                             <div className="flex h-80 items-center justify-center">
-                                <p className="text-center opacity-65">
-                                    No hay partidas creadas.
-                                </p>
+                                <p className="text-center opacity-65">No hay partidas creadas.</p>
                             </div>
                         )}
                     </ul>
