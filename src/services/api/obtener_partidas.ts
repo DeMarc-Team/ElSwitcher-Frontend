@@ -3,6 +3,7 @@ import { API_HOST } from "./const";
 interface Partida {
     id: number;
     nombre_partida: string;
+    numero_de_jugadores: number;
 }
 
 const ObtenerPartidas = async (): Promise<Partida[]> => {
