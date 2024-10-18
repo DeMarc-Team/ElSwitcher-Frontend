@@ -13,20 +13,20 @@ const CartasDeJugador = ({
     id_jugador: number;
     nombre_jugador: string;
 }) => {
-    const { triggerActualizarCartasFigura } = useInsidePartidaWebSocket();
+    const { triggerActualizarCartasFigura,triggerActualizarTurno } = useInsidePartidaWebSocket();
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
 
     useEffect(() => {
-        fetchCartasMovimiento();
-    }, [triggerActualizarCartasFigura]);
+        fetchCartasFigurasOtrosJugadores();
+    }, [triggerActualizarCartasFigura,triggerActualizarTurno]);
 
-    const fetchCartasMovimiento = async () => {
+    const fetchCartasFigurasOtrosJugadores = async () => {
         try {
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
             const cartas = data.map((carta) => imageCartaFigura(carta.figura));
             setCartasFiguras(cartas);
         } catch (error) {
-            console.error("Error fetching cartas movimiento:", error);
+            console.error("Error fetching cartas de figura:", error);
         }
     };
 
