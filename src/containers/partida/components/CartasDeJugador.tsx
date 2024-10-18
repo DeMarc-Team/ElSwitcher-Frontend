@@ -13,12 +13,13 @@ const CartasDeJugador = ({
     id_jugador: number;
     nombre_jugador: string;
 }) => {
-    const { triggerActualizarCartasFigura,triggerActualizarTurno } = useInsidePartidaWebSocket();
+    const { triggerActualizarCartasFigura, triggerActualizarTurno } =
+        useInsidePartidaWebSocket();
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
 
     useEffect(() => {
         fetchCartasFigurasOtrosJugadores();
-    }, [triggerActualizarCartasFigura,triggerActualizarTurno]);
+    }, [triggerActualizarCartasFigura, triggerActualizarTurno]);
 
     const fetchCartasFigurasOtrosJugadores = async () => {
         try {
