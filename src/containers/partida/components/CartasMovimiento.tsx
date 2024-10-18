@@ -45,7 +45,7 @@ const CartasMovimiento = ({
         setRotVec,
     } = useMovimientoContext();
     const { turno_actual, jugador } = usePartida();
-    const { showToastInfo, closeToast } = useNotification();
+    const { showToastInfo, showToastError, closeToast } = useNotification();
     const { cleanFiguraContexto } = useFiguraContext();
     const { triggerActualizarCartasMovimiento, triggerActualizarTurno } =
         useInsidePartidaWebSocket();
@@ -62,6 +62,11 @@ const CartasMovimiento = ({
             setTimeout(() => {
                 closeToast();
             }, 1000);
+        } else {
+            showToastError("Espera tu turno para jugar");
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
         }
     };
 
