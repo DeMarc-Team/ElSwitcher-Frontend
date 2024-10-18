@@ -89,7 +89,7 @@ function FormUnirse({
                     variant="outline"
                     className="my-2 w-full justify-between rounded-md border-2 border-black bg-transparent py-3 text-center"
                 >
-                    <span>
+                    <span className="mr-5 text-wrap break-all text-left">
                         <b>{partidaName}</b>
                     </span>
                     <div className="flex items-center justify-center gap-2">
@@ -106,14 +106,14 @@ function FormUnirse({
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className="mr-5 text-wrap break-all text-left">
                         Unirse a la partida{" "}
                         <span className="underline">{partidaName}</span>
                     </DialogTitle>
                 </DialogHeader>
                 <DialogDescription />
                 <form onSubmit={handleSubmit}>
-                    <div className="mt-5 flex w-full flex-col gap-5">
+                    <div className="flex w-full flex-col gap-5">
                         <div className="w-full">
                             <Label htmlFor="username">Nombre de Usuario</Label>
                             <Input
