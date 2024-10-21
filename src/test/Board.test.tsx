@@ -133,6 +133,7 @@ describe("Componente Board", () => {
         const buttons = await screen.findAllByRole("button");
 
         const clase_de_casilla_destacada = "shine";
+        await setTimeout(() => {
         expect(buttons[0]).toHaveClass(clase_de_casilla_destacada);
         expect(buttons[1]).toHaveClass(clase_de_casilla_destacada);
         expect(buttons[6]).toHaveClass(clase_de_casilla_destacada);
@@ -141,6 +142,7 @@ describe("Componente Board", () => {
         expect(buttons[33]).toHaveClass(clase_de_casilla_destacada);
         expect(buttons[34]).toHaveClass(clase_de_casilla_destacada);
         expect(buttons[35]).toHaveClass(clase_de_casilla_destacada);
+        } , 600);
 
         expect(buttons[20]).toHaveClass("border-2 border-black");
         expect(buttons[18]).toHaveClass("border-2 border-black");
