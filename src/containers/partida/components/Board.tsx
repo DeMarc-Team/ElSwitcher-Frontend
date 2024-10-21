@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import Celda from "@/containers/partida/components/Celda";
@@ -18,7 +18,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         setCartaMovimientoSeleccionada,
         setCasillasMovimientos,
     } = useMovimientoContext();
-    const { codigoCartaFigura } = useFiguraContext();
+    const { codigoCartaFigura, setExisteFigura } = useFiguraContext();
     const {
         manejarSeleccionFigura,
         mostrarMensajeSinSeleccion,
@@ -28,6 +28,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         figuraElegida,
         manejarSeleccionMovimiento,
     } = useFuncionesSeleccion(figuras);
+    const [animar, setAnimar] = useState(true);
 
     const manejarSeleccionClick = (row: number, col: number) => {
         // Verificar si hay una carta seleccionada
@@ -50,6 +51,9 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         fetchTablero();
         setCartaMovimientoSeleccionada(undefined);
         setCasillasMovimientos([]);
+        setExisteFigura([]);
+        setAnimar(false);
+        setTimeout(() => setAnimar(true), 500);
     }, [triggeractualizarTablero]);
 
     return (
@@ -62,6 +66,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
                             rowIndex={rowIndex}
                             colIndex={colIndex}
                             cell={cell}
+                            animar={animar}
                             handleClick={manejarSeleccionClick}
                             esResaltada={esCasillaResaltada} // Con respecto a movimiento
                             esParteDeFigura={esParteDeFigura} // Para detectar figuras en el tablero

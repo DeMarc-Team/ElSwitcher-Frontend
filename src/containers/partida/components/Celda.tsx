@@ -7,6 +7,7 @@ interface CeldaProps {
     rowIndex: number;
     colIndex: number;
     cell: number;
+    animar: boolean;
     primeraSeleccion: { row: number; col: number } | null;
     handleClick: (rowIndex: number, colIndex: number) => void;
     esResaltada: (rowIndex: number, colIndex: number) => boolean;
@@ -19,6 +20,7 @@ const Celda: React.FC<CeldaProps> = ({
     rowIndex,
     colIndex,
     cell,
+    animar,
     primeraSeleccion,
     handleClick,
     esResaltada,
@@ -44,7 +46,7 @@ const Celda: React.FC<CeldaProps> = ({
                     esResaltada(rowIndex, colIndex),
             },
             {
-                shine: esParteDeFigura(rowIndex, colIndex),
+                shine: animar && esParteDeFigura(rowIndex, colIndex),
             },
             {
                 "border-4 border-red-600": destacarFigura(rowIndex, colIndex),
