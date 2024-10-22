@@ -5,6 +5,11 @@ import {
 } from "./img_cartas_movimiento";
 import { ObtenerCartasMovimientos } from "@/services/api/obtener_carta_movimiento";
 import Cartas from "./Cartas";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { usePartida } from "@/context/PartidaContext";
+import { useNotification } from "@/hooks/useNotification";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 const Rotation = (cartasMovimiento: CartaMovimiento[], index: number) => {
     if (cartasMovimiento.length === 3) {
@@ -30,17 +35,51 @@ const CartasMovimiento = ({
     const [cartasMovimiento, setCartasMovimiento] = useState<CartaMovimiento[]>(
         []
     );
+    const {
+        cartaMovimientoSeleccionada,
+        setPrimeraSeleccion,
+        setCasillasMovimientos,
+        setCartaMovimientoSeleccionada,
+        setCodigoCartaMovimiento,
+        setParcialmenteUsada,
+        setRotVec,
+    } = useMovimientoContext();
+    const { turno_actual, jugador } = usePartida();
+    const { showToastInfo, showToastError, closeToast } = useNotification();
+    const { cleanFiguraContexto } = useFiguraContext();
+    const { triggerActualizarCartasMovimiento, triggerActualizarTurno } =
+        useInsidePartidaWebSocket();
+
+    const cartaCodigoMovimiento = (index: number, code: string) => {
+        if (turno_actual?.id == jugador?.id) {
+            setPrimeraSeleccion(null);
+            setCasillasMovimientos([]);
+            setCartaMovimientoSeleccionada(index);
+            setCodigoCartaMovimiento(code);
+            setParcialmenteUsada(cartasMovimiento[index].parcialmente_usada);
+            setRotVec(cartasMovimiento[index].rot_vec);
+            showToastInfo("Selecciona una casilla.", true);
+            setTimeout(() => {
+                closeToast();
+            }, 1000);
+        } else {
+            showToastError("Espera tu turno para jugar");
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
+        }
+    };
 
     useEffect(() => {
         fetchCartasMovimiento();
-    }, []);
+    }, [triggerActualizarCartasMovimiento, triggerActualizarTurno]);
 
     const fetchCartasMovimiento = async () => {
         try {
             const data = await ObtenerCartasMovimientos(id_partida, id_jugador);
-            const cartas = data.map((carta) =>
-                imageCartaMovimiento(carta.movimiento)
-            );
+            const cartas = data // Solo se muestran las cartas que no han sido usadas
+                .filter((carta) => !carta.usada_en_movimiento_parcial)
+                .map((carta) => imageCartaMovimiento(carta.movimiento));
             setCartasMovimiento(cartas);
         } catch (error) {
             console.error("Error fetching cartas movimiento:", error);
@@ -57,6 +96,11 @@ const CartasMovimiento = ({
                         rotation={Rotation(cartasMovimiento, index)}
                         middle={isMiddleCard(cartasMovimiento, index)}
                         altText={`Carta ${index + 1}`}
+                        onClick={() => {
+                            cleanFiguraContexto();
+                            cartaCodigoMovimiento(index, carta.code);
+                        }}
+                        isSelect={cartaMovimientoSeleccionada === index}
                     />
                 );
             })}

@@ -1,23 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { useNotification } from "@/hooks/useNotification";
 import { PasarTurno } from "@/services/api/pasar_turno";
-import { useTurno } from "./turnoContext";
+import { usePartida } from "@/context/PartidaContext";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 
-export default function ButtonPasarTurno({
-    id_partida,
-    id_jugador,
-}: Readonly<{
-    id_partida: number;
-    id_jugador: number;
-}>) {
-    const { turnoId } = useTurno();
+export default function ButtonPasarTurno() {
+    const { turno_actual, jugador, partida } = usePartida();
     const { showToastAlert, closeToast } = useNotification();
+    const { cleanMovimientoContexto } = useMovimientoContext();
+    const { cleanFiguraContexto } = useFiguraContext();
+
     const handlePasarTurno = async () => {
-        if (turnoId == id_jugador) {
+        if (!partida || !jugador || !turno_actual) {
+            return;
+        }
+        if (turno_actual.id == jugador.id) {
             try {
-                await PasarTurno(id_partida, id_jugador);
+                await PasarTurno(partida.id, jugador.id);
+                cleanMovimientoContexto();
+                cleanFiguraContexto();
             } catch (error) {
-                console.error("Error al pasar el turno:", error);
                 showToastAlert("Error al pasar el turno.");
                 setTimeout(() => {
                     closeToast();
@@ -25,12 +28,15 @@ export default function ButtonPasarTurno({
             }
         }
     };
+
     return (
         <Button
             onClick={handlePasarTurno}
-            className={`rounded border-2 border-black px-12 py-2 font-bold ${turnoId == id_jugador ? "bg-blue-500 text-white hover:bg-blue-700" : "bg-gray-400 hover:bg-gray-400"}`}
+            className={`w-full rounded-md border-2 border-black px-12 py-2 font-bold ${turno_actual?.id == jugador?.id ? "bg-blue-500 text-white hover:bg-blue-700" : "bg-gray-400 hover:bg-gray-400"}`}
         >
-            {turnoId == id_jugador ? "Pasar turno" : "Espera tú turno"}
+            {turno_actual?.id == jugador?.id
+                ? "Pasar turno"
+                : "Espera tú turno"}
         </Button>
     );
 }

@@ -3,26 +3,34 @@ import {
     Dialog,
     DialogContent,
     DialogHeader,
+    DialogDescription,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { CircleArrowRight } from "lucide-react";
+import { CircleArrowRight, UserRound } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import { SaveSessionJugador } from "@/services/session_jugador";
+import {
+    SaveSessionJugador,
+    SaveSessionPartida,
+} from "@/services/session_browser";
 
 interface FormUnirseProps {
     partidaId: number;
     partidaName: string;
+    partidaJugadores: number;
 }
 
-function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
+function FormUnirse({
+    partidaId,
+    partidaName,
+    partidaJugadores,
+}: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
-
     const [username, setUsername] = useState("");
     const [uniendose, setUniendose] = useState(false);
     const navigate = useNavigate();
@@ -51,22 +59,26 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
             return;
         }
         try {
-            const res = await UnirsePartida(partidaId, username);
             setUniendose(true);
+            const res = await UnirsePartida(partidaId, username);
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
             );
             SaveSessionJugador({
                 id: res.id_jugador,
                 nombre: res.nombre,
-                id_partida: partidaId,
+            });
+            SaveSessionPartida({
+                id: partidaId,
+                nombre: partidaName,
             });
             setTimeout(() => {
                 navigate(`/partidas/${partidaId}/sala-espera`);
                 closeToast();
-            }, 2000);
+            }, 1500);
         } catch (error) {
             showToastAlert("Error al unirse a la partida.");
+            setUniendose(false);
         }
     };
 
@@ -77,10 +89,16 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
                     variant="outline"
                     className="my-2 w-full justify-between rounded-md border-2 border-black bg-transparent py-3 text-center"
                 >
-                    <span>
+                    <span className="mr-5 text-wrap break-all text-left">
                         <b>{partidaName}</b>
                     </span>
                     <div className="flex items-center justify-center gap-2">
+                        <span className="mr-5 flex h-[1.3rem] items-center justify-center gap-2 rounded-lg border-2 border-black px-2">
+                            <span className="font font-bold">
+                                {partidaJugadores}
+                            </span>
+                            <UserRound className="w-4" />
+                        </span>
                         <span className="underline">Unirse</span>
                         <CircleArrowRight className="w-5" />
                     </div>
@@ -88,13 +106,14 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className="mr-5 text-wrap break-all text-left">
                         Unirse a la partida{" "}
                         <span className="underline">{partidaName}</span>
                     </DialogTitle>
                 </DialogHeader>
+                <DialogDescription />
                 <form onSubmit={handleSubmit}>
-                    <div className="mt-5 flex w-full flex-col gap-5">
+                    <div className="flex w-full flex-col gap-5">
                         <div className="w-full">
                             <Label htmlFor="username">Nombre de Usuario</Label>
                             <Input
@@ -118,7 +137,8 @@ function FormUnirse({ partidaId, partidaName }: Readonly<FormUnirseProps>) {
                             type="submit"
                             className="mt-5 w-full"
                         >
-                            Unirse
+                            {/* Mantener por el test */}
+                            Unirse a partida
                         </Button>
                     </div>
                 </form>

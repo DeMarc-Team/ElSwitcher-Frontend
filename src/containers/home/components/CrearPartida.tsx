@@ -15,7 +15,10 @@ import { Plus } from "lucide-react";
 import { crearPartida } from "@/services/api/crear_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useCrearPartida } from "./useCrearPartida";
-import { SaveSessionJugador } from "@/services/session_jugador";
+import {
+    SaveSessionJugador,
+    SaveSessionPartida,
+} from "@/services/session_browser";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,9 +30,7 @@ function CrearPartida() {
         changePartidaName,
         changeUsername,
         checkFields,
-        resetFields,
     } = useCrearPartida();
-
     const { showToastSuccess, showToastError, closeToast } = useNotification();
 
     // Cuando se cierra el componente que se cierren todos los toast
@@ -43,47 +44,33 @@ function CrearPartida() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!checkFields()) return;
-        let partidaId: number | undefined;
+
         if (uniendose) {
             return;
         }
         try {
+            setUniendose(true);
             const res = await crearPartida({
                 nombre_partida: partidaname,
                 nombre_creador: username,
             });
-
-            setUniendose(true);
-
-            showToastSuccess(
-                `Partida '${res.nombre_partida}' creada con éxito.`
-            );
-            partidaId = res.id;
+            SaveSessionPartida({ id: res.id, nombre: res.nombre_partida });
             SaveSessionJugador({
                 id: res.id_creador,
                 nombre: res.nombre_creador,
-                id_partida: res.id,
             });
+            showToastSuccess(
+                `Bievenido '${res.nombre_creador}', partida '${res.nombre_partida}' creada con éxito.`
+            );
+            setTimeout(() => {
+                handleDialogClose();
+                navigate(`/partidas/${res.id}/sala-espera`);
+            }, 1500);
         } catch (error) {
             console.error("Error creando partida:", error);
             showToastError("Error: no se pudo crear la partida.");
-            return; // Sale de la función si hay error
+            setUniendose(false);
         }
-
-        setTimeout(async () => {
-            try {
-                showToastSuccess(`Bienvenido a la partida "${partidaname}."`);
-                setTimeout(() => {
-                    handleDialogClose();
-                    resetFields();
-                    navigate(`/partidas/${partidaId}/sala-espera`, {
-                        state: { nombre_creador: username }, //Paso el nombre a la sala de espera
-                    });
-                }, 2000);
-            } catch (error) {
-                showToastError("Error al unirse a la partida.");
-            }
-        }, 2000);
     };
 
     return (
@@ -136,8 +123,9 @@ function CrearPartida() {
                         </div>
                     </div>
                     <div>
+                        {/* mantener este cambio para el test */}
                         <Button type="submit" className="mt-5 w-full">
-                            Crear Partida
+                            Unirse a Partida
                         </Button>
                     </div>
                 </form>

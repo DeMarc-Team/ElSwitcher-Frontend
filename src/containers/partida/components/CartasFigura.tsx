@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import { imageCartaFigura, type CartaFigura } from "./img_cartas_figura";
 import { ObtenerCartasFiguras } from "@/services/api/obtener_carta_figura";
 import Cartas from "./Cartas";
+import { useNotification } from "@/hooks/useNotification";
+import { usePartida } from "@/context/PartidaContext";
+import { LoadSessionJugador } from "@/services/session_browser";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 
 const Rotation = (cartasFiguras: CartaFigura[], index: number) => {
     if (cartasFiguras.length === 3) {
@@ -25,20 +31,52 @@ const CartasFigura = ({
     id_jugador: number;
 }) => {
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
+    const { showToastInfo, showToastError, closeToast } = useNotification();
+    const { turno_actual } = usePartida();
+    const miSession = LoadSessionJugador();
+    const {
+        setCodigoCartaFigura,
+        existeFigura,
+        setCartaFiguraSeleccionada,
+        cartaFiguraSeleccionada,
+    } = useFiguraContext();
+    const { cleanMovimientoContexto } = useMovimientoContext();
+    const { triggerActualizarCartasFigura, triggerActualizarTurno } =
+        useInsidePartidaWebSocket();
 
     useEffect(() => {
         fetchCartasFigura();
-    }, []);
+    }, [triggerActualizarCartasFigura, triggerActualizarTurno]);
 
     const fetchCartasFigura = async () => {
         try {
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
-            const cartas = data.map((carta) =>
-                imageCartaFigura(carta.figura, carta.revelada)
-            );
+            const cartas = data.map((carta) => imageCartaFigura(carta.figura));
             setCartasFiguras(cartas);
         } catch (error) {
             console.error("Error fetching cartas figuras:", error);
+        }
+    };
+
+    const seleccionarCarta = (codigo: string, index: number) => {
+        if (turno_actual?.id == miSession?.id) {
+            if (existeFigura?.includes(codigo)) {
+                setCodigoCartaFigura(codigo);
+                setCartaFiguraSeleccionada(index);
+            } else {
+                showToastInfo(
+                    "Tú carta no coincide con alguna figura del tablero.",
+                    true
+                );
+                setTimeout(() => {
+                    closeToast();
+                }, 2000);
+            }
+        } else {
+            showToastError("Espera tu turno para jugar");
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
         }
     };
 
@@ -52,6 +90,11 @@ const CartasFigura = ({
                         rotation={Rotation(cartasFiguras, index)}
                         middle={isMiddleCard(cartasFiguras, index)}
                         altText={`Carta ${index + 1}`}
+                        onClick={() => {
+                            cleanMovimientoContexto();
+                            seleccionarCarta(carta.code, index);
+                        }}
+                        isSelect={cartaFiguraSeleccionada === index}
                     />
                 );
             })}
