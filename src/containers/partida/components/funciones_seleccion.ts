@@ -30,6 +30,7 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
         useFiguraContext();
     const { turno_actual, jugador, partida } = usePartida();
     const { enviarMovimiento } = useMovimientos();
+    const { cleanFiguraContexto } = useFiguraContext();
 
     // Manejar la lógica de selección de figura
     const manejarSeleccionFigura = (row: number, col: number) => {
@@ -55,6 +56,7 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
                 } catch (error) {
                     console.error("Error al jugar la carta de figura:", error);
                 }
+                cleanFiguraContexto();
             } else {
                 console.error("Partida o jugador no definido");
             }
