@@ -51,12 +51,11 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
                         figura.nombre
                     );
                     setTimeout(() => {
-                        setFiguraSeleccionada(null);
+                        cleanFiguraContexto();
                     }, 1000);
                 } catch (error) {
                     console.error("Error al jugar la carta de figura:", error);
                 }
-                cleanFiguraContexto();
             } else {
                 console.error("Partida o jugador no definido");
             }
