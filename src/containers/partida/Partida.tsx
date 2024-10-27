@@ -12,6 +12,7 @@ import CardDespedida from "./components/CardDespedida";
 import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 import CardMovParciales from "./components/CardMovParciales";
 import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
+import CardColorBloqueado from "./components/CardColorBloqueado";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -65,6 +66,7 @@ function Partida() {
                                 <ButtonPasarTurno />
                             </div>
                             <CardMovParciales />
+                            <CardColorBloqueado />
                         </div>
                         <div className="max-lg:mt-24 max-lg:scale-75">
                             <Board id_partida={partida.id} />

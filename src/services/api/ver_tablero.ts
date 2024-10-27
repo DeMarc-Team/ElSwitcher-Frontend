@@ -55,24 +55,23 @@ const procesarFiguras = (figurasResaltadas: any): Figura[] => {
     const figuras: Figura[] = [];
 
     for (const nombre in figurasResaltadas) {
-        const casillas = figurasResaltadas[nombre];
+        const formaciones = figurasResaltadas[nombre];
 
-        const figura: Figura = {
-            nombre,
-            casillas: [],
-        };
-
-        for (const subArray of casillas) {
-            for (const casilla of subArray) {
+        for (const formacion of formaciones) {
+            // Construir la figura usando las coordenadas
+            const figura: Figura = {
+                nombre,
+                casillas: [],
+            };
+            for (const casilla of formacion) {
                 figura.casillas.push({
-                    // Ver Nota del principio.
                     row: casilla[0] !== null ? casilla[0] : -1,
                     column: casilla[1] !== null ? casilla[1] : -1,
                 });
             }
+            // Pushear la figura construida
+            figuras.push(figura);
         }
-
-        figuras.push(figura);
     }
     return figuras;
 };
