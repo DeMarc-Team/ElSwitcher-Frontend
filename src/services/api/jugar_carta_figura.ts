@@ -13,7 +13,8 @@ const JugarCartaFigura = async (
     figura: Casilla[],
     id_partida: number,
     id_jugador: number,
-    codCartaFig: string
+    codCartaFig: string,
+    color_figura: number
 ): Promise<JugarCartaFiguraResponse> => {
     try {
         const response = await fetch(
@@ -29,6 +30,7 @@ const JugarCartaFigura = async (
                         col: casilla.column,
                     })),
                     carta_fig: codCartaFig,
+                    color_de_figura: color_figura,
                 }),
             }
         );

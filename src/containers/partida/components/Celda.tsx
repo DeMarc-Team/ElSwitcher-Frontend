@@ -9,7 +9,7 @@ interface CeldaProps {
     cell: number;
     animar: boolean;
     primeraSeleccion: { row: number; col: number } | null;
-    handleClick: (rowIndex: number, colIndex: number) => void;
+    handleClick: (rowIndex: number, colIndex: number, cell: number) => void;
     esResaltada: (rowIndex: number, colIndex: number) => boolean;
     esParteDeFigura: (rowIndex: number, colIndex: number) => boolean;
     estaDeshabilitado: () => boolean;
@@ -52,7 +52,7 @@ const Celda: React.FC<CeldaProps> = ({
                 "border-4 border-red-600": destacarFigura(rowIndex, colIndex),
             }
         )}
-        onClick={() => handleClick(rowIndex, colIndex)}
+        onClick={() => handleClick(rowIndex, colIndex, cell)}
         disabled={estaDeshabilitado()}
     ></button>
 );

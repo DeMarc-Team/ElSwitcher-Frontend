@@ -39,6 +39,7 @@ const useWebSocketPartida = () => {
 
     // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
+    const [triggerColorProhibido, settriggerColorProhibido] = useState(false);
 
     const openConnectionToPartida = (
         partida_id: string,
@@ -65,6 +66,8 @@ const useWebSocketPartida = () => {
             setTriggerSeCanceloPartida(!triggerSeCanceloPartida);
         } else if (message.action === "actualizar_cartas_figura") {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
+        } else if (message.action === "actualizar_color_prohibido") {
+            settriggerColorProhibido(!triggerColorProhibido);
         }
     }, [message]);
 
@@ -81,6 +84,7 @@ const useWebSocketPartida = () => {
         triggerActualizarCartasMovimiento,
         triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
+        triggerColorProhibido,
     };
 };
 export { useWebSocketPartida };

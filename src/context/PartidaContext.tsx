@@ -8,10 +8,12 @@ interface PartidaContextType {
     ganador: Jugador | undefined;
     isDataLoaded: boolean;
     turno_actual: Jugador | undefined;
+    colorBloqueado: number | undefined;
     setPartida: (partida: Partida) => void;
     setJugador: (jugador: Jugador) => void;
     setGanador: (jugador: Jugador) => void;
     setTurnoActual: (jugador: Jugador) => void;
+    setColorBloqueado: (colorBloqueado: number) => void;
 }
 
 const PartidaContext = createContext<PartidaContextType | undefined>(undefined);
@@ -25,6 +27,9 @@ export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
     const [turno_actual, setTurnoActual] = useState<Jugador | undefined>(
         undefined
     );
+    const [colorBloqueado, setColorBloqueado] = useState<number | undefined>(
+        undefined
+    );
 
     return (
         <PartidaContext.Provider
@@ -34,10 +39,12 @@ export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
                 isDataLoaded,
                 ganador,
                 turno_actual,
+                colorBloqueado,
                 setPartida,
                 setJugador,
                 setGanador,
                 setTurnoActual,
+                setColorBloqueado,
             }}
         >
             {children}

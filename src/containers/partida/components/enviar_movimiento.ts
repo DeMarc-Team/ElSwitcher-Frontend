@@ -22,14 +22,13 @@ export const useMovimientos = () => {
         ) {
             if (codigoCartaMovimiento && jugador?.id && partida?.id) {
                 try {
-                    const response = await JugarCartaMovimiento(
+                    await JugarCartaMovimiento(
                         casilla1,
                         casilla2,
                         partida.id,
                         jugador.id,
                         codigoCartaMovimiento
                     );
-                    console.log("Movimiento enviado:", response);
                 } catch (error) {
                     console.error("Error al enviar el movimiento:", error);
                 }

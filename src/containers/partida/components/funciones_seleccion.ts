@@ -28,26 +28,37 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
     const { showToastError, showToastInfo, closeToast } = useNotification();
     const { codigoCartaFigura, setFiguraSeleccionada, figuraSeleccionada } =
         useFiguraContext();
-    const { turno_actual, jugador, partida } = usePartida();
+    const { turno_actual, jugador, partida, colorBloqueado } = usePartida();
     const { enviarMovimiento } = useMovimientos();
 
     // Manejar la lógica de selección de figura
-    const manejarSeleccionFigura = (row: number, col: number) => {
+    const manejarSeleccionFigura = (row: number, col: number, cell: number) => {
+        const colorDeFiguraElegida = cell - 1;
+
         const figura = figuras.find((f) =>
             f.casillas.some(
                 (casilla) => casilla.row === row && casilla.column === col
             )
         );
 
-        if (figura && figura.nombre === codigoCartaFigura) {
+        if (
+            figura &&
+            figura.nombre === codigoCartaFigura &&
+            colorDeFiguraElegida !== colorBloqueado
+        ) {
             setFiguraSeleccionada(figura);
+            console.log(
+                "Se va a jugar la figura de color",
+                colorDeFiguraElegida
+            );
             if (jugador && partida) {
                 try {
                     JugarCartaFigura(
                         figura.casillas,
                         partida.id,
                         jugador.id,
-                        figura.nombre
+                        figura.nombre,
+                        colorDeFiguraElegida
                     );
                     setTimeout(() => {
                         setFiguraSeleccionada(null);
@@ -58,6 +69,11 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
             } else {
                 console.error("Partida o jugador no definido");
             }
+        } else if (colorDeFiguraElegida === colorBloqueado) {
+            showToastError("El color de esa figura está prohibido");
+            setTimeout(() => {
+                closeToast();
+            }, 2000);
         } else {
             manejarErrorSeleccionFigura();
         }
