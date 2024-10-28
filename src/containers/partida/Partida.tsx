@@ -66,10 +66,12 @@ function Partida() {
                                 <ButtonPasarTurno />
                             </div>
                             <CardMovParciales />
-                            <CardColorBloqueado id_partida={partida.id} />
                         </div>
                         <div className="max-lg:mt-24 max-lg:scale-75">
                             <Board id_partida={partida.id} />
+                            <div className="mt-2 flex justify-center">
+                                <CardColorBloqueado id_partida={partida.id} />
+                            </div>
                         </div>
                         <div className="max-lg:mt-24 max-lg:scale-75">
                             <CartasDeLosJugadores />
