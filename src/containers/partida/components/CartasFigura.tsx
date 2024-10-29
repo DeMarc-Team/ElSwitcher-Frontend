@@ -39,6 +39,8 @@ const CartasFigura = ({
         existeFigura,
         setCartaFiguraSeleccionada,
         cartaFiguraSeleccionada,
+        setEstoyBloqueando,
+        estoyBloqueando,
     } = useFiguraContext();
     const { cleanMovimientoContexto } = useMovimientoContext();
     const { triggerActualizarCartasFigura, triggerActualizarTurno } =
@@ -51,18 +53,33 @@ const CartasFigura = ({
     const fetchCartasFigura = async () => {
         try {
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
-            const cartas = data.map((carta) => imageCartaFigura(carta.figura));
+            console.log(data);
+            const cartas = data.map((carta) =>
+                imageCartaFigura(carta.figura, carta.revelada)
+            );
             setCartasFiguras(cartas);
         } catch (error) {
             console.error("Error fetching cartas figuras:", error);
         }
     };
 
-    const seleccionarCarta = (codigo: string, index: number) => {
+    const seleccionarCarta = (
+        codigo: string,
+        index: number,
+        revelada: boolean
+    ) => {
         if (turno_actual?.id == miSession?.id) {
+            if (!revelada) {
+                showToastInfo("La carta está bloqueada.", true);
+                setTimeout(() => {
+                    closeToast();
+                }, 2000);
+                return;
+            }
             if (existeFigura?.includes(codigo)) {
                 setCodigoCartaFigura(codigo);
                 setCartaFiguraSeleccionada(index);
+                setEstoyBloqueando(false);
             } else {
                 showToastInfo(
                     "Tú carta no coincide con alguna figura del tablero.",
@@ -92,9 +109,16 @@ const CartasFigura = ({
                         altText={`Carta ${index + 1}`}
                         onClick={() => {
                             cleanMovimientoContexto();
-                            seleccionarCarta(carta.code, index);
+                            seleccionarCarta(
+                                carta.code,
+                                index,
+                                carta.revelada ?? false
+                            );
                         }}
-                        isSelect={cartaFiguraSeleccionada === index}
+                        isSelect={
+                            cartaFiguraSeleccionada === index &&
+                            !estoyBloqueando
+                        }
                     />
                 );
             })}

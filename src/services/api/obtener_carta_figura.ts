@@ -2,6 +2,7 @@ import { API_HOST } from "./const";
 
 interface CartaFiguraResponse {
     figura: string;
+    revelada: boolean;
 }
 
 const ObtenerCartasFiguras = async (
