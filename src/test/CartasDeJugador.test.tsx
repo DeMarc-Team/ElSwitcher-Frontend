@@ -5,6 +5,8 @@ import Figura2 from "@/components/assets/cartas/CartasFiguras/Figura2.png";
 import Figura3 from "@/components/assets/cartas/CartasFiguras/Figura3.png";
 import { PartidaProvider } from "@/context/PartidaContext";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
+import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
+import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 import CartasDeJugador from "@/containers/partida/components/CartasDeJugador";
 
 vi.mock("@/services/api/obtener_info_partida", () => ({
@@ -38,11 +40,15 @@ describe("Componente CartasDeLosJugadores", () => {
         render(
             <PartidaWebsocketProvider>
                 <PartidaProvider>
-                    <CartasDeJugador
-                        id_partida={1}
-                        id_jugador={125}
-                        nombre_jugador="Jugador 2"
-                    />
+                    <FiguraContextProvider>
+                        <MovimientoContextProvider>
+                            <CartasDeJugador
+                                id_partida={1}
+                                id_jugador={125}
+                                nombre_jugador="Jugador 2"
+                            />
+                        </MovimientoContextProvider>
+                    </FiguraContextProvider>
                 </PartidaProvider>
             </PartidaWebsocketProvider>
         );
@@ -56,11 +62,15 @@ describe("Componente CartasDeLosJugadores", () => {
             render(
                 <PartidaWebsocketProvider>
                     <PartidaProvider>
-                        <CartasDeJugador
-                            id_partida={1}
-                            id_jugador={125}
-                            nombre_jugador="Jugador 2"
-                        />
+                        <FiguraContextProvider>
+                            <MovimientoContextProvider>
+                                <CartasDeJugador
+                                    id_partida={1}
+                                    id_jugador={125}
+                                    nombre_jugador="Jugador 2"
+                                />
+                            </MovimientoContextProvider>
+                        </FiguraContextProvider>
                     </PartidaProvider>
                 </PartidaWebsocketProvider>
             );

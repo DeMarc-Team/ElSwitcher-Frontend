@@ -13,9 +13,9 @@ import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
 vi.mock("@/services/api/obtener_carta_figura", () => ({
     ObtenerCartasFiguras: vi.fn((id_partida: number, id_jugador: number) =>
         Promise.resolve([
-            { figura: "f1", revelada: true },
-            { figura: "f2", revelada: true },
-            { figura: "f3", revelada: true },
+            { figura: "f1", revelada: true, bloqueada: false },
+            { figura: "f2", revelada: true, bloqueada: false },
+            { figura: "f3", revelada: true, bloqueada: false },
         ])
     ),
 }));
