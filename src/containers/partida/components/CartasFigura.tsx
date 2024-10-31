@@ -55,7 +55,7 @@ const CartasFigura = ({
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
             console.log(data);
             const cartas = data.map((carta) =>
-                imageCartaFigura(carta.figura, carta.revelada)
+                imageCartaFigura(carta.figura, carta.bloqueada)
             );
             setCartasFiguras(cartas);
         } catch (error) {
@@ -66,10 +66,10 @@ const CartasFigura = ({
     const seleccionarCarta = (
         codigo: string,
         index: number,
-        revelada: boolean
+        bloqueada: boolean
     ) => {
         if (turno_actual?.id == miSession?.id) {
-            if (!revelada) {
+            if (bloqueada) {
                 showToastInfo("La carta está bloqueada.", true);
                 setTimeout(() => {
                     closeToast();
@@ -112,7 +112,7 @@ const CartasFigura = ({
                             seleccionarCarta(
                                 carta.code,
                                 index,
-                                carta.revelada ?? false
+                                carta.bloqueada ?? false
                             );
                         }}
                         isSelect={

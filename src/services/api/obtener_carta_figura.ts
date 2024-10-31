@@ -2,7 +2,7 @@ import { API_HOST } from "./const";
 
 interface CartaFiguraResponse {
     figura: string;
-    revelada: boolean;
+    bloqueada: boolean;
 }
 
 const ObtenerCartasFiguras = async (
@@ -32,5 +32,16 @@ const ObtenerCartasFiguras = async (
         throw error;
     }
 };
+
+// const ObtenerCartasFiguras = async (
+//     _: number,
+//     __: number
+// ): Promise<CartaFiguraResponse[]> => {
+//     return [
+//         { figura: "f1", bloqueada: true },
+//         { figura: "f2", bloqueada: true },
+//         { figura: "f3", bloqueada: false },
+//     ];
+// }
 
 export { ObtenerCartasFiguras, type CartaFiguraResponse };
