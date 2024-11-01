@@ -53,7 +53,6 @@ const CartasFigura = ({
     const fetchCartasFigura = async () => {
         try {
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
-            console.log(data);
             const cartas = data.map((carta) =>
                 imageCartaFigura(carta.figura, carta.bloqueada)
             );

@@ -59,7 +59,7 @@ const CartasDeJugador = ({
     ) => {
         if (turno_actual?.id == miSession?.id) {
             if (bloqueada) {
-                showToastInfo("La carta esta bloqueada.", true);
+                showToastInfo("La carta está bloqueada.", true);
             } else if (existeFigura?.includes(codigo)) {
                 setCodigoCartaFigura(codigo);
                 setCartaFiguraSeleccionada(index);
