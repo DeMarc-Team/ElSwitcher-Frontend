@@ -9,6 +9,7 @@ import { PartidaProvider } from "@/context/PartidaContext";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
 import { useNotification } from "@/hooks/useNotification";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 
 vi.mock("@/services/api/obtener_carta_figura", () => ({
     ObtenerCartasFiguras: vi.fn((id_partida: number, id_jugador: number) =>
@@ -25,7 +26,7 @@ vi.mock("@/hooks/useNotification", () => ({
 }));
 
 describe("Cartas de figuras propias bloqueadas", () => {
-    const mockShowToast = vi.fn((message: string, persist?: boolean) => {
+    const mockShowToast = vi.fn((_: string, __?: boolean) => {
         return;
     });
 
@@ -100,6 +101,15 @@ describe("Cartas de figuras propias bloqueadas", () => {
         const cartasImg = await screen.findAllByRole("img");
         act(() => {
             cartasImg[1].click();
+        });
+
+        expect(mockShowToast).toHaveBeenCalledWith(
+            "La carta está bloqueada.",
+            true
+        );
+
+        act(() => {
+            cartasImg[2].click();
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
