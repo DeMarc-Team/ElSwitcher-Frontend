@@ -9,10 +9,9 @@ import { PartidaProvider } from "@/context/PartidaContext";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
 import { useNotification } from "@/hooks/useNotification";
-import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 
 vi.mock("@/services/api/obtener_carta_figura", () => ({
-    ObtenerCartasFiguras: vi.fn((id_partida: number, id_jugador: number) =>
+    ObtenerCartasFiguras: vi.fn((_: number, __: number) =>
         Promise.resolve([
             { figura: "f1", revelada: true, bloqueada: false },
             { figura: "f2", revelada: true, bloqueada: true },
