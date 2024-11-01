@@ -12,6 +12,7 @@ import CardDespedida from "./components/CardDespedida";
 import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 import CardMovParciales from "./components/CardMovParciales";
 import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
+import Chat from "./components/Chat";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -73,21 +74,8 @@ function Partida() {
                             <CartasDeLosJugadores />
                         </div>
                     </div>
-                    <div className="mt-10 flex scale-90 flex-row gap-10 max-lg:mt-0">
-                        <CartasMovimiento
-                            id_partida={partida.id}
-                            id_jugador={jugador.id}
-                        />
-                        <CartasFigura
-                            id_partida={partida.id}
-                            id_jugador={jugador.id}
-                        />
-                    </div>
-                    <div className="fixed bottom-5 left-5 max-lg:bottom-1 max-lg:left-auto max-lg:scale-90">
-                        <ButtonAbandonarPartida
-                            idPartida={id_partida}
-                            idJugador={jugador.id}
-                        />
+                    <div>
+                        <Chat id_jugador={id_partida} id_partida={jugador.id} />
                     </div>
                 </div>
             )}
