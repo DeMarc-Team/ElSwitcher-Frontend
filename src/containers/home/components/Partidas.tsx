@@ -5,6 +5,8 @@ import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
 import FiltroCantJugadores from "./FiltroCantJugadores";
 import { Input } from "@/components/ui/input";
+import { GetAllSessions, type Session } from "@/services/session_browser";
+import FormVolver from "./FormVolver";
 
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
@@ -13,6 +15,9 @@ function Partidas() {
     const { triggerActualizaPartidas } = useWebSocketListaPartidas();
     const [filtroPorNombre, setFiltroPorNombre] = useState("");
     const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
+    const [partidasActivas, setPartidasActivas] = useState<Session[]>([]);
+
+    useEffect(() => {}, []);
 
     useEffect(() => {
         fetchPartidas();
@@ -25,7 +30,13 @@ function Partidas() {
     const fetchPartidas = async () => {
         try {
             const data = await ObtenerPartidas();
-            setPartidas(data);
+            const sessions = GetAllSessions();
+            setPartidasActivas(sessions);
+
+            const filteredData = data.filter((partida) =>
+                sessions.every((session) => session.partida.id !== partida.id)
+            );
+            setPartidas(filteredData);
         } catch (err) {
             console.error("No se pudieron obtener las partidas.");
         }
@@ -93,6 +104,11 @@ function Partidas() {
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
                 <div className="flex flex-col space-y-4 p-4">
                     <ul>
+                        {partidasActivas.map((session) => (
+                            <li key={session.partida.id}>
+                                <FormVolver session={session} />
+                            </li>
+                        ))}
                         {partidasFiltradas.map((partida) => (
                             <li key={partida.id}>
                                 <FormUnirse
@@ -104,13 +120,14 @@ function Partidas() {
                                 />
                             </li>
                         ))}
-                        {partidasFiltradas.length === 0 && (
-                            <div className="flex h-80 items-center justify-center">
-                                <p className="text-center opacity-65">
-                                    No hay partidas creadas.
-                                </p>
-                            </div>
-                        )}
+                        {partidasFiltradas.length === 0 &&
+                            partidasActivas.length === 0 && (
+                                <div className="flex h-80 items-center justify-center">
+                                    <p className="text-center opacity-65">
+                                        No hay partidas creadas.
+                                    </p>
+                                </div>
+                            )}
                     </ul>
                 </div>
             </ScrollArea>
