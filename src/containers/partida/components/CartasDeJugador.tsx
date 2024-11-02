@@ -35,6 +35,8 @@ const CartasDeJugador = ({
     } = useFiguraContext();
     const { cleanMovimientoContexto } = useMovimientoContext();
     const { showToastInfo, showToastError, closeToast } = useNotification();
+    const [puedoBloquarAlgunaCarta, setPuedoBloquearAlgunaCarta] =
+        useState(false);
 
     useEffect(() => {
         fetchCartasFigurasOtrosJugadores();
@@ -47,9 +49,18 @@ const CartasDeJugador = ({
                 imageCartaFigura(carta.figura, carta.bloqueada)
             );
             setCartasFiguras(cartas);
+            checkPuedoBloquearAlgunaCarta(cartas);
         } catch (error) {
             console.error("Error fetching cartas de figura:", error);
         }
+    };
+
+    const checkPuedoBloquearAlgunaCarta = (cartas: CartaFigura[]) => {
+        let hayMasDeUnaCarta = cartas.length > 1;
+        let hayAlgunaCartaBloqueada = cartas.some((carta) => carta.bloqueada);
+        setPuedoBloquearAlgunaCarta(
+            hayMasDeUnaCarta && !hayAlgunaCartaBloqueada
+        );
     };
 
     const seleccionarCartaABloquear = (
@@ -58,7 +69,9 @@ const CartasDeJugador = ({
         bloqueada: boolean
     ) => {
         if (turno_actual?.id == miSession?.id) {
-            if (bloqueada) {
+            if (!puedoBloquarAlgunaCarta) {
+                showToastInfo("No podes bloquearle cartas al jugador.", true);
+            } else if (bloqueada) {
                 showToastInfo("La carta está bloqueada.", true);
             } else if (existeFigura?.includes(codigo)) {
                 setCodigoCartaFigura(codigo);
@@ -109,7 +122,8 @@ const CartasDeJugador = ({
                             }}
                             isSelect={
                                 cartaFiguraSeleccionada === indexCarta &&
-                                estoyBloqueando
+                                estoyBloqueando &&
+                                puedoBloquarAlgunaCarta
                             }
                             automatic_tam={false}
                         />

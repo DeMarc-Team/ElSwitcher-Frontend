@@ -113,7 +113,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "La carta está bloqueada.",
+            "No podes bloquearle cartas al jugador.",
             true
         );
 
@@ -122,7 +122,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "La carta está bloqueada.",
+            "No podes bloquearle cartas al jugador.",
             true
         );
     });
@@ -152,7 +152,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "La carta no coincide con alguna figura del tablero.",
+            "No podes bloquearle cartas al jugador.",
             true
         );
     });
