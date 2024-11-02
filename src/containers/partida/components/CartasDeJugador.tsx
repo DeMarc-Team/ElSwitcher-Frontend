@@ -27,6 +27,7 @@ const CartasDeJugador = ({
         existeFigura,
         cartaFiguraSeleccionada,
         estoyBloqueando,
+        idJugadorABloquear,
         setEstoyBloqueando,
         setIdJugadorABloquear,
         setCodigoCartaFigura,
@@ -121,6 +122,7 @@ const CartasDeJugador = ({
                                 );
                             }}
                             isSelect={
+                                idJugadorABloquear === id_jugador &&
                                 cartaFiguraSeleccionada === indexCarta &&
                                 estoyBloqueando &&
                                 puedoBloquarAlgunaCarta
