@@ -15,10 +15,7 @@ import { Plus } from "lucide-react";
 import { crearPartida } from "@/services/api/crear_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useCrearPartida } from "./useCrearPartida";
-import {
-    SaveSessionJugador,
-    SaveSessionPartida,
-} from "@/services/session_browser";
+import { SaveNewSession } from "@/services/session_browser";
 
 function CrearPartida() {
     const [isOpen, setIsOpen] = useState(false);
@@ -54,11 +51,14 @@ function CrearPartida() {
                 nombre_partida: partidaname,
                 nombre_creador: username,
             });
-            SaveSessionPartida({ id: res.id, nombre: res.nombre_partida });
-            SaveSessionJugador({
-                id: res.id_creador,
-                nombre: res.nombre_creador,
-            });
+            SaveNewSession(
+                {
+                    // jugador
+                    id: res.id_creador,
+                    nombre: res.nombre_creador,
+                },
+                { id: res.id, nombre: res.nombre_partida } // partida
+            );
             showToastSuccess(
                 `Bievenido '${res.nombre_creador}', partida '${res.nombre_partida}' creada con éxito.`
             );

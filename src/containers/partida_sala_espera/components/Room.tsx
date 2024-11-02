@@ -18,8 +18,7 @@ import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
 import {
     LoadSessionJugador,
-    RemoveSessionJugador,
-    RemoveSessionPartida,
+    RemoveCurrentSession,
 } from "@/services/session_browser";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
@@ -70,8 +69,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
 
     useEffectSkipFirst(() => {
         closeConnection();
-        RemoveSessionJugador();
-        RemoveSessionPartida();
+        RemoveCurrentSession();
         navigate("/#listapartidas");
     }, [triggerSeCanceloPartida]);
 
