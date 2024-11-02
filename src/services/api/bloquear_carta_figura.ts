@@ -12,7 +12,6 @@ const BloquearCartaFiguraDeOtroJugador = async (
     id_jugador_a_bloquear: number,
     codCartaFig: string
 ): Promise<any> => {
-    // TODO: revisar el retorno.
     try {
         const response = await fetch(
             `${API_HOST}/juego/${id_partida}/jugadores/${id_jugador}/bloquear-carta`,
