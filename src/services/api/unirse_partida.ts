@@ -7,7 +7,8 @@ interface UnirsePartidaResponse {
 
 const UnirsePartida = async (
     partidaId: number,
-    username: string
+    username: string,
+    // contraseña: string, //TODO
 ): Promise<UnirsePartidaResponse> => {
     try {
         const response = await fetch(
@@ -19,6 +20,7 @@ const UnirsePartida = async (
                 },
                 body: JSON.stringify({
                     nombre: username,
+                    // contraseña: contraseña, //TODO
                 }),
             }
         );

@@ -13,6 +13,7 @@ function Partidas() {
     const { triggerActualizaPartidas } = useWebSocketListaPartidas();
     const [filtroPorNombre, setFiltroPorNombre] = useState("");
     const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
+    const es_privada=false //TODO: Fuerzo a esto para probar
 
     useEffect(() => {
         fetchPartidas();
@@ -33,6 +34,7 @@ function Partidas() {
 
     const filtrarPartidas = () => {
         let partidasFiltradasAux = partidas;
+        
 
         // Filtrar por cantidad de jugadores
         if (filtrosActivosCantJugadores.length > 0) {
@@ -101,6 +103,8 @@ function Partidas() {
                                     partidaJugadores={
                                         partida.numero_de_jugadores
                                     }
+                                    es_privada={es_privada} 
+                                    // TODO: Cambiar a partida.es_privada
                                 />
                             </li>
                         ))}

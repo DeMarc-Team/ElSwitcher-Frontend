@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { CircleArrowRight, UserRound } from "lucide-react";
+import { CircleArrowRight, UserRound, Lock } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
@@ -23,18 +23,21 @@ interface FormUnirseProps {
     partidaId: number;
     partidaName: string;
     partidaJugadores: number;
+    es_privada: boolean;
 }
 
 function FormUnirse({
     partidaId,
     partidaName,
     partidaJugadores,
+    es_privada,
 }: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
     const [username, setUsername] = useState("");
     const [uniendose, setUniendose] = useState(false);
     const navigate = useNavigate();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
+    const [password,setPassword] = useState("")
 
     const changeUsername = (e: string) => {
         if (MAX_LENGTH_USERNAME < e.length) {
@@ -44,9 +47,13 @@ function FormUnirse({
         setUsername(e);
     };
 
-    const checkUsername = () => {
+    const checkFillds = () => {
         if (username === "") {
             showToastAlert("El nombre de usuario no puede estar vacio.");
+            return false;
+        }
+        if (password === "" && es_privada) {
+            showToastAlert("La contraseña no puede estar vacia.");
             return false;
         }
         return true;
@@ -54,12 +61,13 @@ function FormUnirse({
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!checkUsername()) return;
+        if (!checkFillds()) return;
         if (uniendose) {
             return;
         }
         try {
             setUniendose(true);
+            // const res = await UnirsePartida(partidaId, username,password); //TODO
             const res = await UnirsePartida(partidaId, username);
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
@@ -79,6 +87,7 @@ function FormUnirse({
         } catch (error) {
             showToastAlert("Error al unirse a la partida.");
             setUniendose(false);
+            setPassword("");
         }
     };
 
@@ -99,6 +108,7 @@ function FormUnirse({
                             </span>
                             <UserRound className="w-4" />
                         </span>
+                        {es_privada && <Lock />}
                         <span className="underline">Unirse</span>
                         <CircleArrowRight className="w-5" />
                     </div>
@@ -127,12 +137,28 @@ function FormUnirse({
                                 value={username}
                                 onChange={(e) => changeUsername(e.target.value)}
                             />
+                            {es_privada && (
+    <>
+        <Label htmlFor="username">Contraseña de partida</Label>
+        <Input
+            className="mt-1"
+            type="text"
+            id="password"
+            autoFocus={false}
+            placeholder="Ingrese la contraseña de la partida"
+            autoComplete="off"
+            tabIndex={-1}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+        />
+    </>
+)}
                         </div>
                     </div>
                     <div>
                         <Button
                             onClick={() => {
-                                checkUsername();
+                                checkFillds();
                             }}
                             type="submit"
                             className="mt-5 w-full"
