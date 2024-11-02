@@ -1,7 +1,9 @@
 import React from "react";
 import { cn } from "@/services/shadcn_lib/utils";
+import { usePartida } from "@/context/PartidaContext";
 
 const COLORES: string[] = ["red", "green", "blue", "yellow"];
+
 
 interface CeldaProps {
     rowIndex: number;
@@ -27,7 +29,9 @@ const Celda: React.FC<CeldaProps> = ({
     estaDeshabilitado,
     esParteDeFigura,
     destacarFigura,
-}) => (
+}) => {
+    const { colorBloqueado } = usePartida();
+    return(
     <button
         className={cn(
             "flex h-12 w-12 items-center justify-center rounded-lg border-2 border-black shadow-lg hover:scale-110",
@@ -46,7 +50,7 @@ const Celda: React.FC<CeldaProps> = ({
                     esResaltada(rowIndex, colIndex),
             },
             {
-                shine: animar && esParteDeFigura(rowIndex, colIndex),
+                shine: animar && esParteDeFigura(rowIndex, colIndex) && (colorBloqueado!=cell-1),
             },
             {
                 "border-4 border-red-600": destacarFigura(rowIndex, colIndex),
@@ -55,6 +59,7 @@ const Celda: React.FC<CeldaProps> = ({
         onClick={() => handleClick(rowIndex, colIndex, cell)}
         disabled={estaDeshabilitado()}
     ></button>
-);
+    )
+};
 
 export default Celda;

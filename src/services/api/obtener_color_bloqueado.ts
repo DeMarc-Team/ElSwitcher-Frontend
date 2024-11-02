@@ -20,7 +20,7 @@ const ObtenerColorBloqueado = async (id_partida: number): Promise<number> => {
 
         // const data = await response.json();
         //return data-1;
-        return 3 - 1;
+        return 1 - 1;
     } catch (error) {
         console.error("Error color prohibido:", error);
         throw error;
