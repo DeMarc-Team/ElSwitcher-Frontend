@@ -139,25 +139,27 @@ function CrearPartida() {
                                 ¿Habilitar Contraseña?
                             </Label>
                         </div>
-                        <div className="w-full">
-                            <Label htmlFor="password">
-                                Contraseña de partida
-                            </Label>
-                            <Input
-                                className="mt-1"
-                                type="text"
-                                id="password"
-                                autoFocus={false}
-                                placeholder="Ingrese la contraseña"
-                                autoComplete="off"
-                                tabIndex={-1}
-                                value={password}
-                                disabled={!isPasswordEnabled}
-                                onChange={(e) =>
-                                    changeContrasenia(e.target.value)
-                                }
-                            />
-                        </div>
+                        {isPasswordEnabled && (
+                            <div className="w-full">
+                                <Label htmlFor="password">
+                                    Contraseña de partida
+                                </Label>
+                                <Input
+                                    className="mt-1"
+                                    type="text"
+                                    id="password"
+                                    autoFocus={false}
+                                    placeholder="Ingrese la contraseña"
+                                    autoComplete="off"
+                                    tabIndex={-1}
+                                    value={password}
+                                    disabled={!isPasswordEnabled}
+                                    onChange={(e) =>
+                                        changeContrasenia(e.target.value)
+                                    }
+                                />
+                            </div>
+                        )}
                         <div>
                             {/* mantener este cambio para el test */}
                             <Button type="submit" className="mt-5 w-full">

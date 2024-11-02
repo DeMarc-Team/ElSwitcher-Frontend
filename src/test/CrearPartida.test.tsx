@@ -52,7 +52,9 @@ describe("Crear Partida", () => {
         //Obtener los campos de input
         const inputPartida = screen.getByLabelText("Nombre de Partida");
         const inputNombre = screen.getByLabelText("Nombre de Usuario");
-        const checkboxPassword = screen.getByLabelText("¿Habilitar Contraseña?");
+        const checkboxPassword = screen.getByLabelText(
+            "¿Habilitar Contraseña?"
+        );
 
         // Simular la interacción del usuario llenando el formulario
         fireEvent.change(inputPartida, { target: { value: "Partida Test" } });
@@ -92,8 +94,9 @@ describe("Crear Partida", () => {
         //Obtener los campos de input
         const inputPartida = screen.getByLabelText("Nombre de Partida");
         const inputNombre = screen.getByLabelText("Nombre de Usuario");
-        const checkboxPassword = screen.getByLabelText("¿Habilitar Contraseña?");
-        
+        const checkboxPassword = screen.getByLabelText(
+            "¿Habilitar Contraseña?"
+        );
 
         // Simular la interacción del usuario llenando el formulario
         fireEvent.change(inputPartida, { target: { value: "Partida Test" } });
@@ -101,7 +104,9 @@ describe("Crear Partida", () => {
         fireEvent.click(checkboxPassword);
         const visiblePasswordInput = screen.queryByLabelText("Contraseña");
         if (visiblePasswordInput) {
-            fireEvent.change(visiblePasswordInput, { target: { value: "password123" } });
+            fireEvent.change(visiblePasswordInput, {
+                target: { value: "password123" },
+            });
             expect(visiblePasswordInput).toHaveValue("password123");
         }
 
