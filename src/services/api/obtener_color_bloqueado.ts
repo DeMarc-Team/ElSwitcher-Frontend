@@ -1,30 +1,34 @@
 import { API_HOST } from "./const";
 
-const ObtenerColorBloqueado = async (id_partida: number): Promise<number> => {
+interface ColorResponse {
+    color: number;
+}
+
+const ObtenerColorBloqueado = async (id_partida: number): Promise<ColorResponse> => {
     try {
-        // const response = await fetch(
-        //     `${API_HOST}/juego/${id_partida}/colorProhibido`,
-        //     {
-        //         method: "GET",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //     }
-        // );
+        const response = await fetch(
+            `${API_HOST}/juego/${id_partida}/colorProhibido`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
-        // if (!response.ok) {
-        //     throw new Error(
-        //         `Fallo obteniendo el color bloqueado Status: ${response.status}`
-        //     );
-        // }
+        if (!response.ok) {
+            throw new Error(
+                `Fallo obteniendo el color bloqueado Status: ${response.status}`
+            );
+        }
 
-        // const data = await response.json();
-        //return data-1;
-        return 1 - 1;
+        const data: ColorResponse = await response.json();
+        return { color: data.color - 1 }; 
     } catch (error) {
         console.error("Error color prohibido:", error);
-        throw error;
+        throw error; 
     }
 };
 
-export { ObtenerColorBloqueado };
+export { ObtenerColorBloqueado , type ColorResponse};
+

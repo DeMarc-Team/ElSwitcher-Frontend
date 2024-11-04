@@ -13,7 +13,7 @@ interface PartidaContextType {
     setJugador: (jugador: Jugador) => void;
     setGanador: (jugador: Jugador) => void;
     setTurnoActual: (jugador: Jugador) => void;
-    setColorBloqueado: (colorBloqueado: number) => void;
+    setColorBloqueado: (colorBloqueado: number | undefined) => void;
 }
 
 const PartidaContext = createContext<PartidaContextType | undefined>(undefined);

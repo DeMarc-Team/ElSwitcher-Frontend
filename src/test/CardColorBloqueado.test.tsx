@@ -1,9 +1,8 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { describe, test, expect, vi } from "vitest";
 
 import "@testing-library/jest-dom";
-import {
-} from "@/services/api/obtener_color_bloqueado";
+import { ColorResponse } from "@/services/api/obtener_color_bloqueado";
 import { PartidaProvider } from "@/context/PartidaContext";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
 import { PartidaWebsocketProvider } from "@/context/PartidaWebsocket";
@@ -12,10 +11,11 @@ import CardColorBloqueado from "@/containers/partida/components/CardColorBloquea
 
 vi.mock("@/services/api/obtener_color_bloqueado", () => ({
     ObtenerColorBloqueado: vi.fn(
-        (partida: number): Promise<number> =>
-            Promise.resolve(3) // Retorna el número 3 en lugar de un objeto
+        (partida: number): Promise<ColorResponse> =>
+            Promise.resolve({ color: 3 }) 
     ),
 }));
+
 
 
 describe("Card de color bloqueado", () => {
@@ -58,8 +58,11 @@ describe("Card de color bloqueado", () => {
             );
         });
 
-        const colorBloqueadoElement = screen.getByText("COLOR BLOQUEADO").nextElementSibling;
-        expect(colorBloqueadoElement).toHaveClass("bg-yellow-400");
+        await waitFor(() => {
+            const colorBloqueadoElement = screen.getByText("COLOR BLOQUEADO").nextElementSibling;
+            expect(colorBloqueadoElement).not.toHaveClass("bg-yellow-100");
+            expect(colorBloqueadoElement).toHaveClass("bg-yellow-400");
+        });
     });
 
 });

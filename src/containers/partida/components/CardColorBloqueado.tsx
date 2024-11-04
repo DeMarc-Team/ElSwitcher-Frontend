@@ -16,25 +16,31 @@ export default function CardColorBloqueado({
     const { colorBloqueado, setColorBloqueado } = usePartida();
 
     const {
-        triggerColorProhibido,
+        triggerColorProhibido, //TODO: ponerse de acuerdo con esto
         triggerActualizarCartasFigura,
         triggerActualizarTurno,
     } = useInsidePartidaWebSocket();
 
-    //Polling hasta que esté el endpoint
     useEffect(() => {
         fetchColorBloqueado();
-    }, [triggerActualizarCartasFigura, triggerActualizarTurno]);
+    }, [triggerActualizarCartasFigura,triggerActualizarTurno]);
 
     const fetchColorBloqueado = async () => {
         try {
-            setColorBloqueado(await ObtenerColorBloqueado(id_partida));
+            const colorRecibido = await ObtenerColorBloqueado(id_partida);
+            
+            if (Number.isInteger(colorRecibido.color)) {
+                setColorBloqueado(colorRecibido.color);
+            } else {
+                console.error("Color bloqueado no válido, debe ser un entero:", colorRecibido.color);
+                setColorBloqueado(undefined); 
+            }
         } catch (error) {
-            console.error(error);
+            console.error("Error al obtener el color bloqueado:", error);
+            setColorBloqueado(undefined);
         }
     };
-
-    console.log("El color bloqueado es", colorBloqueado);
+    
     return (
         <Card className="h-fit w-[330px] border-2 border-black bg-yellow-100 p-1">
             <CardContent className="flex flex-row items-center justify-between gap-4 p-0">
@@ -43,7 +49,6 @@ export default function CardColorBloqueado({
                 </CardTitle>
                 <div
                     className={`h-5 w-full rounded border-2 border-dashed border-black ${
-                        colorBloqueado !== null &&
                         colorBloqueado !== undefined &&
                         colorBloqueado >= 0 &&
                         colorBloqueado <= 3
