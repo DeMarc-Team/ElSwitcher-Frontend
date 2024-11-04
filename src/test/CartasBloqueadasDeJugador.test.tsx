@@ -28,9 +28,9 @@ vi.mock("@/services/api/obtener_info_partida", () => ({
 vi.mock("@/services/api/obtener_carta_figura", () => ({
     ObtenerCartasFiguras: vi.fn((_: number, __: number) =>
         Promise.resolve([
-            { figura: "f1", revelada: true, bloqueada: false },
-            { figura: "f2", revelada: true, bloqueada: true },
-            { figura: "f3", revelada: true, bloqueada: true },
+            { figura: "f1", bloqueada: false },
+            { figura: "f2", bloqueada: true },
+            { figura: "f3", bloqueada: true },
         ])
     ),
 }));
