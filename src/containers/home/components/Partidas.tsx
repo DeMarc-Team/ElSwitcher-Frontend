@@ -16,6 +16,9 @@ function Partidas() {
     const [filtroPorNombre, setFiltroPorNombre] = useState("");
     const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
     const [partidasActivas, setPartidasActivas] = useState<Session[]>([]);
+    const [partidasActivasFiltradas, setPartidasActivasFiltradas] = useState<
+        Session[]
+    >([]);
 
     useEffect(() => {}, []);
 
@@ -44,6 +47,7 @@ function Partidas() {
 
     const filtrarPartidas = () => {
         let partidasFiltradasAux = partidas;
+        let partidasActivasAux = partidasActivas;
 
         // Filtrar por cantidad de jugadores
         if (filtrosActivosCantJugadores.length > 0) {
@@ -61,9 +65,15 @@ function Partidas() {
                     .toLowerCase()
                     .includes(filtroPorNombre.toLowerCase())
             );
+            partidasActivasAux = partidasActivasAux.filter((session) =>
+                session.partida.nombre
+                    .toLowerCase()
+                    .includes(filtroPorNombre.toLowerCase())
+            );
         }
 
         setPartidasFiltradas(partidasFiltradasAux);
+        setPartidasActivasFiltradas(partidasActivasAux);
     };
 
     const manejarFiltroCantJugadores = (cantidad: number) => {
@@ -104,7 +114,7 @@ function Partidas() {
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
                 <div className="flex flex-col space-y-4 p-4">
                     <ul>
-                        {partidasActivas.map((session) => (
+                        {partidasActivasFiltradas.map((session) => (
                             <li key={session.partida.id}>
                                 <FormVolver session={session} />
                             </li>
