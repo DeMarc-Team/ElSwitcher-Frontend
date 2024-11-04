@@ -16,14 +16,14 @@ export default function CardColorBloqueado({
     const { colorBloqueado, setColorBloqueado } = usePartida();
 
     const {
-        triggerColorProhibido, //TODO: ponerse de acuerdo con esto
-        triggerActualizarCartasFigura,
-        triggerActualizarTurno,
+        triggerActualizarCartasFigura, 
+        // Se usa esto porque el único momento en el que se cambia el 
+        //color prohibido es al usar una cartas de figura propia o para bloquear
     } = useInsidePartidaWebSocket();
 
     useEffect(() => {
         fetchColorBloqueado();
-    }, [triggerActualizarCartasFigura,triggerActualizarTurno]);
+    }, [triggerActualizarCartasFigura]);
 
     const fetchColorBloqueado = async () => {
         try {
