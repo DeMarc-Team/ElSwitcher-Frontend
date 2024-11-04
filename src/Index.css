@@ -82,3 +82,8 @@
         }
     }
 }
+.emoji-cursor {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><text x="0" y="36" font-size="40" fill="black">🔥</text></svg>'), auto;
+  }
+
+  
