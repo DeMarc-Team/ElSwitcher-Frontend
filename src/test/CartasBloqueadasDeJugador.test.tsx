@@ -48,11 +48,11 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
     beforeEach(() => {
         // Configurar el mock de useNotification
         vi.mocked(useNotification).mockReturnValue({
-            showToastAlert: vi.fn(),
+            showToastAlert: mockShowToast,
             closeToast: vi.fn(),
             showToastError: vi.fn(),
             showToastSuccess: vi.fn(),
-            showToastInfo: mockShowToast,
+            showToastInfo: vi.fn(),
             showToastWarning: vi.fn(),
         });
     });
@@ -113,8 +113,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "Cada jugador solo puede tener una carta bloqueada.",
-            true
+            "Cada jugador solo puede tener una carta bloqueada."
         );
 
         act(() => {
@@ -122,8 +121,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "Cada jugador solo puede tener una carta bloqueada.",
-            true
+            "Cada jugador solo puede tener una carta bloqueada."
         );
     });
 
@@ -152,8 +150,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "Cada jugador solo puede tener una carta bloqueada.",
-            true
+            "Cada jugador solo puede tener una carta bloqueada."
         );
     });
 });
