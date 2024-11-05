@@ -113,7 +113,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "No podes bloquearle cartas al jugador.",
+            "Cada jugador solo puede tener una carta bloqueada.",
             true
         );
 
@@ -122,7 +122,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "No podes bloquearle cartas al jugador.",
+            "Cada jugador solo puede tener una carta bloqueada.",
             true
         );
     });
@@ -152,7 +152,7 @@ describe("Componente CartasDeLosJugadores verificando las cartas bloqueadas", ()
         });
 
         expect(mockShowToast).toHaveBeenCalledWith(
-            "No podes bloquearle cartas al jugador.",
+            "Cada jugador solo puede tener una carta bloqueada.",
             true
         );
     });
