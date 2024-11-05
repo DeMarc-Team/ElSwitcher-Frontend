@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+// Partida.tsx
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Board from "./components/Board";
 import CartasMovimiento from "./components/CartasMovimiento";
@@ -12,14 +13,20 @@ import CardDespedida from "./components/CardDespedida";
 import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 import CardMovParciales from "./components/CardMovParciales";
 import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
+import { Cronometro } from "./components/Cronometro";
+//import { useWebSocketPartida } from "@/services/websockets/websockets_partida";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
     const id_partida = Number(useParams().id_partida);
     const [hayUnGanador, setHayUnGanador] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
-    const { openConnectionToPartida, readyState, triggerHayGanador } =
-        useInsidePartidaWebSocket();
+    const {
+        openConnectionToPartida,
+        readyState,
+        triggerHayGanador,
+        sincronizarTurnoData,
+    } = useInsidePartidaWebSocket();
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -39,16 +46,16 @@ function Partida() {
             readyState != 0 &&
             readyState != 1
         ) {
-            console.log("Reconectando al WebSocket de la partida...");
             openConnectionToPartida(String(id_partida), String(jugador.id));
         }
     }, [isDataLoaded]);
-
     useEffectSkipFirst(() => {
         setHayUnGanador(true);
     }, [triggerHayGanador]);
 
     if (!jugador || !partida || partida.id !== id_partida) return;
+
+    const horaActual = new Date().toISOString();
 
     return (
         <>
@@ -88,6 +95,9 @@ function Partida() {
                             idPartida={id_partida}
                             idJugador={jugador.id}
                         />
+                    </div>
+                    <div className="mt-100 flex scale-90 flex-row gap-10 max-lg:mt-0">
+                        <Cronometro id_partida={partida.id} />
                     </div>
                 </div>
             )}

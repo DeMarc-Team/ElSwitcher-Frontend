@@ -6,7 +6,7 @@ import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 
 export default function ButtonPasarTurno() {
-    const { turno_actual, jugador, partida } = usePartida();
+    const { turno_actual, jugador, partida, setFinalizoTurno } = usePartida();
     const { showToastAlert, closeToast } = useNotification();
     const { cleanMovimientoContexto } = useMovimientoContext();
     const { cleanFiguraContexto } = useFiguraContext();
@@ -26,6 +26,7 @@ export default function ButtonPasarTurno() {
                     closeToast();
                 }, 1000);
             }
+            //setFinalizoTurno(false);
         }
     };
 

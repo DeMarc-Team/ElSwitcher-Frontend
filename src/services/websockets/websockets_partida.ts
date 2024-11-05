@@ -36,9 +36,17 @@ const useWebSocketPartida = () => {
         useState(false);
     const [triggerActualizarCartasFigura, setTriggerActualizarCartasFigura] =
         useState(false);
+    const [triggerSincronizarTurno, setTriggerSincronizarTurno] =
+        useState(false);
 
     // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
+
+    // Estado para almacenar la información de sincronización del turno
+    const [sincronizarTurnoData, setSincronizarTurnoData] = useState<{
+        inicio: string;
+        duracion: number;
+    } | null>(null);
 
     const openConnectionToPartida = (
         partida_id: string,
@@ -48,6 +56,7 @@ const useWebSocketPartida = () => {
     };
 
     useEffect(() => {
+        console.log("Quieoooooooooooooooooooooooo:", message.action);
         if (message.action === "actualizar_sala_espera") {
             setTriggerActualizarSalaEspera(!triggerActualizarSalaEspera);
         } else if (message.action === "actualizar_turno") {
@@ -65,6 +74,11 @@ const useWebSocketPartida = () => {
             setTriggerSeCanceloPartida(!triggerSeCanceloPartida);
         } else if (message.action === "actualizar_cartas_figura") {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
+        } else if (message.action === "sincronizar_turno") {
+            setTriggerSincronizarTurno(!triggerSincronizarTurno);
+            const data = JSON.parse(message.data.replace(/'/g, '"'));
+            setSincronizarTurnoData(data);
+            console.log("Quieiiiiiiiiiiiiiiiiiiiii:", sincronizarTurnoData);
         }
     }, [message]);
 
@@ -81,6 +95,8 @@ const useWebSocketPartida = () => {
         triggerActualizarCartasMovimiento,
         triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
+        triggerSincronizarTurno,
+        sincronizarTurnoData,
     };
 };
 export { useWebSocketPartida };
