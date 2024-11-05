@@ -28,6 +28,7 @@ import DorsoCarta from "@/components/assets/cartas/DorsoCarta.png";
 interface CartaFigura {
     code: string;
     img: string;
+    bloqueada?: boolean;
 }
 
 const CARTAS_FIGURA: CartaFigura[] = [
@@ -59,17 +60,15 @@ const CARTAS_FIGURA: CartaFigura[] = [
     { code: "dorso", img: DorsoCarta },
 ];
 
-const imageCartaFigura = (code: string): CartaFigura => {
-    const carta = CARTAS_FIGURA.find(
-        (carta) => carta.code === code
-    ) as CartaFigura;
-    if (carta) {
-        return carta;
-    } else {
-        return CARTAS_FIGURA.find(
-            (carta) => carta.code === "dorso"
-        ) as CartaFigura;
+const imageCartaFigura = (code: string, bloqueada: boolean): CartaFigura => {
+    const carta = CARTAS_FIGURA.find((carta) => carta.code === code);
+    if (carta && !bloqueada) {
+        return { ...carta, bloqueada: false };
     }
+    const cartaBloqueada = CARTAS_FIGURA.find(
+        (carta) => carta.code === "dorso"
+    )!;
+    return { ...cartaBloqueada, bloqueada: true };
 };
 
 export { CARTAS_FIGURA, imageCartaFigura, type CartaFigura };
