@@ -3,6 +3,11 @@ import { imageCartaFigura, type CartaFigura } from "./img_cartas_figura";
 import { ObtenerCartasFiguras } from "@/services/api/obtener_carta_figura";
 import Cartas from "./Cartas";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
+import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
+import { usePartida } from "@/context/PartidaContext";
+import { LoadSessionJugador } from "@/services/session_browser";
+import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
+import { useNotification } from "@/hooks/useNotification";
 
 const CartasDeJugador = ({
     id_partida,
@@ -16,6 +21,25 @@ const CartasDeJugador = ({
     const { triggerActualizarCartasFigura, triggerActualizarTurno } =
         useInsidePartidaWebSocket();
     const [cartasFiguras, setCartasFiguras] = useState<CartaFigura[]>([]);
+    const { turno_actual } = usePartida();
+    const miSession = LoadSessionJugador();
+    const {
+        existeFigura,
+        cartaFiguraSeleccionada,
+        estoyBloqueando,
+        idJugadorABloquear,
+        setEstoyBloqueando,
+        setIdJugadorABloquear,
+        setCodigoCartaFigura,
+        setCartaFiguraSeleccionada,
+        cleanFiguraContexto,
+    } = useFiguraContext();
+    const { cleanMovimientoContexto } = useMovimientoContext();
+    const { showToastInfo, showToastAlert, closeToast } = useNotification();
+    const [hayUnaCartaBloqueada, setHayUnaCartaBloqueada] =
+        useState(false);
+    const [tengoMasDeUnaCarta, setTengoMasDeUnaCarta] =
+        useState(false);
 
     useEffect(() => {
         fetchCartasFigurasOtrosJugadores();
@@ -24,11 +48,57 @@ const CartasDeJugador = ({
     const fetchCartasFigurasOtrosJugadores = async () => {
         try {
             const data = await ObtenerCartasFiguras(id_partida, id_jugador);
-            const cartas = data.map((carta) => imageCartaFigura(carta.figura));
+            const cartas = data.map((carta) =>
+                imageCartaFigura(carta.figura, carta.bloqueada)
+            );
             setCartasFiguras(cartas);
+            checkPuedoBloquearAlgunaCarta(cartas);
         } catch (error) {
             console.error("Error fetching cartas de figura:", error);
         }
+    };
+
+    const checkPuedoBloquearAlgunaCarta = (cartas: CartaFigura[]) => {
+        let hayMasDeUnaCarta = cartas.length > 1;
+        let hayAlgunaCartaBloqueada = cartas.some((carta) => carta.bloqueada);
+        setTengoMasDeUnaCarta(hayMasDeUnaCarta);
+        setHayUnaCartaBloqueada(hayAlgunaCartaBloqueada);
+    };
+
+    const seleccionarCartaABloquear = (
+        codigo: string,
+        index: number,
+        bloqueada: boolean
+    ) => {
+        if (turno_actual?.id == miSession?.id) {
+            if (!tengoMasDeUnaCarta) {
+                showToastAlert("No puedes bloquearle su única carta a este jugador.");
+            } else if(hayUnaCartaBloqueada){
+                showToastAlert("Cada jugador solo puede tener una carta bloqueada.");
+            }else if (bloqueada) {
+                showToastAlert("La carta está bloqueada.");
+            } else if (existeFigura?.includes(codigo)) {
+                setCodigoCartaFigura(codigo);
+                setCartaFiguraSeleccionada(index);
+                setEstoyBloqueando(true);
+                setIdJugadorABloquear(id_jugador);
+                showToastInfo(
+                    "Marca una figura en el tablero para bloquear la carta.",
+                    true
+                );
+            } else {
+                showToastInfo(
+                    "La carta no coincide con alguna figura del tablero.",
+                    true
+                );
+                cleanFiguraContexto();
+            }
+        } else {
+            showToastAlert("Espera tu turno para jugar");
+        }
+        setTimeout(() => {
+            closeToast();
+        }, 2000);
     };
 
     return (
@@ -46,7 +116,21 @@ const CartasDeJugador = ({
                             rotation={0}
                             middle={false}
                             altText={`Carta del jugador ${id_jugador + 1} - Carta ${indexCarta + 1}`}
-                            isSelect={false}
+                            onClick={() => {
+                                cleanMovimientoContexto();
+                                seleccionarCartaABloquear(
+                                    carta.code,
+                                    indexCarta,
+                                    carta.bloqueada ?? false
+                                );
+                            }}
+                            isSelect={
+                                idJugadorABloquear === id_jugador &&
+                                cartaFiguraSeleccionada === indexCarta &&
+                                estoyBloqueando &&
+                                tengoMasDeUnaCarta &&
+                                !hayUnaCartaBloqueada
+                            }
                             automatic_tam={false}
                         />
                     </div>
