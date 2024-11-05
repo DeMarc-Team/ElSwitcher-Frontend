@@ -16,7 +16,6 @@ interface PartidaWebsocketContextType {
     triggerSeCanceloPartida: boolean;
     triggerActualizarCartasFigura: boolean;
     triggerSincronizarTurno: boolean;
-    sincronizarTurnoData: { inicio: string; duracion: number } | null;
 }
 
 const PartidaWebsocketContext = createContext<
@@ -38,7 +37,6 @@ export const PartidaWebsocketProvider: React.FC<{ children: ReactNode }> = ({
         triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
         triggerSincronizarTurno,
-        sincronizarTurnoData,
         closeConnection,
         openConnectionToPartida,
     } = useWebSocketPartida();
@@ -59,7 +57,6 @@ export const PartidaWebsocketProvider: React.FC<{ children: ReactNode }> = ({
                 triggerSeCanceloPartida,
                 triggerActualizarCartasFigura,
                 triggerSincronizarTurno,
-                sincronizarTurnoData,
             }}
         >
             {children}

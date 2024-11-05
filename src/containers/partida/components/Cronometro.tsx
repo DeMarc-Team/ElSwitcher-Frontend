@@ -11,13 +11,11 @@ interface DashboardProps {
 }
 const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tiempoRestante, setTiempoRestante] = useState(0);
-    // const [inicioLocal, setInicioLocal] = useState<string | undefined>("");
-    const { turno_actual /*setFinalizoTurno*/, partida } = usePartida();
+    const { turno_actual } = usePartida();
     const { cleanMovimientoContexto } = useMovimientoContext();
     const { cleanFiguraContexto } = useFiguraContext();
-    const { triggerSincronizarTurno, sincronizarTurnoData } =
-        useInsidePartidaWebSocket();
-    const [sincronizarTurnoData2, setSincronizarTurnoData2] =
+    const { triggerSincronizarTurno } = useInsidePartidaWebSocket();
+    const [sincronizarTurnoData, setSincronizarTurnoData2] =
         useState<CronometroResponse | null>(null);
 
     const fetchCronometro = async () => {
@@ -27,7 +25,7 @@ const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
                 setSincronizarTurnoData2(data);
             }
         } catch (error) {
-            console.error("Error al obtener el tablero:", error);
+            console.error("Error al obtener datos del cronometro:", error);
         }
     };
 
@@ -37,8 +35,8 @@ const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
 
     useEffectSkipFirst(() => {
         if (
-            sincronizarTurnoData2?.inicio === undefined ||
-            sincronizarTurnoData2?.duracion === undefined
+            sincronizarTurnoData?.inicio === undefined ||
+            sincronizarTurnoData?.duracion === undefined
         ) {
             console.error("Inicio o duración no son válidos");
             return;
@@ -46,13 +44,13 @@ const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
 
         const calcularTiempoRestante = () => {
             if (
-                sincronizarTurnoData2?.inicio &&
-                sincronizarTurnoData2?.duracion
+                sincronizarTurnoData?.inicio &&
+                sincronizarTurnoData?.duracion
             ) {
-                const inicioDate = new Date(sincronizarTurnoData2.inicio);
+                const inicioDate = new Date(sincronizarTurnoData.inicio);
                 const ahora = new Date();
                 const tiempoFinal = new Date(
-                    inicioDate.getTime() + sincronizarTurnoData2.duracion * 1000
+                    inicioDate.getTime() + sincronizarTurnoData.duracion * 1000
                 );
                 const diferencia = tiempoFinal.getTime() - ahora.getTime();
 
@@ -70,15 +68,7 @@ const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
         return () => {
             clearInterval(intervalId);
         };
-    }, [triggerSincronizarTurno]);
-
-    // Efecto para actualizar inicio al recibir el trigger de sincronizar turno
-    /*useEffect(() => {
-        if (triggerSincronizarTurno) {
-            const ahoraGMT = new Date().toISOString(); // Obtiene la hora actual en formato GMT
-            //setInicioLocal(ahoraGMT); // Actualiza el estado local de inicio
-        }
-    }, [triggerSincronizarTurno]);*/
+    }, [sincronizarTurnoData]);
 
     useEffectSkipFirst(() => {
         if (tiempoRestante === 0) {

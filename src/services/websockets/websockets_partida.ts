@@ -43,10 +43,10 @@ const useWebSocketPartida = () => {
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
 
     // Estado para almacenar la información de sincronización del turno
-    const [sincronizarTurnoData, setSincronizarTurnoData] = useState<{
+    /*const [sincronizarTurnoData, setSincronizarTurnoData] = useState<{
         inicio: string;
         duracion: number;
-    } | null>(null);
+    } | null>(null);*/ //FIXME: esto en teoria no deberia ir. Ya que es la comunicacion via websocket del cronometro.
 
     const openConnectionToPartida = (
         partida_id: string,
@@ -56,7 +56,6 @@ const useWebSocketPartida = () => {
     };
 
     useEffect(() => {
-        console.log("Quieoooooooooooooooooooooooo:", message.action);
         if (message.action === "actualizar_sala_espera") {
             setTriggerActualizarSalaEspera(!triggerActualizarSalaEspera);
         } else if (message.action === "actualizar_turno") {
@@ -75,10 +74,9 @@ const useWebSocketPartida = () => {
         } else if (message.action === "actualizar_cartas_figura") {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
         } else if (message.action === "sincronizar_turno") {
-            setTriggerSincronizarTurno(!triggerSincronizarTurno);
-            const data = JSON.parse(message.data.replace(/'/g, '"'));
-            setSincronizarTurnoData(data);
-            console.log("Quieiiiiiiiiiiiiiiiiiiiii:", sincronizarTurnoData);
+            setTimeout(() => {
+                setTriggerSincronizarTurno(!triggerSincronizarTurno);
+            }, 0); // 1000 ms = 1 segundo
         }
     }, [message]);
 
@@ -96,7 +94,6 @@ const useWebSocketPartida = () => {
         triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
         triggerSincronizarTurno,
-        sincronizarTurnoData,
     };
 };
 export { useWebSocketPartida };
