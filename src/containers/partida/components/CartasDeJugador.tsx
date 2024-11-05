@@ -36,7 +36,9 @@ const CartasDeJugador = ({
     } = useFiguraContext();
     const { cleanMovimientoContexto } = useMovimientoContext();
     const { showToastInfo, showToastError, closeToast } = useNotification();
-    const [puedoBloquarAlgunaCarta, setPuedoBloquearAlgunaCarta] =
+    const [hayUnaCartaBloqueada, setHayUnaCartaBloqueada] =
+        useState(false);
+    const [tengoMasDeUnaCarta, setTengoMasDeUnaCarta] =
         useState(false);
 
     useEffect(() => {
@@ -59,9 +61,8 @@ const CartasDeJugador = ({
     const checkPuedoBloquearAlgunaCarta = (cartas: CartaFigura[]) => {
         let hayMasDeUnaCarta = cartas.length > 1;
         let hayAlgunaCartaBloqueada = cartas.some((carta) => carta.bloqueada);
-        setPuedoBloquearAlgunaCarta(
-            hayMasDeUnaCarta && !hayAlgunaCartaBloqueada
-        );
+        setTengoMasDeUnaCarta(hayMasDeUnaCarta);
+        setHayUnaCartaBloqueada(hayAlgunaCartaBloqueada);
     };
 
     const seleccionarCartaABloquear = (
@@ -70,9 +71,11 @@ const CartasDeJugador = ({
         bloqueada: boolean
     ) => {
         if (turno_actual?.id == miSession?.id) {
-            if (!puedoBloquarAlgunaCarta) {
-                showToastInfo("No podes bloquearle cartas al jugador.", true);
-            } else if (bloqueada) {
+            if (!tengoMasDeUnaCarta) {
+                showToastInfo("No puedes bloquearle su única carta a este jugador.", true);
+            } else if(hayUnaCartaBloqueada){
+                showToastInfo("Cada jugador solo puede tener una carta bloqueada.", true);
+            }else if (bloqueada) {
                 showToastInfo("La carta está bloqueada.", true);
             } else if (existeFigura?.includes(codigo)) {
                 setCodigoCartaFigura(codigo);
@@ -125,7 +128,8 @@ const CartasDeJugador = ({
                                 idJugadorABloquear === id_jugador &&
                                 cartaFiguraSeleccionada === indexCarta &&
                                 estoyBloqueando &&
-                                puedoBloquarAlgunaCarta
+                                tengoMasDeUnaCarta &&
+                                !hayUnaCartaBloqueada
                             }
                             automatic_tam={false}
                         />
