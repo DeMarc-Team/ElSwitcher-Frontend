@@ -28,7 +28,6 @@ vi.mock("@/services/api/obtener_color_bloqueado", () => ({
     }),
 }));
 
-
 describe("Card de color bloqueado", () => {
     test("Se renderiza el componente", async () => {
         await act(async () => {

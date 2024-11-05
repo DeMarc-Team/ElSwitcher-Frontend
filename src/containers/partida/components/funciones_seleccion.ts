@@ -32,8 +32,8 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
         setFiguraSeleccionada,
         figuraSeleccionada,
         cleanFiguraContexto,
-        estoyBloqueando, 
-        idJugadorABloquear 
+        estoyBloqueando,
+        idJugadorABloquear,
     } = useFiguraContext();
     const { turno_actual, jugador, partida, colorBloqueado } = usePartida();
     const { enviarMovimiento } = useMovimientos();
@@ -60,34 +60,34 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
                     closeToast();
                 }, 2000);
                 setFiguraSeleccionada(null);
-            } else if (figuraSeleccionada) {
+            } else if (figura && colorDeFiguraElegida !== colorBloqueado) {
                 if (jugador && partida) {
                     if (estoyBloqueando) {
-                    // Bloquear carta de figura
-                    if (!idJugadorABloquear) {
-                        console.error("idJugadorABloquear no definido");
-                        return;
-                    }
-                    try {
-                        BloquearCartaFiguraDeOtroJugador(
-                            figura.casillas,
-                            partida.id,
-                            jugador.id,
-                            idJugadorABloquear,
-                            figura.nombre
-                        );
-                        setTimeout(() => {
-                            cleanFiguraContexto();
-                        }, 1000);
-                    } catch (error) {
-                        console.error(
-                            "Error al bloquear la carta de figura:",
-                            error
-                        );
-                    }
-                } else {
-                    // Jugar carta de figura
-                    try {
+                        // Bloquear carta de figura
+                        if (!idJugadorABloquear) {
+                            console.error("idJugadorABloquear no definido");
+                            return;
+                        }
+                        try {
+                            BloquearCartaFiguraDeOtroJugador(
+                                figura.casillas,
+                                partida.id,
+                                jugador.id,
+                                idJugadorABloquear,
+                                figura.nombre
+                            );
+                            setTimeout(() => {
+                                cleanFiguraContexto();
+                            }, 1000);
+                        } catch (error) {
+                            console.error(
+                                "Error al bloquear la carta de figura:",
+                                error
+                            );
+                        }
+                    } else {
+                        // Jugar carta de figura
+                        try {
                             JugarCartaFigura(
                                 figura.casillas,
                                 partida.id,
@@ -99,14 +99,12 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
                             }, 1000);
                         } catch (error) {
                             console.error(
-                            
-                            "Error al jugar la carta de figura:",
-                           
-                            error
-                        
-                        );
+                                "Error al jugar la carta de figura:",
+
+                                error
+                            );
                         }
-                }
+                    }
                     cleanFiguraContexto();
                 } else {
                     console.error("Partida o jugador no definido");

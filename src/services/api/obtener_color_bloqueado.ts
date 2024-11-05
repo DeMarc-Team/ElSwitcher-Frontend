@@ -30,6 +30,7 @@ const ObtenerColorBloqueado = async (
         console.error("Error color prohibido:", error);
         throw error;
     }
+    //return { color: 4 - 1 }; //Si en dev de back no está todo integrado mockear los bloqueos de color
 };
 
 export { ObtenerColorBloqueado, type ColorResponse };
