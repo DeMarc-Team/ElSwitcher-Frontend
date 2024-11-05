@@ -80,7 +80,7 @@ const useWebSocketPartida = () => {
         triggeractualizarTablero,
         triggerActualizarCartasMovimiento,
         triggerSeCanceloPartida,
-        triggerActualizarCartasFigura,        
+        triggerActualizarCartasFigura,
     };
 };
 export { useWebSocketPartida };

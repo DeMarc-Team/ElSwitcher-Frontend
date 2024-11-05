@@ -12,14 +12,11 @@ import CardColorBloqueado from "@/containers/partida/components/CardColorBloquea
 vi.mock("@/services/api/obtener_color_bloqueado", () => ({
     ObtenerColorBloqueado: vi.fn(
         (partida: number): Promise<ColorResponse> =>
-            Promise.resolve({ color: 3 }) 
+            Promise.resolve({ color: 3 })
     ),
 }));
 
-
-
 describe("Card de color bloqueado", () => {
-
     test("Se renderiza el componente", async () => {
         await act(async () => {
             render(
@@ -27,9 +24,7 @@ describe("Card de color bloqueado", () => {
                     <PartidaProvider>
                         <MovimientoContextProvider>
                             <FiguraContextProvider>
-                                <CardColorBloqueado
-                                    id_partida={1}
-                                />
+                                <CardColorBloqueado id_partida={1} />
                             </FiguraContextProvider>
                         </MovimientoContextProvider>
                     </PartidaProvider>
@@ -37,8 +32,7 @@ describe("Card de color bloqueado", () => {
             );
         });
 
-        
-        expect(await screen.queryByLabelText("COLOR BLOQUEADO"))
+        expect(await screen.queryByLabelText("COLOR BLOQUEADO"));
     });
 
     test("El color bloqueado es el esperado", async () => {
@@ -48,9 +42,7 @@ describe("Card de color bloqueado", () => {
                     <PartidaProvider>
                         <MovimientoContextProvider>
                             <FiguraContextProvider>
-                                <CardColorBloqueado
-                                    id_partida={1}
-                                />
+                                <CardColorBloqueado id_partida={1} />
                             </FiguraContextProvider>
                         </MovimientoContextProvider>
                     </PartidaProvider>
@@ -59,10 +51,10 @@ describe("Card de color bloqueado", () => {
         });
 
         await waitFor(() => {
-            const colorBloqueadoElement = screen.getByText("COLOR BLOQUEADO").nextElementSibling;
+            const colorBloqueadoElement =
+                screen.getByText("COLOR BLOQUEADO").nextElementSibling;
             expect(colorBloqueadoElement).not.toHaveClass("bg-yellow-100");
             expect(colorBloqueadoElement).toHaveClass("bg-yellow-400");
         });
     });
-
 });

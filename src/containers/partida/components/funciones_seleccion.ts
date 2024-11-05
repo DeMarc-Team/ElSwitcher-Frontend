@@ -25,14 +25,22 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
         setCartaMovimientoSeleccionada,
     } = useMovimientoContext();
 
-    const { showToastError, showToastInfo, closeToast } = useNotification();
-    const { codigoCartaFigura, setFiguraSeleccionada, figuraSeleccionada } =
-        useFiguraContext();
+    const { showToastError, showToastInfo, showToastAlert, closeToast } = useNotification();
+    const {
+        codigoCartaFigura,
+        setFiguraSeleccionada,
+        figuraSeleccionada,
+        cleanFiguraContexto,
+    } = useFiguraContext();
     const { turno_actual, jugador, partida, colorBloqueado } = usePartida();
     const { enviarMovimiento } = useMovimientos();
 
     // Manejar la lógica de selección de figura
-    const manejarSeleccionFigura = (row: number, col: number, cell_color: number) => {
+    const manejarSeleccionFigura = (
+        row: number,
+        col: number,
+        cell_color: number
+    ) => {
         const colorDeFiguraElegida = cell_color - 1;
 
         const figura = figuras.find((f) =>
@@ -41,34 +49,37 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
             )
         );
 
-        if (
-            figura &&
-            figura.nombre === codigoCartaFigura &&
-            colorDeFiguraElegida !== colorBloqueado
-        ) {
+        if (figura && figura.nombre === codigoCartaFigura) {
             setFiguraSeleccionada(figura);
-            if (jugador && partida) {
-                try {
-                    JugarCartaFigura(
-                        figura.casillas,
-                        partida.id,
-                        jugador.id,
-                        figura.nombre,
-                    );
-                    setTimeout(() => {
-                        setFiguraSeleccionada(null);
-                    }, 1000);
-                } catch (error) {
-                    console.error("Error al jugar la carta de figura:", error);
+            if (figura && colorDeFiguraElegida === colorBloqueado) {
+                showToastAlert("El color de esa figura está prohibido");
+                setTimeout(() => {
+                    closeToast();
+                }, 2000);
+                setFiguraSeleccionada(null);
+            } else if (figuraSeleccionada) {
+                if (jugador && partida) {
+                    try {
+                        JugarCartaFigura(
+                            figura.casillas,
+                            partida.id,
+                            jugador.id,
+                            figura.nombre
+                        );
+                        setTimeout(() => {
+                            setFiguraSeleccionada(null);
+                        }, 1000);
+                    } catch (error) {
+                        console.error(
+                            "Error al jugar la carta de figura:",
+                            error
+                        );
+                    }
+                    cleanFiguraContexto();
+                } else {
+                    console.error("Partida o jugador no definido");
                 }
-            } else {
-                console.error("Partida o jugador no definido");
             }
-        } else if (figuraSeleccionada && colorDeFiguraElegida === colorBloqueado) {
-            showToastError("El color de esa figura está prohibido");
-            setTimeout(() => {
-                closeToast();
-            }, 2000);
         } else {
             manejarErrorSeleccionFigura();
         }
@@ -86,7 +97,7 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
     // Manejar el error si la figura no coincide
     const manejarErrorSeleccionFigura = () => {
         setFiguraSeleccionada(null);
-        showToastError("No se puede hacer esa jugada");
+        showToastAlert("No se puede hacer esa jugada");
 
         // Cerrar el toast de error después de 2 segundos
         setTimeout(() => {

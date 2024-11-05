@@ -4,7 +4,9 @@ interface ColorResponse {
     color: number;
 }
 
-const ObtenerColorBloqueado = async (id_partida: number): Promise<ColorResponse> => {
+const ObtenerColorBloqueado = async (
+    id_partida: number
+): Promise<ColorResponse> => {
     try {
         const response = await fetch(
             `${API_HOST}/juego/${id_partida}/colorProhibido`,
@@ -23,12 +25,11 @@ const ObtenerColorBloqueado = async (id_partida: number): Promise<ColorResponse>
         }
 
         const data: ColorResponse = await response.json();
-        return { color: data.color - 1 }; 
+        return { color: data.color - 1 };
     } catch (error) {
         console.error("Error color prohibido:", error);
-        throw error; 
+        throw error;
     }
 };
 
-export { ObtenerColorBloqueado , type ColorResponse};
-
+export { ObtenerColorBloqueado, type ColorResponse };

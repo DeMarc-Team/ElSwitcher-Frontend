@@ -16,8 +16,8 @@ export default function CardColorBloqueado({
     const { colorBloqueado, setColorBloqueado } = usePartida();
 
     const {
-        triggerActualizarCartasFigura, 
-        // Se usa esto porque el único momento en el que se cambia el 
+        triggerActualizarCartasFigura,
+        // Se usa esto porque el único momento en el que se cambia el
         //color prohibido es al usar una cartas de figura propia o para bloquear
     } = useInsidePartidaWebSocket();
 
@@ -28,19 +28,22 @@ export default function CardColorBloqueado({
     const fetchColorBloqueado = async () => {
         try {
             const colorRecibido = await ObtenerColorBloqueado(id_partida);
-            
+
             if (Number.isInteger(colorRecibido.color)) {
                 setColorBloqueado(colorRecibido.color);
             } else {
-                console.error("Color bloqueado no válido, debe ser un entero:", colorRecibido.color);
-                setColorBloqueado(undefined); 
+                console.error(
+                    "Color bloqueado no válido, debe ser un entero:",
+                    colorRecibido.color
+                );
+                setColorBloqueado(undefined);
             }
         } catch (error) {
             console.error("Error al obtener el color bloqueado:", error);
             setColorBloqueado(undefined);
         }
     };
-    
+
     return (
         <Card className="h-fit w-[330px] border-2 border-black bg-yellow-100 p-1">
             <CardContent className="flex flex-row items-center justify-between gap-4 p-0">
