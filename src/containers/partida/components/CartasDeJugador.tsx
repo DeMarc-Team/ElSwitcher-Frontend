@@ -35,7 +35,7 @@ const CartasDeJugador = ({
         cleanFiguraContexto,
     } = useFiguraContext();
     const { cleanMovimientoContexto } = useMovimientoContext();
-    const { showToastInfo, showToastError, closeToast } = useNotification();
+    const { showToastInfo, showToastAlert, closeToast } = useNotification();
     const [hayUnaCartaBloqueada, setHayUnaCartaBloqueada] =
         useState(false);
     const [tengoMasDeUnaCarta, setTengoMasDeUnaCarta] =
@@ -72,11 +72,11 @@ const CartasDeJugador = ({
     ) => {
         if (turno_actual?.id == miSession?.id) {
             if (!tengoMasDeUnaCarta) {
-                showToastInfo("No puedes bloquearle su única carta a este jugador.", true);
+                showToastAlert("No puedes bloquearle su única carta a este jugador.");
             } else if(hayUnaCartaBloqueada){
-                showToastInfo("Cada jugador solo puede tener una carta bloqueada.", true);
+                showToastAlert("Cada jugador solo puede tener una carta bloqueada.");
             }else if (bloqueada) {
-                showToastInfo("La carta está bloqueada.", true);
+                showToastAlert("La carta está bloqueada.");
             } else if (existeFigura?.includes(codigo)) {
                 setCodigoCartaFigura(codigo);
                 setCartaFiguraSeleccionada(index);
@@ -94,7 +94,7 @@ const CartasDeJugador = ({
                 cleanFiguraContexto();
             }
         } else {
-            showToastError("Espera tu turno para jugar");
+            showToastAlert("Espera tu turno para jugar");
         }
         setTimeout(() => {
             closeToast();
