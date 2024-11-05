@@ -38,7 +38,12 @@ const useCustomWebSocket = () => {
     // Manejar el último mensaje recibido y agregarlo a la cola
     useEffect(() => {
         if (lastMessage?.data) {
-            messageQueue.current.push(lastMessage.data);
+            const data = JSON.parse(lastMessage.data);
+            if (data.action = "hay_ganador") {
+                messageQueue.current.unshift(lastMessage.data);
+            } else {
+                messageQueue.current.push(lastMessage.data);
+            }
         }
     }, [lastMessage]);
 
