@@ -32,8 +32,8 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
     const { enviarMovimiento } = useMovimientos();
 
     // Manejar la lógica de selección de figura
-    const manejarSeleccionFigura = (row: number, col: number, cell: number) => {
-        const colorDeFiguraElegida = cell - 1;
+    const manejarSeleccionFigura = (row: number, col: number, cell_color: number) => {
+        const colorDeFiguraElegida = cell_color - 1;
 
         const figura = figuras.find((f) =>
             f.casillas.some(
@@ -47,10 +47,6 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
             colorDeFiguraElegida !== colorBloqueado
         ) {
             setFiguraSeleccionada(figura);
-            console.log(
-                "Se va a jugar la figura de color",
-                colorDeFiguraElegida
-            );
             if (jugador && partida) {
                 try {
                     JugarCartaFigura(
@@ -58,7 +54,6 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
                         partida.id,
                         jugador.id,
                         figura.nombre,
-                        colorDeFiguraElegida
                     );
                     setTimeout(() => {
                         setFiguraSeleccionada(null);
@@ -69,7 +64,7 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
             } else {
                 console.error("Partida o jugador no definido");
             }
-        } else if (colorDeFiguraElegida === colorBloqueado) {
+        } else if (figuraSeleccionada && colorDeFiguraElegida === colorBloqueado) {
             showToastError("El color de esa figura está prohibido");
             setTimeout(() => {
                 closeToast();
