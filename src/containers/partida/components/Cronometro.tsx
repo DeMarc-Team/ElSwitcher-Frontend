@@ -11,7 +11,7 @@ interface DashboardProps {
 }
 const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tiempoRestante, setTiempoRestante] = useState(0);
-    const { turno_actual } = usePartida();
+    const { turno_actual, jugador } = usePartida();
     const { cleanMovimientoContexto } = useMovimientoContext();
     const { cleanFiguraContexto } = useFiguraContext();
     const { triggerSincronizarTurno } = useInsidePartidaWebSocket();
@@ -82,7 +82,9 @@ const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
             {tiempoRestante > 0 ? (
                 <>
                     <p className="text-xl">
-                        {turno_actual?.nombre} te quedan:{" "}
+                        {turno_actual?.id == jugador?.id
+                            ? `${turno_actual?.nombre} te quedan:`
+                            : `A ${turno_actual?.nombre} le quedan:`}
                     </p>
                     <p className="text-xl">{tiempoRestante} segundos</p>
                 </>
