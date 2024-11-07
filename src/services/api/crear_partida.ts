@@ -3,6 +3,8 @@ import { API_HOST } from "./const";
 interface CrearPartidaForm {
     nombre_partida: string;
     nombre_creador: string;
+    privada: boolean;
+    contraseña: string;
 }
 
 interface CrearPartidaResponse {
@@ -24,6 +26,8 @@ const crearPartida = async (
             body: JSON.stringify({
                 nombre_partida: form.nombre_partida,
                 nombre_creador: form.nombre_creador,
+                privada: form.privada,
+                contraseña: form.contraseña,
             }),
         });
 
