@@ -7,7 +7,7 @@ interface UnirsePartidaResponse {
 
 const UnirsePartida = async (
     partidaId: number,
-    username: string,
+    username: string
     // contraseña: string, //TODO
 ): Promise<UnirsePartidaResponse> => {
     try {

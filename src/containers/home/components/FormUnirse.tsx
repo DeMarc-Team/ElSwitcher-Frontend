@@ -37,7 +37,7 @@ function FormUnirse({
     const [uniendose, setUniendose] = useState(false);
     const navigate = useNavigate();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
-    const [password,setPassword] = useState("")
+    const [password, setPassword] = useState("");
 
     const changeUsername = (e: string) => {
         if (MAX_LENGTH_USERNAME < e.length) {
@@ -138,21 +138,25 @@ function FormUnirse({
                                 onChange={(e) => changeUsername(e.target.value)}
                             />
                             {es_privada && (
-    <>
-        <Label htmlFor="username">Contraseña de partida</Label>
-        <Input
-            className="mt-1"
-            type="text"
-            id="password"
-            autoFocus={false}
-            placeholder="Ingrese la contraseña de la partida"
-            autoComplete="off"
-            tabIndex={-1}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-        />
-    </>
-)}
+                                <>
+                                    <Label htmlFor="username">
+                                        Contraseña de partida
+                                    </Label>
+                                    <Input
+                                        className="mt-1"
+                                        type="text"
+                                        id="password"
+                                        autoFocus={false}
+                                        placeholder="Ingrese la contraseña de la partida"
+                                        autoComplete="off"
+                                        tabIndex={-1}
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
                     <div>
