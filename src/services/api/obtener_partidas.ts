@@ -4,7 +4,7 @@ interface Partida {
     id: number;
     nombre_partida: string;
     numero_de_jugadores: number;
-    // es_privada: boolean; //TODO: permitir esto
+    es_privada: boolean; //TODO: permitir esto
 }
 
 const ObtenerPartidas = async (): Promise<Partida[]> => {
