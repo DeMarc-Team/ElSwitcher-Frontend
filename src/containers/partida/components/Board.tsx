@@ -30,7 +30,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     } = useFuncionesSeleccion(figuras);
     const [animar, setAnimar] = useState(true);
 
-    const manejarSeleccionClick = (row: number, col: number, cell: number) => {
+    const manejarSeleccionClick = (row: number, col: number, cell_color: number) => {
         // Verificar si hay una carta seleccionada
         if (
             cartaMovimientoSeleccionada !== undefined ||
@@ -39,7 +39,7 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
             if (cartaMovimientoSeleccionada !== undefined) {
                 manejarSeleccionMovimiento(row, col);
             } else {
-                manejarSeleccionFigura(row, col, cell);
+                manejarSeleccionFigura(row, col, cell_color);
             }
         } else {
             mostrarMensajeSinSeleccion();
@@ -60,12 +60,12 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
         <div className="flex h-fit w-[388px] items-center justify-center">
             <div className="grid grid-cols-6 grid-rows-6 gap-1 rounded-lg border-4 border-black bg-yellow-100 p-2 shadow-2xl">
                 {tablero.map((row: number[], rowIndex: number) =>
-                    row.map((cell, colIndex) => (
+                    row.map((cell_color, colIndex) => (
                         <Celda
                             key={`${rowIndex}-${colIndex}`}
                             rowIndex={rowIndex}
                             colIndex={colIndex}
-                            cell={cell}
+                            cell={cell_color}
                             animar={animar}
                             handleClick={manejarSeleccionClick}
                             esResaltada={esCasillaResaltada} // Con respecto a movimiento
