@@ -26,6 +26,7 @@ function Partidas() {
     const fetchPartidas = async () => {
         try {
             const data = await ObtenerPartidas();
+            console.log("Lo q llega",data)
             setPartidas(data);
         } catch (err) {
             console.error("No se pudieron obtener las partidas.");
@@ -102,8 +103,7 @@ function Partidas() {
                                     partidaJugadores={
                                         partida.numero_de_jugadores
                                     }
-                                    es_privada={partida.es_privada}
-                                    // TODO: Cambiar a partida.es_privada
+                                    es_privada={partida.privada}
                                 />
                             </li>
                         ))}
