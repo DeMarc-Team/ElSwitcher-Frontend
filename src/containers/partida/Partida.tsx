@@ -69,7 +69,7 @@ function Partida() {
                         <div className="max-lg:mt-24 max-lg:scale-75">
                             <Board id_partida={partida.id} />
                         </div>
-                        <div className="ml-6 max-lg:mt-24 max-lg:scale-75">
+                        <div className="max-lg:mt-24 max-lg:scale-75">
                             <CartasDeLosJugadores />
                         </div>
                     </div>

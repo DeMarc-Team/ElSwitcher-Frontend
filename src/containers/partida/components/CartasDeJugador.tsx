@@ -137,7 +137,7 @@ const CartasDeJugador = ({
                         </div>
                     ))
                 ) : (
-                    <p className="flex h-full items-center justify-center text-center font-semibold">
+                    <p className="flex w-[204px] items-center justify-center text-nowrap text-center font-semibold">
                         Jugador sin cartas
                     </p>
                 )}
