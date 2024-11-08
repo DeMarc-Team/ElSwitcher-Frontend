@@ -104,43 +104,51 @@ const CartasDeJugador = ({
     };
 
     return (
-        <div
-            className={`flex flex-row justify-center gap-1 rounded-md border-2 border-black bg-yellow-100 px-2 pt-2`}
-        >
-            <div className="flex min-w-[204px] justify-center gap-2">
-                {cartasFiguras.map((carta, indexCarta) => (
-                    <div
-                        key={`${id_jugador}-${indexCarta}-carta-figura`}
-                        className="w-[68px]"
-                    >
-                        <Cartas
-                            imgSrc={carta.img}
-                            rotation={0}
-                            middle={false}
-                            altText={`Carta del jugador ${id_jugador + 1} - Carta ${indexCarta + 1}`}
-                            onClick={() => {
-                                cleanMovimientoContexto();
-                                seleccionarCartaABloquear(
-                                    carta.code,
-                                    indexCarta,
-                                    carta.bloqueada ?? false
-                                );
-                            }}
-                            isSelect={
-                                idJugadorABloquear === id_jugador &&
-                                cartaFiguraSeleccionada === indexCarta &&
-                                estoyBloqueando &&
-                                tengoMasDeUnaCarta &&
-                                !hayUnaCartaBloqueada
-                            }
-                            automatic_tam={false}
-                        />
-                    </div>
-                ))}
+        <div className="flex flex-row items-center justify-center gap-2 rounded-md border-2 border-black bg-yellow-100">
+            <div className="ml-3 flex min-w-[204px] flex-row items-center justify-center gap-2">
+                {cartasFiguras.length > 0 && id_jugador != 4 ? (
+                    cartasFiguras.map((carta, indexCarta) => (
+                        <div
+                            key={`${id_jugador}-${indexCarta}-carta-figura`}
+                            className="flex w-[68px] justify-center"
+                        >
+                            <Cartas
+                                imgSrc={carta.img}
+                                rotation={0}
+                                middle={false}
+                                altText={`Carta del jugador ${id_jugador + 1} - Carta ${indexCarta + 1}`}
+                                onClick={() => {
+                                    cleanMovimientoContexto();
+                                    seleccionarCartaABloquear(
+                                        carta.code,
+                                        indexCarta,
+                                        carta.bloqueada ?? false
+                                    );
+                                }}
+                                isSelect={
+                                    idJugadorABloquear === id_jugador &&
+                                    cartaFiguraSeleccionada === indexCarta &&
+                                    estoyBloqueando &&
+                                    tengoMasDeUnaCarta &&
+                                    !hayUnaCartaBloqueada
+                                }
+                                automatic_tam={false}
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <p className="flex w-[204px] items-center justify-center text-nowrap text-center font-semibold opacity-80">
+                        Jugador sin cartas
+                    </p>
+                )}
             </div>
-            <div className="flex h-24 w-36 items-center justify-center rounded-md border-2 border-black bg-white px-1">
+            <div className="m-3 flex h-24 w-auto min-w-[144px] items-center justify-center rounded-md border-2 border-black bg-white px-1">
                 <p
-                    className={`break-words text-center font-semibold ${nombre_jugador.length > 30 ? "!break-all text-sm" : "text-xl"}`}
+                    className={`break-words text-center text-xl font-semibold ${
+                        nombre_jugador.length > 30
+                            ? "overflow-hidden text-ellipsis whitespace-nowrap !text-sm"
+                            : ""
+                    }`}
                 >
                     {nombre_jugador}
                 </p>
