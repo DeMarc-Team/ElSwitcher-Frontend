@@ -25,7 +25,6 @@ function Partidas() {
     const fetchPartidas = async () => {
         try {
             const data = await ObtenerPartidas();
-            console.log("Lo q llega", data);
             setPartidas(data);
         } catch (err) {
             console.error("No se pudieron obtener las partidas.");

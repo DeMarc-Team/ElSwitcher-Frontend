@@ -23,8 +23,6 @@ const ObtenerPartidas = async (): Promise<Partida[]> => {
         }
 
         const data: Partida[] = await response.json();
-        data[0].privada = true; //TODO cambiar esto cuando el back lo pase y borrar consol.logs
-        console.log(data);
         return data;
     } catch (error) {
         console.error("Error al obtener partidas:", error);
