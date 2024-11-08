@@ -137,12 +137,12 @@ const CartasDeJugador = ({
                     </div>
                 ))
             ) : (
-                <p className="flex font-semibold text-center justify-center m-4 w-[68px]">
-                    Jugador sin cartas
-                </p>
+                <p className="flex font-semibold text-center justify-center items-center h-full">
+                Jugador sin cartas
+            </p>
             )}
         </div>
-        <div className="flex h-24 w-auto min-w-[144px] items-center justify-center rounded-md border-2 border-black bg-white px-1">
+        <div className="flex m-2 h-24 w-auto min-w-[144px] items-center justify-center rounded-md border-2 border-black bg-white px-1">
             <p
                 className={`flex break-words text-center font-semibold text-xl ${
                     nombre_jugador.length > 30 ? "!text-sm whitespace-nowrap overflow-hidden text-ellipsis" : ""
