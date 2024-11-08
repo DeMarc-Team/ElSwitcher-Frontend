@@ -103,14 +103,14 @@ const CartasDeJugador = ({
 
     return (
         <div
-            className={`flex flex-row justify-center gap-1 rounded-md border-2 border-black bg-yellow-100 px-2 pt-2`}
+            className={`flex flex-row justify-center gap-2 rounded-md border-2 border-black bg-yellow-100 px-2 pt-2`}
         >
             <div className="flex min-w-[204px] justify-center gap-2">
             {cartasFiguras.length > 0 ? (
                 cartasFiguras.map((carta, indexCarta) => (
                     <div
                         key={`${id_jugador}-${indexCarta}-carta-figura`}
-                        className="flex w-[68px]"
+                        className="w-[68px]"
                     >
                         <Cartas
                             imgSrc={carta.img}
@@ -137,17 +137,21 @@ const CartasDeJugador = ({
                     </div>
                 ))
             ) : (
-                <p className="flex font-semibold text-center justify-center gap-2">Jugador sin cartas</p>
+                <p className="flex font-semibold text-center justify-center m-4 w-[68px]">
+                    Jugador sin cartas
+                </p>
             )}
         </div>
-            <div className="flex h-24 w-36 items-center justify-center rounded-md border-2 border-black bg-white px-1">
-                <p
-                    className={`flex break-words text-center font-semibold ${nombre_jugador.length > 30 ? "!break-all text-sm" : "text-xl"}`}
-                >
-                    {nombre_jugador}
-                </p>
-            </div>
+        <div className="flex h-24 w-auto min-w-[144px] items-center justify-center rounded-md border-2 border-black bg-white px-1">
+            <p
+                className={`flex break-words text-center font-semibold text-xl ${
+                    nombre_jugador.length > 30 ? "!text-sm whitespace-nowrap overflow-hidden text-ellipsis" : ""
+                }`}
+            >
+                {nombre_jugador}
+            </p>
         </div>
+            </div>
     );
 };
 
