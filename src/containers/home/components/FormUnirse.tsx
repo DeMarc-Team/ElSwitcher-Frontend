@@ -67,8 +67,7 @@ function FormUnirse({
         }
         try {
             setUniendose(true);
-             const res = await UnirsePartida(partidaId, username,password); //TODO
-            //const res = await UnirsePartida(partidaId, username);
+            const res = await UnirsePartida(partidaId, username, password);
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
             );

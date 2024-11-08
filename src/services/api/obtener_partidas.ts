@@ -4,7 +4,7 @@ interface Partida {
     id: number;
     nombre_partida: string;
     numero_de_jugadores: number;
-    privada: boolean; //TODO: permitir esto
+    privada: boolean;
 }
 
 const ObtenerPartidas = async (): Promise<Partida[]> => {
@@ -23,7 +23,8 @@ const ObtenerPartidas = async (): Promise<Partida[]> => {
         }
 
         const data: Partida[] = await response.json();
-        console.log(data)
+        data[0].privada = true; //TODO cambiar esto cuando el back lo pase y borrar consol.logs
+        console.log(data);
         return data;
     } catch (error) {
         console.error("Error al obtener partidas:", error);
