@@ -30,7 +30,11 @@ const Board: React.FC<DashboardProps> = ({ id_partida }) => {
     } = useFuncionesSeleccion(figuras);
     const [animar, setAnimar] = useState(true);
 
-    const manejarSeleccionClick = (row: number, col: number, cell_color: number) => {
+    const manejarSeleccionClick = (
+        row: number,
+        col: number,
+        cell_color: number
+    ) => {
         // Verificar si hay una carta seleccionada
         if (
             cartaMovimientoSeleccionada !== undefined ||
