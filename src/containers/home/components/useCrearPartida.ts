@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useNotification } from "@/hooks/useNotification";
 
 export const useCrearPartida = () => {
@@ -8,6 +8,8 @@ export const useCrearPartida = () => {
 
     const [partidaname, setPartidaname] = useState("");
     const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
 
     useEffect(() => {
         closeToast();
@@ -27,6 +29,20 @@ export const useCrearPartida = () => {
             return;
         }
         setUsername(name);
+    };
+
+    const changeContrasenia = (password: string) => {
+        setPassword(password);
+    };
+
+    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const isPasswordEnabled = event.target.checked; // Obtener el valor del checkbox
+        setIsPasswordEnabled(isPasswordEnabled);
+
+        // Si se desmarca el checkbox, se va a limpiar el campo de contraseña
+        if (!isPasswordEnabled) {
+            changeContrasenia("");
+        }
     };
 
     const checkFields = () => {
@@ -50,13 +66,18 @@ export const useCrearPartida = () => {
     const resetFields = () => {
         setPartidaname("");
         setUsername("");
+        setPassword("");
     };
 
     return {
         partidaname,
         username,
+        password,
+        isPasswordEnabled,
         changePartidaName,
         changeUsername,
+        changeContrasenia,
+        handleCheckboxChange,
         checkFields,
         resetFields,
     };

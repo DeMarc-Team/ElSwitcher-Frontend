@@ -27,8 +27,12 @@ function CrearPartida() {
     const {
         partidaname,
         username,
+        password,
+        isPasswordEnabled,
         changePartidaName,
         changeUsername,
+        changeContrasenia,
+        handleCheckboxChange,
         checkFields,
     } = useCrearPartida();
     const { showToastSuccess, showToastError, closeToast } = useNotification();
@@ -53,6 +57,8 @@ function CrearPartida() {
             const res = await crearPartida({
                 nombre_partida: partidaname,
                 nombre_creador: username,
+                privada: isPasswordEnabled,
+                contraseña: password,
             });
             SaveSessionPartida({ id: res.id, nombre: res.nombre_partida });
             SaveSessionJugador({
@@ -121,12 +127,45 @@ function CrearPartida() {
                                 onChange={(e) => changeUsername(e.target.value)}
                             />
                         </div>
-                    </div>
-                    <div>
-                        {/* mantener este cambio para el test */}
-                        <Button type="submit" className="mt-5 w-full">
-                            Unirse a Partida
-                        </Button>
+                        <div className="flex w-full items-center gap-2">
+                            <input
+                                type="checkbox"
+                                id="enablePassword"
+                                checked={isPasswordEnabled}
+                                onChange={handleCheckboxChange}
+                            />
+
+                            <Label htmlFor="enablePassword">
+                                ¿Habilitar Contraseña?
+                            </Label>
+                        </div>
+                        {isPasswordEnabled && (
+                            <div className="w-full">
+                                <Label htmlFor="password">
+                                    Contraseña de partida
+                                </Label>
+                                <Input
+                                    className="mt-1"
+                                    type="text"
+                                    id="password"
+                                    autoFocus={false}
+                                    placeholder="Ingrese la contraseña"
+                                    autoComplete="off"
+                                    tabIndex={-1}
+                                    value={password}
+                                    disabled={!isPasswordEnabled}
+                                    onChange={(e) =>
+                                        changeContrasenia(e.target.value)
+                                    }
+                                />
+                            </div>
+                        )}
+                        <div>
+                            {/* mantener este cambio para el test */}
+                            <Button type="submit" className="mt-5 w-full">
+                                Unirse a Partida
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </DialogContent>

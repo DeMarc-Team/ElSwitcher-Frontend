@@ -101,6 +101,7 @@ function Partidas() {
                                     partidaJugadores={
                                         partida.numero_de_jugadores
                                     }
+                                    es_privada={partida.privada}
                                 />
                             </li>
                         ))}
