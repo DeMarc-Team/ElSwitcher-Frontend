@@ -2,10 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { describe, test, expect, vi } from "vitest";
 import { Cronometro } from "@/containers/partida/components/Cronometro";
 import { usePartida } from "@/context/PartidaContext";
-import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import { Cronometro_ } from "@/services/api/cronometro";
-import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
-import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 
 vi.mock("@/context/PartidaContext", () => ({
     usePartida: vi.fn(),
@@ -21,12 +18,19 @@ vi.mock("@/services/api/cronometro", () => ({
     Cronometro_: vi.fn(),
 }));
 
+const cleanMovimientoContextoMock = vi.fn();
+const cleanFiguraContextoMock = vi.fn();
+
 vi.mock("@/context/UsarCartaMovimientoContext", () => ({
-    useMovimientoContext: vi.fn(),
+    useMovimientoContext: vi.fn(() => ({
+        cleanMovimientoContexto: cleanMovimientoContextoMock,
+    })),
 }));
 
 vi.mock("@/context/UsarCartaFiguraContext", () => ({
-    useFiguraContext: vi.fn(),
+    useFiguraContext: vi.fn(() => ({
+        cleanFiguraContexto: cleanFiguraContextoMock,
+    })),
 }));
 
 const mockPartidaContext = {
@@ -43,37 +47,22 @@ const mockPartidaContext = {
 
 describe("Cronometro", () => {
     test("Debería limpiar los contextos cuando el tiempo llegue a cero", async () => {
-        const cleanMovimientoContexto = vi.fn();
-        const cleanFiguraContexto = vi.fn();
-
         vi.mocked(usePartida).mockReturnValue({
             ...mockPartidaContext,
             jugador: { id: 1, nombre: "Jugador1" },
             turno_actual: { id: 1, nombre: "Jugador1" },
         });
 
-        vi.mock("@/context/UsarCartaMovimientoContext", () => ({
-            useMovimientoContext: vi.fn(() => ({
-                cleanMovimientoContexto: vi.fn(),
-            })),
-        }));
-
-        vi.mock("@/context/UsarCartaFiguraContext", () => ({
-            useFiguraContext: vi.fn(() => ({
-                cleanFiguraContexto: vi.fn(),
-            })),
-        }));
-
         vi.mocked(Cronometro_).mockResolvedValue({
             inicio: new Date().toISOString(),
-            duracion: 0,
+            duracion: 2,
         });
 
         render(<Cronometro id_partida={1} />);
 
         await waitFor(() => {
-            expect(cleanMovimientoContexto).toHaveBeenCalled();
-            expect(cleanFiguraContexto).toHaveBeenCalled();
+            expect(cleanMovimientoContextoMock).toHaveBeenCalled();
+            expect(cleanFiguraContextoMock).toHaveBeenCalled();
         });
     });
 
