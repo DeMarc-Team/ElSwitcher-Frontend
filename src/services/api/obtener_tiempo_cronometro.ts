@@ -5,7 +5,9 @@ interface CronometroResponse {
     duracion: number;
 }
 
-const Cronometro_ = async (id_partida: number): Promise<CronometroResponse> => {
+const ObtenerTiempoCronometro = async (
+    id_partida: number
+): Promise<CronometroResponse> => {
     try {
         const response = await fetch(
             `${API_HOST}/juego/${id_partida}/cronometro`,
@@ -29,4 +31,4 @@ const Cronometro_ = async (id_partida: number): Promise<CronometroResponse> => {
     }
 };
 
-export { Cronometro_, type CronometroResponse };
+export { ObtenerTiempoCronometro, type CronometroResponse };

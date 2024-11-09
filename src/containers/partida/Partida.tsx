@@ -21,12 +21,8 @@ function Partida() {
     const id_partida = Number(useParams().id_partida);
     const [hayUnGanador, setHayUnGanador] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
-    const {
-        openConnectionToPartida,
-        readyState,
-        triggerHayGanador,
-        sincronizarTurnoData,
-    } = useInsidePartidaWebSocket();
+    const { openConnectionToPartida, readyState, triggerHayGanador } =
+        useInsidePartidaWebSocket();
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -54,8 +50,6 @@ function Partida() {
     }, [triggerHayGanador]);
 
     if (!jugador || !partida || partida.id !== id_partida) return;
-
-    const horaActual = new Date().toISOString();
 
     return (
         <>
