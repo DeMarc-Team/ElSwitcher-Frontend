@@ -136,4 +136,18 @@ describe("Sala de espera", () => {
             expect(screen.findByText("Iniciar partida")).not.toBeDefined();
         }
     });
+
+    test("Revisamos que se este renderizando el boton de Volver al inicio", async () => {
+        render(
+            <BrowserRouter>
+                <Room
+                    title="Sala de Espera"
+                    description="Esperando a que se unan los jugadores, se paciente."
+                    id_partida={1}
+                />
+            </BrowserRouter>
+        );
+
+        expect(screen.findByText("Volver al inicio")).toBeDefined();
+    });
 });
