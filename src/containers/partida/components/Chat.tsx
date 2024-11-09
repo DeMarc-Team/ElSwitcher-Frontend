@@ -1,49 +1,78 @@
 import React, { useEffect, useRef, useState } from "react";
 import { EnviarMensaje } from "@/services/api/enviar_mensaje";
-import { Button } from "@/components/ui/button";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
-import { usePartida } from "@/context/PartidaContext";
+import {
+    saveMessagesToStorage,
+    loadMessagesFromStorage,
+} from "@/services/message_storage";
+import ChatMensaje from "./ChatMensajes";
+import MensajeImput from "./MensajeImput";
+import { objectMessagesProps, MessageProps } from "./interfaces";
 import "./chat.css";
-
-interface MessageProps {
-    id_jugador: number;
-    id_partida: number;
-}
 
 const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const [message, setMessage] = useState<string>("");
-    const messagesEndRef = useRef<HTMLDivElement | null>(null);
-    const { triggerSincronizarMessage, objectMessages } =
+    const messagesEndRef = useRef<HTMLDivElement | null>(null); // Ref para el final del chat
+    const messagesContainerRef = useRef<HTMLDivElement | null>(null); // Ref para el contenedor de los mensajes
+    const { triggerSincronizarMensaje, objectMessages } =
         useInsidePartidaWebSocket();
-    const { messagesList, receiverMessages } = usePartida();
-    const MAX_MESSAGE_LENGTH = 20;
-    const USER = "USER";
+    const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
 
-    const scrollToBottom = () => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    // Cargar los mensajes guardados cuando se monta el componente
+    useEffect(() => {
+        const savedMessages = loadMessagesFromStorage();
+        if (savedMessages) {
+            setMessagesList(savedMessages);
         }
+
+        // Cleanup: borrar los mensajes cuando el componente se desmonte
+        const handleBeforeUnload = () => {
+            sessionStorage.removeItem("messages"); // Elimina los mensajes almacenados
+        };
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, []);
+
+    // Función para agregar el mensaje al final de la lista
+    const receiverMessages = (message: objectMessagesProps) => {
+        const updatedMessages = [...messagesList, message]; // Añadir al final de la lista
+        setMessagesList(updatedMessages);
+        saveMessagesToStorage(updatedMessages); // Guarda los mensajes en sessionStorage
     };
 
-    const handleSubmit = (e: { preventDefault: () => void }) => {
-        e.preventDefault();
-        EnviarMensaje(id_partida, id_jugador, message);
-        setMessage("");
-    };
-
+    // Maneja la recepción de mensajes desde el WebSocket
     useEffect(() => {
         if (objectMessages) {
             receiverMessages(objectMessages);
         }
-    }, [triggerSincronizarMessage]);
+    }, [triggerSincronizarMensaje]);
 
+    // Desplazamiento hacia el final del chat cuando se recibe un nuevo mensaje
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({
+                behavior: "smooth",
+            });
+        }
+    };
+
+    // Siempre que cambien los mensajes, se desplaza hacia abajo
     useEffect(() => {
+        // Desplazar hacia el final solo si se han recibido nuevos mensajes
         scrollToBottom();
-    }, [messagesList]);
+    }, [messagesList]); // Cuando los mensajes cambian
+
+    const handleSubmit = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        EnviarMensaje(id_partida, id_jugador, message);
+        setMessage(""); // Limpiar el campo de texto después de enviar
+    };
 
     const wrapMessage = (message: string, maxLength: number) => {
         const lines = [];
-
         while (message.length > maxLength) {
             lines.push(message.slice(0, maxLength));
             message = message.slice(maxLength);
@@ -61,53 +90,20 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
                 <h1 className="text-1xl my-2 rounded-md p-2 text-center font-bold text-blue-500">
                     Chat partida
                 </h1>
-                <ul
-                    className="mb-4 max-h-[300px] overflow-y-auto rounded-lg bg-zinc-700 p-2"
-                    style={{ height: "300px" }}
+                <div
+                    ref={messagesContainerRef}
+                    className="overflow-auto"
+                    style={{ maxHeight: "400px" }}
                 >
-                    {messagesList.map((object_iterator, i) => (
-                        <li
-                            key={i}
-                            className={`my-2 table rounded-md p-2 text-sm ${object_iterator.id_jugador === id_jugador ? "ml-auto bg-green-700" : "bg-sky-700"}`}
-                        >
-                            <span
-                                className="text-xs text-slate-900"
-                                style={{
-                                    wordWrap: "break-word",
-                                    overflowWrap: "break-word",
-                                    whiteSpace: "pre-wrap",
-                                    maxWidth: "100%",
-                                }}
-                            >
-                                {object_iterator.type_message === USER
-                                    ? wrapMessage(
-                                          object_iterator.message,
-                                          MAX_MESSAGE_LENGTH
-                                      )
-                                    : wrapMessage(
-                                          object_iterator.message,
-                                          MAX_MESSAGE_LENGTH
-                                      )}
-                            </span>
-                        </li>
-                    ))}
-                    <div ref={messagesEndRef} />
-                </ul>
-                <div className="flex space-x-2">
-                    <input
-                        type="text"
-                        placeholder="Escribe tu mensaje ..."
-                        className="w-full rounded-md border-2 border-zinc-500 p-2"
-                        onChange={(e) => setMessage(e.target.value)}
-                        value={message}
+                    <ChatMensaje
+                        messagesList={messagesList}
+                        id_jugador={id_jugador}
+                        wrapMessage={wrapMessage}
                     />
-                    <Button
-                        type="submit"
-                        className="rounded-md bg-blue-500 px-4 py-2 text-white"
-                    >
-                        Enviar
-                    </Button>
+                    <div ref={messagesEndRef} />{" "}
+                    {/* Este es el "ref" al final del chat */}
                 </div>
+                <MensajeImput message={message} setMessage={setMessage} />
             </form>
         </div>
     );

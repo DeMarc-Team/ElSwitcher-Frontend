@@ -37,7 +37,7 @@ const useWebSocketPartida = () => {
     const [triggerActualizarCartasFigura, setTriggerActualizarCartasFigura] =
         useState(false);
 
-    const [triggerSincronizarMessage, setTriggerSincronizarMessage] =
+    const [triggerSincronizarMensaje, setTriggerSincronizarMensaje] =
         useState(false);
     const [objectMessages, setObjectMessages] = useState<{
         message: string;
@@ -74,7 +74,7 @@ const useWebSocketPartida = () => {
         } else if (message.action === "actualizar_cartas_figura") {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
         } else if (message.action === "sincronizar_mensaje") {
-            setTriggerSincronizarMessage(!triggerSincronizarMessage);
+            setTriggerSincronizarMensaje(!triggerSincronizarMensaje);
             setObjectMessages(JSON.parse(message.data.replace(/'/g, '"')));
         }
     }, [message]);
@@ -92,7 +92,7 @@ const useWebSocketPartida = () => {
         triggerActualizarCartasMovimiento,
         triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
-        triggerSincronizarMessage,
+        triggerSincronizarMensaje,
         objectMessages,
     };
 };

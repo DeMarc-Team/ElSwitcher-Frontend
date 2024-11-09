@@ -3,20 +3,20 @@ import {
     useContext,
     useState,
     ReactNode,
-    useEffect,
+    //useEffect,
 } from "react";
 import { type Jugador, type Partida } from "@/models/types";
 import { usePartidaSession } from "@/hooks/usePartidaSession";
-import {
+/*import {
     saveMessagesToStorage,
     loadMessagesFromStorage,
-} from "../services/messageStorage";
+} from "../services/message_storage";
 
 interface objectMessagesProps {
     message: string;
     id_jugador: number;
     type_message: "ACTION" | "USER";
-}
+}*/
 
 interface PartidaContextType {
     partida: Partida | undefined;
@@ -24,13 +24,13 @@ interface PartidaContextType {
     ganador: Jugador | undefined;
     isDataLoaded: boolean;
     turno_actual: Jugador | undefined;
-    messagesList: objectMessagesProps[];
+    //messagesList: objectMessagesProps[];
     setPartida: (partida: Partida) => void;
     setJugador: (jugador: Jugador) => void;
     setGanador: (jugador: Jugador) => void;
     setTurnoActual: (jugador: Jugador) => void;
-    setMessagesList: (messagesList: objectMessagesProps[]) => void;
-    receiverMessages: (message: objectMessagesProps) => void;
+    //setMessagesList: (messagesList: objectMessagesProps[]) => void;
+    //receiverMessages: (message: objectMessagesProps) => void;
 }
 
 const PartidaContext = createContext<PartidaContextType | undefined>(undefined);
@@ -44,7 +44,7 @@ export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
     const [turno_actual, setTurnoActual] = useState<Jugador | undefined>(
         undefined
     );
-    const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
+    /*const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
 
     useEffect(() => {
         const savedMessages = loadMessagesFromStorage();
@@ -63,7 +63,7 @@ export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
         if (messagesList.length > 0) {
             saveMessagesToStorage(messagesList);
         }
-    }, [messagesList]);
+    }, [messagesList]);*/
 
     return (
         <PartidaContext.Provider
@@ -73,13 +73,13 @@ export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
                 isDataLoaded,
                 ganador,
                 turno_actual,
-                messagesList,
+                //messagesList,
                 setPartida,
                 setJugador,
                 setGanador,
                 setTurnoActual,
-                setMessagesList,
-                receiverMessages,
+                //setMessagesList,
+                //receiverMessages,
             }}
         >
             {children}
