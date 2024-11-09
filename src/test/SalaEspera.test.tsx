@@ -7,10 +7,7 @@ import {
 } from "@/services/api/crear_partida";
 import { UnirsePartidaResponse } from "@/services/api/unirse_partida";
 import Room from "@/containers/partida_sala_espera/components/Room";
-import {
-    SaveSessionJugador,
-    SaveSessionPartida,
-} from "@/services/session_browser";
+import { SaveNewSession } from "@/services/session_browser";
 import { Partida, Jugador } from "@/models/types";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
 
@@ -90,18 +87,8 @@ const mockPartida: Partida = {
     nombre: "Partida 1",
 };
 
-// vi.mock('@/services/api/iniciarPartida', () => ({
-//     IniciarPartida: vi.fn((partidaId: number = 1): Promise<IniciarPartidaResponse> =>
-//         Promise.resolve({
-//             partidaIniciadaConExito: true,
-//         })
-//     ),
-// }));
-
 describe("Sala de espera", () => {
-    SaveSessionJugador(mockCreador);
-    SaveSessionJugador(mockJugador);
-    SaveSessionPartida(mockPartida);
+    SaveNewSession(mockCreador, mockPartida);
 
     test("Se renderiza y funciona la lista de jugadores del room", async () => {
         render(

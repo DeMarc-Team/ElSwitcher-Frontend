@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 import Board from "../containers/partida/components/Board";
 import { Partida } from "@/models/types";
-import { SaveSessionPartida } from "@/services/session_browser";
+import { SaveNewSession } from "@/services/session_browser";
 import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 import { PartidaProvider } from "@/context/PartidaContext";
 import { MovimientoContextProvider } from "@/context/UsarCartaMovimientoContext";
@@ -45,13 +45,18 @@ vi.mock("@/services/api/ver_tablero", () => ({
     ),
 }));
 
+const mockJugador = {
+    id: 1,
+    nombre: "Jugador 1",
+};
+
 const mockPartida: Partida = {
     id: 1,
     nombre: "Partida 1",
 };
 
 describe("Componente Board", () => {
-    SaveSessionPartida(mockPartida);
+    SaveNewSession(mockJugador, mockPartida);
 
     test("Se renderiza todo el tablero", async () => {
         render(
