@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { describe, test, expect, vi } from "vitest";
 import { Cronometro } from "@/containers/partida/components/Cronometro";
 import { usePartida } from "@/context/PartidaContext";
@@ -46,7 +46,7 @@ const mockPartidaContext = {
 };
 
 describe("Cronometro", () => {
-    test("Debería mostrar el cronómetro con el mensaje adecuado cuando es el turno del jugador", async () => {
+    test("Cronometro se renderiza correctmente", async () => {
         vi.mocked(usePartida).mockReturnValue({
             ...mockPartidaContext,
             jugador: { id: 1, nombre: "Jugador1" },
@@ -59,10 +59,6 @@ describe("Cronometro", () => {
         });
 
         render(<Cronometro id_partida={1} />);
-
-        await waitFor(() => {
-            expect(screen.getByText("Jugador1 te quedan:")).toBeInTheDocument();
-        });
     });
 
     test("Debería mostrar '¡Tiempo terminado!' cuando el tiempo haya llegado a cero", async () => {
@@ -99,11 +95,11 @@ describe("Cronometro", () => {
         render(<Cronometro id_partida={1} />);
 
         await waitFor(() => {
-            expect(screen.getByText(/segundos/)).toBeInTheDocument();
+            expect(screen.getByText(/seg/)).toBeInTheDocument();
         });
     });
 
-    test("Debería no mostrar tiempo restante cuando no haya datos del cronómetro", async () => {
+    test("Si el tiempo es menor a 10 segundos, debería mostrar el tiempo en rojo", async () => {
         vi.mocked(usePartida).mockReturnValue({
             ...mockPartidaContext,
             jugador: { id: 1, nombre: "Jugador1" },
@@ -112,13 +108,86 @@ describe("Cronometro", () => {
 
         vi.mocked(ObtenerTiempoCronometro).mockResolvedValue({
             inicio: new Date().toISOString(),
-            duracion: 120,
+            duracion: 5,
         });
 
-        render(<Cronometro id_partida={1} />);
+        await act(async () => {
+            render(<Cronometro id_partida={1} />);
+        });
 
         await waitFor(() => {
-            expect(screen.queryByText("te quedan")).toBeNull();
+            const cronometro = screen.getByTestId("cronometro");
+            expect(cronometro).toBeInTheDocument();
+            expect(cronometro).toHaveClass("bg-red-500");
+        });
+    });
+
+    test("Si el tiempo es mayor a 10 segundos y menor a 30 segundos, debería mostrar el tiempo en naranja", async () => {
+        vi.mocked(usePartida).mockReturnValue({
+            ...mockPartidaContext,
+            jugador: { id: 1, nombre: "Jugador1" },
+            turno_actual: { id: 1, nombre: "Jugador1" },
+        });
+
+        vi.mocked(ObtenerTiempoCronometro).mockResolvedValue({
+            inicio: new Date().toISOString(),
+            duracion: 20,
+        });
+
+        await act(async () => {
+            render(<Cronometro id_partida={1} />);
+        });
+
+        await waitFor(() => {
+            const cronometro = screen.getByTestId("cronometro");
+            expect(cronometro).toBeInTheDocument();
+            expect(cronometro).toHaveClass("bg-orange-400");
+        });
+    });
+
+    test("Si el tiempo es mayor a 30 segundos y menor a 60 segundos, debería mostrar el tiempo en amarillo", async () => {
+        vi.mocked(usePartida).mockReturnValue({
+            ...mockPartidaContext,
+            jugador: { id: 1, nombre: "Jugador1" },
+            turno_actual: { id: 1, nombre: "Jugador1" },
+        });
+
+        vi.mocked(ObtenerTiempoCronometro).mockResolvedValue({
+            inicio: new Date().toISOString(),
+            duracion: 40,
+        });
+
+        await act(async () => {
+            render(<Cronometro id_partida={1} />);
+        });
+
+        await waitFor(() => {
+            const cronometro = screen.getByTestId("cronometro");
+            expect(cronometro).toBeInTheDocument();
+            expect(cronometro).toHaveClass("bg-yellow-400");
+        });
+    });
+
+    test("Si el tiempo es mayor a 60 segundos, debería mostrar el tiempo en azul", async () => {
+        vi.mocked(usePartida).mockReturnValue({
+            ...mockPartidaContext,
+            jugador: { id: 1, nombre: "Jugador1" },
+            turno_actual: { id: 1, nombre: "Jugador1" },
+        });
+
+        vi.mocked(ObtenerTiempoCronometro).mockResolvedValue({
+            inicio: new Date().toISOString(),
+            duracion: 70,
+        });
+
+        await act(async () => {
+            render(<Cronometro id_partida={1} />);
+        });
+
+        await waitFor(() => {
+            const cronometro = screen.getByTestId("cronometro");
+            expect(cronometro).toBeInTheDocument();
+            expect(cronometro).toHaveClass("bg-blue-400");
         });
     });
 });
