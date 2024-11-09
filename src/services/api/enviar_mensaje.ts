@@ -17,7 +17,7 @@ const EnviarMensaje = async (
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ mensaje_: mensaje }),
+                body: JSON.stringify({ message: mensaje }),
             }
         );
 

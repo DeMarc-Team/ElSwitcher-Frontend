@@ -37,6 +37,14 @@ const useWebSocketPartida = () => {
     const [triggerActualizarCartasFigura, setTriggerActualizarCartasFigura] =
         useState(false);
 
+    const [triggerSincronizarMessage, setTriggerSincronizarMessage] =
+        useState(false);
+    const [objectMessages, setObjectMessages] = useState<{
+        message: string;
+        id_jugador: number;
+        type_message: "ACTION" | "USER";
+    } | null>(null);
+
     // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
 
@@ -65,6 +73,9 @@ const useWebSocketPartida = () => {
             setTriggerSeCanceloPartida(!triggerSeCanceloPartida);
         } else if (message.action === "actualizar_cartas_figura") {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
+        } else if (message.action === "sincronizar_message") {
+            setTriggerSincronizarMessage(!triggerSincronizarMessage);
+            setObjectMessages(JSON.parse(message.data.replace(/'/g, '"')));
         }
     }, [message]);
 
@@ -81,6 +92,8 @@ const useWebSocketPartida = () => {
         triggerActualizarCartasMovimiento,
         triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
+        triggerSincronizarMessage,
+        objectMessages,
     };
 };
 export { useWebSocketPartida };

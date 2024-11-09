@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { EnviarMensaje } from "@/services/api/enviar_mensaje";
 import { Button } from "@/components/ui/button";
+import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
+import { usePartida } from "@/context/PartidaContext";
 import "./chat.css";
 
 interface MessageProps {
@@ -8,10 +10,19 @@ interface MessageProps {
     id_partida: number;
 }
 
+interface objectMessagesProps {
+    message: string;
+    id_jugador: number;
+    type_message: "ACTION" | "USER";
+}
+
 const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const [message, setMessage] = useState<string>("");
-    const [messagesList, setMessagesList] = useState<string[]>([]);
+    const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const { triggerSincronizarMessage, objectMessages } =
+        useInsidePartidaWebSocket();
+    const { turno_actual } = usePartida();
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
@@ -22,19 +33,29 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
         EnviarMensaje(id_partida, id_jugador, message);
-        setMessagesList((prevMessages) => [...prevMessages, message]);
+        const newMessages = {
+            message: "hola",
+            id_jugador: 10,
+            type_message: "USER",
+        } as objectMessagesProps;
+        setMessagesList((prevMessages) => [...prevMessages, newMessages]);
         setMessage("");
     };
 
-    let messages = "Nuevo mensaje";
     useEffect(() => {
-        receiverMessages(messages);
-    }, [messages]);
+        if (objectMessages) {
+            receiverMessages(objectMessages);
+        }
+    }, [triggerSincronizarMessage]);
 
-    const receiverMessages = (message: string) => {
+    const receiverMessages = (message: objectMessagesProps) => {
         setMessagesList((state) => [...state, message]);
         scrollToBottom();
     };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messagesList]);
 
     return (
         <div className="mx-auto max-w-lg rounded-lg bg-zinc-800 p-4">
@@ -46,13 +67,17 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
                     className="mb-4 max-h-[300px] overflow-y-auto rounded-lg bg-zinc-700 p-2"
                     style={{ height: "300px" }}
                 >
-                    {messagesList.map((message_iterator, i) => (
+                    {messagesList.map((object_iterator, i) => (
                         <li
                             key={i}
-                            className={`my-2 table rounded-md p-2 text-sm ${message == "hola" ? "bg-sky-700" : "ml-auto bg-green-700"}`}
+                            className={`my-2 table rounded-md p-2 text-sm ${object_iterator?.id_jugador === turno_actual?.id ? "bg-sky-700" : "ml-auto bg-green-700"}`}
                         >
                             <span className="text-xs text-slate-900">
-                                {message_iterator}
+                                {object_iterator.type_message === "USER"
+                                    ? turno_actual?.nombre +
+                                      ":" +
+                                      object_iterator.message
+                                    : object_iterator.message}
                             </span>
                         </li>
                     ))}
