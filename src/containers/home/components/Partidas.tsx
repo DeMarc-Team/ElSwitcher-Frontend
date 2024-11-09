@@ -24,9 +24,6 @@ function Partidas() {
     const [filtroPorNombre, setFiltroPorNombre] = useState("");
     const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
     const [partidasActivas, setPartidasActivas] = useState<Session[]>([]);
-    const [partidasActivasFiltradas, setPartidasActivasFiltradas] = useState<
-        Session[]
-    >([]);
 
     useEffect(() => {}, []);
 
@@ -62,7 +59,6 @@ function Partidas() {
 
     const filtrarPartidas = () => {
         let partidasFiltradasAux = partidas;
-        let partidasActivasAux = partidasActivas;
 
         // Filtrar por cantidad de jugadores
         if (filtrosActivosCantJugadores.length > 0) {
@@ -80,15 +76,9 @@ function Partidas() {
                     .toLowerCase()
                     .includes(filtroPorNombre.toLowerCase())
             );
-            partidasActivasAux = partidasActivasAux.filter((session) =>
-                session.partida.nombre
-                    .toLowerCase()
-                    .includes(filtroPorNombre.toLowerCase())
-            );
         }
 
         setPartidasFiltradas(partidasFiltradasAux);
-        setPartidasActivasFiltradas(partidasActivasAux);
     };
 
     const manejarFiltroCantJugadores = (cantidad: number) => {
@@ -115,7 +105,6 @@ function Partidas() {
                     filtros={filtrosActivosCantJugadores}
                     manejarFiltro={manejarFiltroCantJugadores}
                 />
-
                 <div className="max-lg:w-full">
                     <Input
                         className="w-full border-2 border-black"
@@ -129,11 +118,15 @@ function Partidas() {
             <ScrollArea className="h-96 w-full overflow-auto rounded-md border-2 border-black bg-green-400">
                 <div className="flex flex-col space-y-4 p-4">
                     <ul>
-                        {partidasActivasFiltradas.map((session) => (
+                        {partidasActivas.map((session) => (
                             <li key={session.partida.id}>
                                 <FormVolver session={session} />
                             </li>
                         ))}
+                        {partidasActivas.length > 0 &&
+                            partidasFiltradas.length > 0 && (
+                                <hr className="my-2 rounded-md border border-dashed border-black" />
+                            )}
                         {partidasFiltradas.map((partida) => (
                             <li key={partida.id}>
                                 <FormUnirse
