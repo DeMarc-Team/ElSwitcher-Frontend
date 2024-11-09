@@ -1,5 +1,4 @@
-// Partida.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Board from "./components/Board";
 import CartasMovimiento from "./components/CartasMovimiento";
@@ -14,7 +13,6 @@ import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 import CardMovParciales from "./components/CardMovParciales";
 import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
 import { Cronometro } from "./components/Cronometro";
-//import { useWebSocketPartida } from "@/services/websockets/websockets_partida";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -42,6 +40,7 @@ function Partida() {
             readyState != 0 &&
             readyState != 1
         ) {
+            console.log("Reconectando al WebSocket de la partida...");
             openConnectionToPartida(String(id_partida), String(jugador.id));
         }
     }, [isDataLoaded]);

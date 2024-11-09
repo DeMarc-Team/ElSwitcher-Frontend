@@ -46,26 +46,6 @@ const mockPartidaContext = {
 };
 
 describe("Cronometro", () => {
-    /*test("Debería limpiar los contextos cuando el tiempo llegue a cero", async () => {
-        vi.mocked(usePartida).mockReturnValue({
-            ...mockPartidaContext,
-            jugador: { id: 1, nombre: "Jugador1" },
-            turno_actual: { id: 1, nombre: "Jugador1" },
-        });
-
-        vi.mocked(ObtenerTiempoCronometro).mockResolvedValue({
-            inicio: new Date().toISOString(),
-            duracion: 2,
-        });
-
-        render(<Cronometro id_partida={1} />);
-
-        await waitFor(() => {
-            expect(cleanMovimientoContextoMock).toHaveBeenCalled();
-            expect(cleanFiguraContextoMock).toHaveBeenCalled();
-        });
-    }); // :FIXME: Por mi sacamos este test de mierda.*/
-
     test("Debería mostrar el cronómetro con el mensaje adecuado cuando es el turno del jugador", async () => {
         vi.mocked(usePartida).mockReturnValue({
             ...mockPartidaContext,
