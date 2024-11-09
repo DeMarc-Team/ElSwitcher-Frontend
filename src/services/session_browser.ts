@@ -19,7 +19,6 @@ const LoadSessionPartida = (): Partida | undefined => {
 
 const SaveNewSession = (jugador: Jugador, partida: Partida) => {
     const session: Session = { jugador, partida };
-    console.log(session);
     PushSession(session);
     SaveSessionActual(partida.id);
 };

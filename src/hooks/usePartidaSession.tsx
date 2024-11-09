@@ -17,7 +17,6 @@ export const usePartidaSession = () => {
             _setJugador_(jugador);
             _setPartida_(partida);
             setIsDataLoaded(true);
-            console.log("Datos cargados desde la sesión.");
         }
     }, []);
 
