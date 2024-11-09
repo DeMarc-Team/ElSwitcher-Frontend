@@ -7,6 +7,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
+import ButtonVolverAlHome from "@/components/ButtonVolverAlHome";
 import { Button } from "@/components/ui/button";
 import Loading from "./Loading";
 import {
@@ -189,6 +190,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                                 session_jugador?.id == idCreador
                             }
                         />
+                        <ButtonVolverAlHome />
                     </div>
                 </CardContent>
             </Card>
