@@ -73,9 +73,9 @@ const useWebSocketPartida = () => {
             setTriggerSeCanceloPartida(!triggerSeCanceloPartida);
         } else if (message.action === "actualizar_cartas_figura") {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
-        } else if (message.action === "sincronizar_message") {
+        } else if (message.action === "sincronizar_mensaje") {
             setTriggerSincronizarMessage(!triggerSincronizarMessage);
-            setObjectMessages(JSON.parse(message.data.replace(/'/g, '"')));
+            setObjectMessages(JSON.parse(message.data));
         }
     }, [message]);
 
