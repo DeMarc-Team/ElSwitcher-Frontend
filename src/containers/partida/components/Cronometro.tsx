@@ -15,14 +15,14 @@ const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
     const { cleanMovimientoContexto } = useMovimientoContext();
     const { cleanFiguraContexto } = useFiguraContext();
     const { triggerSincronizarTurno } = useInsidePartidaWebSocket();
-    const [sincronizarTurnoData, setSincronizarTurnoData2] =
+    const [sincronizarTurnoData, setSincronizarTurnoData] =
         useState<CronometroResponse | null>(null);
 
     const fetchCronometro = async () => {
         try {
             const data = await Cronometro_(id_partida);
             if (data) {
-                setSincronizarTurnoData2(data);
+                setSincronizarTurnoData(data);
             }
         } catch (error) {
             console.error("Error al obtener datos del cronometro:", error);
