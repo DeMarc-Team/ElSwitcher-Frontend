@@ -13,6 +13,7 @@ import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 import CardMovParciales from "./components/CardMovParciales";
 import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
 import ButtonVolverAlHome from "@/components/ButtonVolverAlHome";
+import CardColorBloqueado from "./components/CardColorBloqueado";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -69,6 +70,9 @@ function Partida() {
                         </div>
                         <div className="max-lg:mt-24 max-lg:scale-75">
                             <Board id_partida={partida.id} />
+                            <div className="mt-2 flex justify-center">
+                                <CardColorBloqueado id_partida={partida.id} />
+                            </div>
                         </div>
                         <div className="max-lg:mt-24 max-lg:scale-75">
                             <CartasDeLosJugadores />
