@@ -74,9 +74,7 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
                         >
                             <span className="text-xs text-slate-900">
                                 {object_iterator.type_message === "USER"
-                                    ? turno_actual?.nombre +
-                                      ":" +
-                                      object_iterator.message
+                                    ? object_iterator.message
                                     : object_iterator.message}
                             </span>
                         </li>
