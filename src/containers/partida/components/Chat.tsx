@@ -18,11 +18,13 @@ interface objectMessagesProps {
 
 const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const [message, setMessage] = useState<string>("");
-    const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
+    //const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const { triggerSincronizarMessage, objectMessages } =
         useInsidePartidaWebSocket();
-    const { turno_actual } = usePartida();
+    const { messagesList, setMessagesList, receiverMessages } = usePartida();
+    const MAX_MESSAGE_LENGTH = 20;
+    const USER = "USER";
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
@@ -33,12 +35,6 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
         EnviarMensaje(id_partida, id_jugador, message);
-        /*const newMessages = {
-            message: "hola",
-            id_jugador: 10,
-            type_message: "USER",
-        } as objectMessagesProps;*/
-        //setMessagesList((prevMessages) => [...prevMessages, newMessages]);
         setMessage("");
     };
 
@@ -48,17 +44,31 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
         }
     }, [triggerSincronizarMessage]);
 
-    const receiverMessages = (message: objectMessagesProps) => {
+    /*const receiverMessages = (message: objectMessagesProps) => {
         setMessagesList((state) => [...state, message]);
         scrollToBottom();
-    };
+    };*/
 
     useEffect(() => {
         scrollToBottom();
     }, [messagesList]);
 
+    const wrapMessage = (message: string, maxLength: number) => {
+        const lines = [];
+
+        while (message.length > maxLength) {
+            lines.push(message.slice(0, maxLength));
+            message = message.slice(maxLength);
+        }
+        lines.push(message);
+        return lines.join("\n");
+    };
+
     return (
-        <div className="mx-auto max-w-lg rounded-lg bg-zinc-800 p-4">
+        <div
+            className="mx-auto max-w-lg rounded-lg bg-zinc-800 p-4"
+            style={{ width: "100%", maxWidth: "600px" }}
+        >
             <form onSubmit={handleSubmit}>
                 <h1 className="text-1xl my-2 rounded-md p-2 text-center font-bold text-blue-500">
                     Chat partida
@@ -70,12 +80,26 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
                     {messagesList.map((object_iterator, i) => (
                         <li
                             key={i}
-                            className={`my-2 table rounded-md p-2 text-sm ${object_iterator?.id_jugador === turno_actual?.id ? "bg-sky-700" : "ml-auto bg-green-700"}`}
+                            className={`my-2 table rounded-md p-2 text-sm ${object_iterator.id_jugador === id_jugador ? "ml-auto bg-green-700" : "bg-sky-700"}`}
                         >
-                            <span className="text-xs text-slate-900">
-                                {object_iterator.type_message === "USER"
-                                    ? object_iterator.message
-                                    : object_iterator.message}
+                            <span
+                                className="text-xs text-slate-900"
+                                style={{
+                                    wordWrap: "break-word",
+                                    overflowWrap: "break-word",
+                                    whiteSpace: "pre-wrap",
+                                    maxWidth: "100%",
+                                }}
+                            >
+                                {object_iterator.type_message === USER
+                                    ? wrapMessage(
+                                          object_iterator.message,
+                                          MAX_MESSAGE_LENGTH
+                                      )
+                                    : wrapMessage(
+                                          object_iterator.message,
+                                          MAX_MESSAGE_LENGTH
+                                      )}
                             </span>
                         </li>
                     ))}
