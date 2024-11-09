@@ -33,12 +33,12 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
         EnviarMensaje(id_partida, id_jugador, message);
-        const newMessages = {
+        /*const newMessages = {
             message: "hola",
             id_jugador: 10,
             type_message: "USER",
-        } as objectMessagesProps;
-        setMessagesList((prevMessages) => [...prevMessages, newMessages]);
+        } as objectMessagesProps;*/
+        //setMessagesList((prevMessages) => [...prevMessages, newMessages]);
         setMessage("");
     };
 

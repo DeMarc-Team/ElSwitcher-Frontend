@@ -11,7 +11,7 @@ const EnviarMensaje = async (
 ): Promise<EnviarMensajeResponse> => {
     try {
         const response = await fetch(
-            `${API_HOST}/juego/${partidaId}/jugadores/${jugadorId}/chat}`,
+            `${API_HOST}/juego/${partidaId}/jugadores/${jugadorId}/chat`,
             {
                 method: "POST",
                 headers: {
