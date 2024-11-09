@@ -32,7 +32,10 @@ const UnirsePartida = async (
         }
         return response.json();
     } catch (error) {
-        console.error("Error al unirse a la partida:", error);
+        const errorMessage = String(error);
+        if (!errorMessage.includes("Forbidden")) {
+            console.error("Error al unirse a la partida:", error);
+        }
         throw error;
     }
 };
