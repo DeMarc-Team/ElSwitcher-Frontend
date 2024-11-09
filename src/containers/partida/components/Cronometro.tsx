@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { usePartida } from "@/context/PartidaContext";
 import { useMovimientoContext } from "@/context/UsarCartaMovimientoContext";
 import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
@@ -14,7 +13,6 @@ interface DashboardProps {
 }
 const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
     const [tiempoRestante, setTiempoRestante] = useState(0);
-    const { turno_actual, jugador } = usePartida();
     const { cleanMovimientoContexto } = useMovimientoContext();
     const { cleanFiguraContexto } = useFiguraContext();
     const { triggerSincronizarTurno } = useInsidePartidaWebSocket();
@@ -77,21 +75,27 @@ const Cronometro: React.FC<DashboardProps> = ({ id_partida }) => {
         }
     }, [tiempoRestante]);
 
+    const obtenerColorCronometro = () => {
+        if (tiempoRestante > 60) {
+            return "bg-blue-400";
+        } else if (tiempoRestante > 30) {
+            return "bg-yellow-400";
+        } else if (tiempoRestante > 10) {
+            return "bg-orange-400";
+        } else {
+            return "bg-red-500";
+        }
+    };
+
     return (
-        <div className="flex h-16 w-60 flex-col items-center justify-center rounded-lg bg-blue-500 p-3 text-white shadow-lg">
+        <div
+            data-testid="cronometro"
+            className={`${obtenerColorCronometro()} transition-color flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-black py-1 shadow-lg duration-75`}
+        >
             {tiempoRestante > 0 ? (
-                <>
-                    <p className="text-xl">
-                        {turno_actual?.id == jugador?.id
-                            ? `${turno_actual?.nombre} te quedan:`
-                            : `A ${turno_actual?.nombre} le quedan:`}
-                    </p>
-                    <p className="text-xl">{tiempoRestante} segundos</p>
-                </>
+                <p className="font-bold">{tiempoRestante} seg</p>
             ) : (
-                <p className="mt-2 font-semibold text-red-300">
-                    ¡Tiempo terminado!
-                </p>
+                <p className="font-semibold">¡Tiempo terminado!</p>
             )}
         </div>
     );

@@ -89,9 +89,6 @@ function Partida() {
                             idJugador={jugador.id}
                         />
                     </div>
-                    <div className="mt-100 flex scale-90 flex-row gap-10 max-lg:mt-0">
-                        <Cronometro id_partida={partida.id} />
-                    </div>
                 </div>
             )}
         </>
