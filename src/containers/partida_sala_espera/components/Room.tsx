@@ -108,11 +108,12 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
             closeToast();
         }, 2000);
     }
+
     const redirectPartida = () => {
         navigate(`/partidas/${id_partida}`);
     };
 
-    if (!nombrePartida) {
+    if (!nombrePartida || partidaIniciada) {
         return (
             <div>
                 <Loading />
