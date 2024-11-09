@@ -5,14 +5,22 @@ import { ObtenerPartidas, type Partida } from "@/services/api/obtener_partidas";
 import { useWebSocketListaPartidas } from "@/services/websockets/websockets_lista_partidas";
 import FiltroCantJugadores from "./FiltroCantJugadores";
 import { Input } from "@/components/ui/input";
-import { GetAllSessions, type Session } from "@/services/session_browser";
+import {
+    GetAllSessions,
+    RemoveSpecificSession,
+    type Session,
+} from "@/services/session_browser";
 import FormVolver from "./FormVolver";
 
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
     const [filtrosActivosCantJugadores, setFiltrosActivosCantJugadores] =
         useState<number[]>([]);
-    const { triggerActualizaPartidas } = useWebSocketListaPartidas();
+    const {
+        triggerActualizaPartidas,
+        triggerActualizaPartidasActivas,
+        idPartidaABorrar,
+    } = useWebSocketListaPartidas();
     const [filtroPorNombre, setFiltroPorNombre] = useState("");
     const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
     const [partidasActivas, setPartidasActivas] = useState<Session[]>([]);
@@ -25,6 +33,13 @@ function Partidas() {
     useEffect(() => {
         fetchPartidas();
     }, [triggerActualizaPartidas]);
+
+    useEffect(() => {
+        if (idPartidaABorrar) {
+            RemoveSpecificSession(idPartidaABorrar);
+            fetchPartidas();
+        }
+    }, [triggerActualizaPartidasActivas]);
 
     useEffect(() => {
         filtrarPartidas();

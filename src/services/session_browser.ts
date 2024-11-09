@@ -32,6 +32,11 @@ const RemoveCurrentSession = () => {
     RemoveSessionActual();
 };
 
+const RemoveSpecificSession = (id_partida: number) => {
+    RemoveSession(id_partida);
+    RemoveSessionActual();
+};
+
 const GetAllSessions = () => {
     return LoadSessions();
 };
@@ -97,6 +102,7 @@ export {
     SaveNewSession,
     RemoveSession,
     RemoveCurrentSession,
+    RemoveSpecificSession,
     GetAllSessions,
     SetCurrentSession,
     type Session,
