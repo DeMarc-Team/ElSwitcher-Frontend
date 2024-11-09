@@ -59,12 +59,9 @@ function Partida() {
                 <div
                     className={`flex h-[100vh] w-full flex-col items-center justify-center transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
                 >
-
-            </PartidaProvider>
                     <div>
                         <Chat id_jugador={jugador.id} id_partida={partida.id} />
                     </div>
-                            </PartidaProvider>
                 </div>
             )}
         </>

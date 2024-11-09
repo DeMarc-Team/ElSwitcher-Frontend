@@ -1,6 +1,22 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+    createContext,
+    useContext,
+    useState,
+    ReactNode,
+    useEffect,
+} from "react";
 import { type Jugador, type Partida } from "@/models/types";
 import { usePartidaSession } from "@/hooks/usePartidaSession";
+import {
+    saveMessagesToStorage,
+    loadMessagesFromStorage,
+} from "../services/messageStorage";
+
+interface objectMessagesProps {
+    message: string;
+    id_jugador: number;
+    type_message: "ACTION" | "USER";
+}
 
 interface PartidaContextType {
     partida: Partida | undefined;
@@ -17,12 +33,6 @@ interface PartidaContextType {
     receiverMessages: (message: objectMessagesProps) => void;
 }
 
-interface objectMessagesProps {
-    message: string;
-    id_jugador: number;
-    type_message: "ACTION" | "USER";
-}
-
 const PartidaContext = createContext<PartidaContextType | undefined>(undefined);
 
 export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
@@ -35,10 +45,25 @@ export const PartidaProvider: React.FC<{ children: ReactNode }> = ({
         undefined
     );
     const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
+
+    useEffect(() => {
+        const savedMessages = loadMessagesFromStorage();
+        if (savedMessages) {
+            setMessagesList(savedMessages);
+        }
+    }, []);
+
     const receiverMessages = (message: objectMessagesProps) => {
-        setMessagesList((state) => [...state, message]);
-        //scrollToBottom();
+        const updatedMessages = [...messagesList, message];
+        setMessagesList(updatedMessages);
+        saveMessagesToStorage(updatedMessages);
     };
+
+    useEffect(() => {
+        if (messagesList.length > 0) {
+            saveMessagesToStorage(messagesList);
+        }
+    }, [messagesList]);
 
     return (
         <PartidaContext.Provider

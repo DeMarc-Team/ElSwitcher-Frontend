@@ -10,19 +10,12 @@ interface MessageProps {
     id_partida: number;
 }
 
-interface objectMessagesProps {
-    message: string;
-    id_jugador: number;
-    type_message: "ACTION" | "USER";
-}
-
 const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const [message, setMessage] = useState<string>("");
-    //const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const { triggerSincronizarMessage, objectMessages } =
         useInsidePartidaWebSocket();
-    const { messagesList, setMessagesList, receiverMessages } = usePartida();
+    const { messagesList, receiverMessages } = usePartida();
     const MAX_MESSAGE_LENGTH = 20;
     const USER = "USER";
 
@@ -43,11 +36,6 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
             receiverMessages(objectMessages);
         }
     }, [triggerSincronizarMessage]);
-
-    /*const receiverMessages = (message: objectMessagesProps) => {
-        setMessagesList((state) => [...state, message]);
-        scrollToBottom();
-    };*/
 
     useEffect(() => {
         scrollToBottom();
