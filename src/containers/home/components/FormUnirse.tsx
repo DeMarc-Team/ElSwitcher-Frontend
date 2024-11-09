@@ -101,13 +101,17 @@ function FormUnirse({
                         <b>{partidaName}</b>
                     </span>
                     <div className="flex items-center justify-center gap-2">
+                        {es_privada && (
+                            <span className="flex h-[1.3rem] items-center justify-center gap-2 rounded-lg border-2 border-black px-2">
+                                <Lock className="w-4" />
+                            </span>
+                        )}
                         <span className="mr-5 flex h-[1.3rem] items-center justify-center gap-2 rounded-lg border-2 border-black px-2">
                             <span className="font font-bold">
                                 {partidaJugadores}
                             </span>
                             <UserRound className="w-4" />
                         </span>
-                        {es_privada && <Lock />}
                         <span className="underline">Unirse</span>
                         <CircleArrowRight className="w-5" />
                     </div>
