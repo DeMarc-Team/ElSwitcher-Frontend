@@ -59,21 +59,6 @@ function Partida() {
                 <div
                     className={`flex h-[100vh] w-full flex-col items-center justify-center transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
                 >
-                    <div className="grid h-fit w-full grid-cols-3 items-center justify-items-center max-lg:grid-cols-2">
-                        <div className="flex w-full scale-95 flex-col items-center justify-center gap-2 max-lg:fixed max-lg:top-0 max-lg:scale-75 max-lg:flex-row">
-                            <div className="flex w-full flex-col gap-2 max-lg:gap-1">
-                                <CardInfoDelTurno />
-                                <ButtonPasarTurno />
-                            </div>
-                            <CardMovParciales />
-                        </div>
-                        <div className="max-lg:mt-24 max-lg:scale-75">
-                            <Board id_partida={partida.id} />
-                        </div>
-                        <div className="max-lg:mt-24 max-lg:scale-75">
-                            <CartasDeLosJugadores />
-                        </div>
-                    </div>
                     <div>
                         <Chat id_jugador={id_partida} id_partida={jugador.id} />
                     </div>
