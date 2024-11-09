@@ -84,9 +84,17 @@ function FormUnirse({
                 closeToast();
             }, 1500);
         } catch (error) {
-            showToastAlert("Error al unirse a la partida.");
+            const errorMessage = String(error);
+            if (errorMessage.includes("Forbidden")) {
+                showToastAlert("La contraseña no es correcta.");
+            } else {
+                showToastAlert("Error al unirse a la partida.");
+            }
             setUniendose(false);
             setPassword("");
+            setTimeout(() => {
+                closeToast();
+            }, 1500);
         }
     };
 
