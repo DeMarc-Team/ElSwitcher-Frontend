@@ -62,7 +62,7 @@ const useWebSocketPartida = () => {
             setTriggerActualizarTurno(!triggerActualizarTurno);
         } else if (message.action === "hay_ganador") {
             setTriggerHayGanador(!triggerHayGanador);
-            setGanadorInfo(JSON.parse(message.data.replace(/'/g, '"')));
+            setGanadorInfo(JSON.parse(message.data));
         } else if (message.action === "actualizar_tablero") {
             setTriggerActualizarTablero(!triggeractualizarTablero);
         } else if (message.action === "actualizar_cartas_movimiento") {
