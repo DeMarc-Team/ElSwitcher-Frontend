@@ -2,19 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import { EnviarMensaje } from "@/services/api/enviar_mensaje";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import ChatMensaje from "./ChatMensajes";
-import MensajeImput from "./MensajeImput";
-import { objectMessagesProps, MessageProps } from "./interfaces";
-import "./chat.css";
+import MensajeImput from "./MensajeInput";
+import { ObjectMessagesProps } from "@/services/websockets/websockets_partida";
+
+export interface MessageProps {
+    id_jugador: number;
+    id_partida: number;
+}
 
 const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const [message, setMessage] = useState<string>("");
     const messagesEndRef = useRef<HTMLDivElement | null>(null); // Ref para el final del chat.
     const { triggerSincronizarMensaje, objectMessages } =
         useInsidePartidaWebSocket();
-    const [messagesList, setMessagesList] = useState<objectMessagesProps[]>([]);
+    const [messagesList, setMessagesList] = useState<ObjectMessagesProps[]>([]);
 
     // Función para agregar el mensaje al final de la lista.
-    const receiverMessages = (message: objectMessagesProps) => {
+    const receiverMessages = (message: ObjectMessagesProps) => {
         const updatedMessages = [...messagesList, message]; // Añadir al final de la lista.
         setMessagesList(updatedMessages);
     };
@@ -40,39 +44,25 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
 
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
+        if (message === "") return;
         EnviarMensaje(id_partida, id_jugador, message);
         setMessage(""); // Limpiar el campo de texto después de enviar.
     };
 
-    // Corta el mensaje cuando es más grande que maxLength caracteres y hace un "\n" para
-    // concatenar el mensaje debajo.
-    const wrapMessage = (message: string, maxLength: number) => {
-        const lines = [];
-        while (message.length > maxLength) {
-            lines.push(message.slice(0, maxLength));
-            message = message.slice(maxLength);
-        }
-        lines.push(message);
-        return lines.join("\n");
-    };
-
     return (
         <div
-            className="mx-auto max-w-lg rounded-lg bg-zinc-800 p-4"
+            className="mx-auto rounded-lg border-2 border-black bg-yellow-100 px-2 pb-2"
             style={{ width: "100%", maxWidth: "250px" }}
         >
             <form onSubmit={handleSubmit}>
-                <h1 className="text-1xl rounded-md text-center font-bold text-blue-500">
-                    Chat partida
-                </h1>
-                <div className="overflow-auto" style={{ maxHeight: "400" }}>
-                    <ChatMensaje
-                        messagesList={messagesList}
-                        id_jugador={id_jugador}
-                        wrapMessage={wrapMessage}
-                        messagesEndRef={messagesEndRef}
-                    />
-                </div>
+                <p className="text-1xl my-1 rounded-md text-center font-bold uppercase">
+                    Chat
+                </p>
+                <ChatMensaje
+                    messagesList={messagesList}
+                    id_jugador={id_jugador}
+                    messagesEndRef={messagesEndRef}
+                />
                 <MensajeImput message={message} setMessage={setMessage} />
             </form>
         </div>

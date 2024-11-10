@@ -39,11 +39,8 @@ const useWebSocketPartida = () => {
 
     const [triggerSincronizarMensaje, setTriggerSincronizarMensaje] =
         useState(false);
-    const [objectMessages, setObjectMessages] = useState<{
-        message: string;
-        id_jugador: number;
-        type_message: "ACTION" | "USER";
-    } | null>(null);
+    const [objectMessages, setObjectMessages] =
+        useState<ObjectMessagesProps | null>(null);
 
     // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
@@ -96,4 +93,11 @@ const useWebSocketPartida = () => {
         objectMessages,
     };
 };
-export { useWebSocketPartida };
+
+interface ObjectMessagesProps {
+    message: string;
+    id_jugador: number;
+    type_message: "ACTION" | "USER";
+}
+
+export { useWebSocketPartida, type ObjectMessagesProps };
