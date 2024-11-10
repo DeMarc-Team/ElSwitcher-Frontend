@@ -13,6 +13,8 @@ import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 import CardMovParciales from "./components/CardMovParciales";
 import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
 import Chat from "./components/Chat";
+import ButtonVolverAlHome from "@/components/ButtonVolverAlHome";
+import CardColorBloqueado from "./components/CardColorBloqueado";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -75,12 +77,15 @@ function Partida() {
                         </div>
                         <div className="max-lg:col-span-2 max-lg:mt-24 max-lg:scale-75">
                             <Board id_partida={partida.id} />
+                            <div className="mt-2 flex justify-center">
+                                <CardColorBloqueado id_partida={partida.id} />
+                            </div>
                         </div>
-                        <div className="col-span-2 max-lg:mt-24 max-lg:scale-75">
+                        <div className="col-span-2 max-lg:-ml-36 max-lg:mt-24 max-lg:scale-75">
                             <CartasDeLosJugadores />
                         </div>
                     </div>
-                    <div className="mt-10 flex scale-90 flex-row gap-10 max-lg:mt-0">
+                    <div className="mt-10 flex scale-90 flex-row gap-10 max-lg:-mt-6 max-lg:pb-2">
                         <CartasMovimiento
                             id_partida={partida.id}
                             id_jugador={jugador.id}
@@ -91,10 +96,13 @@ function Partida() {
                         />
                     </div>
                     <div className="fixed bottom-5 left-5 max-lg:bottom-1 max-lg:left-auto max-lg:scale-90">
-                        <ButtonAbandonarPartida
-                            idPartida={id_partida}
-                            idJugador={jugador.id}
-                        />
+                        <div className="flex min-w-[200px] flex-col justify-center gap-2 max-lg:flex-row">
+                            <ButtonVolverAlHome />
+                            <ButtonAbandonarPartida
+                                idPartida={id_partida}
+                                idJugador={jugador.id}
+                            />
+                        </div>
                     </div>
                 </div>
             )}

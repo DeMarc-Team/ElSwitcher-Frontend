@@ -7,7 +7,8 @@ interface UnirsePartidaResponse {
 
 const UnirsePartida = async (
     partidaId: number,
-    username: string
+    username: string,
+    contraseña: string
 ): Promise<UnirsePartidaResponse> => {
     try {
         const response = await fetch(
@@ -19,6 +20,7 @@ const UnirsePartida = async (
                 },
                 body: JSON.stringify({
                     nombre: username,
+                    contraseña: contraseña,
                 }),
             }
         );
@@ -30,7 +32,10 @@ const UnirsePartida = async (
         }
         return response.json();
     } catch (error) {
-        console.error("Error al unirse a la partida:", error);
+        const errorMessage = String(error);
+        if (!errorMessage.includes("Forbidden")) {
+            console.error("Error al unirse a la partida:", error);
+        }
         throw error;
     }
 };
