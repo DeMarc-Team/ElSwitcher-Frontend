@@ -46,7 +46,6 @@ const mockPartidaContext = {
 };
 
 describe("CardMovParciales", () => {
-    
     test('Mostrar mensaje de "..." si no es el turno del jugador', async () => {
         vi.mocked(usePartida).mockReturnValue({
             ...mockPartidaContext,
