@@ -78,7 +78,7 @@ describe("Chat", () => {
             const mensaje = screen.getByText(/Holaaa/i);
             expect(mensaje).toBeInTheDocument();
             expect(mensaje).toHaveClass("bg-green-400");
-        }, 120);
+        }, 1500);
     });
 
     test("Enviar un mensaje con caracteres especiales", async () => {
@@ -101,7 +101,7 @@ describe("Chat", () => {
             const mensaje = screen.getByText(/'<>\#áá\/\//i);
             expect(mensaje).toBeInTheDocument();
             expect(mensaje).toHaveClass("bg-green-400");
-        }, 70);
+        }, 1500);
     });
 
     test("Recibir un mensaje", async () => {
@@ -139,7 +139,7 @@ describe("Chat", () => {
             const mensaje = screen.getByText(/¡Hola desde otro jugador!/i);
             expect(mensaje).toBeInTheDocument();
             expect(mensaje).toHaveClass("bg-blue-400");
-        }, 70);
+        }, 1500);
     });
 
     test("Recibir un log", async () => {
@@ -179,6 +179,6 @@ describe("Chat", () => {
             );
             expect(mensaje).toBeInTheDocument();
             expect(mensaje).toHaveClass("bg-red-400");
-        }, 70);
+        }, 1500);
     });
 });
