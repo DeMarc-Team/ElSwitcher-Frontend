@@ -50,7 +50,7 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     };
 
     return (
-        <div className="rounded-lg border-2 border-black bg-yellow-100 px-2 pb-2">
+        <div className="rounded-lg border-2 border-black bg-yellow-100 px-2 pb-2 max-lg:w-[210px]">
             <form onSubmit={handleSubmit}>
                 <p className="text-1xl my-1 rounded-md text-center font-bold uppercase">
                     Chat

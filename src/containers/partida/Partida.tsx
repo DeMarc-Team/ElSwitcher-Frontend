@@ -58,14 +58,14 @@ function Partida() {
                 <div
                     className={`flex h-[100vh] w-full flex-col items-center justify-center transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
                 >
-                    <div className="grid h-fit w-full grid-cols-5 items-center justify-items-center max-lg:grid-cols-2">
-                        <div className="col-span-2 flex w-full scale-95 flex-row items-center justify-center gap-2 max-lg:fixed max-lg:top-0 max-lg:scale-75 max-lg:flex-row">
+                    <div className="grid h-fit w-full grid-cols-5 items-center justify-items-center max-lg:grid-cols-4">
+                        <div className="col-span-2 flex w-full scale-95 flex-row items-center justify-center gap-2 max-lg:fixed max-lg:top-0 max-lg:h-[180px] max-lg:scale-90 max-lg:flex-row max-lg:justify-normal max-lg:p-1">
                             <Chat
                                 id_jugador={jugador.id}
                                 id_partida={partida.id}
                             />
 
-                            <div className="mr-4 flex w-full max-w-[340px] flex-col gap-2">
+                            <div className="mr-4 flex w-full max-w-[340px] flex-col gap-2 max-lg:w-auto max-lg:flex-row">
                                 <div className="flex w-full flex-col gap-2 max-lg:gap-1">
                                     <CardInfoDelTurno />
                                     <ButtonPasarTurno />
@@ -73,7 +73,7 @@ function Partida() {
                                 <CardMovParciales />
                             </div>
                         </div>
-                        <div className="max-lg:mt-24 max-lg:scale-75">
+                        <div className="max-lg:col-span-2 max-lg:mt-24 max-lg:scale-75">
                             <Board id_partida={partida.id} />
                         </div>
                         <div className="col-span-2 max-lg:mt-24 max-lg:scale-75">
