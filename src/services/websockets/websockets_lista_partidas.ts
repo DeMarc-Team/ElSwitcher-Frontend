@@ -32,7 +32,7 @@ const useWebSocketListaPartidas = () => {
         if (message.action === "actualizar_partidas") {
             setTriggerActualizaPartidas(!triggerActualizaPartidas);
         } else if (message.action === "actualizar_partidas_activas") {
-            const data = JSON.parse(message.data.replace(/'/g, '"'));
+            const data = JSON.parse(message.data);
             setIdPartidaABorrar(data.id_partida);
             setTriggerActualizaPartidasActivas(
                 !triggerActualizaPartidasActivas

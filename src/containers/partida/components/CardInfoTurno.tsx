@@ -39,12 +39,12 @@ export default function CardInfoDelTurno() {
         return <div>Cargando...</div>;
     }
     return (
-        <Card className="h-fit w-full border-2 border-black bg-yellow-100 p-4">
-            <CardContent className="flex flex-row items-center justify-center gap-6 p-0">
+        <Card className="h-fit w-full border-2 border-black bg-yellow-100 px-1 py-4">
+            <CardContent className="flex flex-row items-center justify-center gap-6 p-0 max-lg:px-2">
                 <div>
                     {" "}
-                    <CardTitle>TURNO DE</CardTitle>
-                    <CardDescription className="text-center text-base">
+                    <CardTitle className="max-lg:text-sm">TURNO DE</CardTitle>
+                    <CardDescription className="text-center text-base max-lg:text-sm">
                         {turno_actual.id == jugador.id ? (
                             <span>Es tú turno !!</span>
                         ) : (

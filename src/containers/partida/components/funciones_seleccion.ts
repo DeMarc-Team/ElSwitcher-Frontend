@@ -3,7 +3,7 @@ import { useNotification } from "@/hooks/useNotification";
 import { useFiguraContext } from "@/context/UsarCartaFiguraContext";
 import { Figura } from "@/services/api/ver_tablero";
 import { usePartida } from "@/context/PartidaContext";
-import { ResaltarCasillasMovimientos } from "@/containers/partida/components/resalatar_casillas_movimientos";
+import { ResaltarCasillasMovimientos } from "@/containers/partida/components/resaltar_casillas_movimientos";
 import { useMovimientos } from "@/containers/partida/components/enviar_movimiento";
 import {
     manejarSeleccion,

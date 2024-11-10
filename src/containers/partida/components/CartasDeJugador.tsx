@@ -106,7 +106,7 @@ const CartasDeJugador = ({
     return (
         <div className="flex flex-row items-center justify-center gap-2 rounded-md border-2 border-black bg-yellow-100">
             <div className="ml-3 flex min-w-[204px] flex-row items-center justify-center gap-2">
-                {cartasFiguras.length > 0 && id_jugador != 4 ? (
+                {cartasFiguras.length > 0 ? (
                     cartasFiguras.map((carta, indexCarta) => (
                         <div
                             key={`${id_jugador}-${indexCarta}-carta-figura`}
