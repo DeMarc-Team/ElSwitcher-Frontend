@@ -44,7 +44,6 @@ function Partida() {
             openConnectionToPartida(String(id_partida), String(jugador.id));
         }
     }, [isDataLoaded]);
-
     useEffectSkipFirst(() => {
         setHayUnGanador(true);
     }, [triggerHayGanador]);

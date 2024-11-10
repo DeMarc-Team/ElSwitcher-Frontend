@@ -36,6 +36,8 @@ const useWebSocketPartida = () => {
         useState(false);
     const [triggerActualizarCartasFigura, setTriggerActualizarCartasFigura] =
         useState(false);
+    const [triggerSincronizarTurno, setTriggerSincronizarTurno] =
+        useState(false);
 
     // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
@@ -65,6 +67,8 @@ const useWebSocketPartida = () => {
             setTriggerSeCanceloPartida(!triggerSeCanceloPartida);
         } else if (message.action === "actualizar_cartas_figura") {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
+        } else if (message.action === "sincronizar_turno") {
+            setTriggerSincronizarTurno(!triggerSincronizarTurno);
         }
     }, [message]);
 
@@ -81,6 +85,7 @@ const useWebSocketPartida = () => {
         triggerActualizarCartasMovimiento,
         triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
+        triggerSincronizarTurno,
     };
 };
 export { useWebSocketPartida };
