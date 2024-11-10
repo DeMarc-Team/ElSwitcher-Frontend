@@ -12,6 +12,7 @@ import CardDespedida from "./components/CardDespedida";
 import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 import CardMovParciales from "./components/CardMovParciales";
 import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
+import ButtonVolverAlHome from "@/components/ButtonVolverAlHome";
 import CardColorBloqueado from "./components/CardColorBloqueado";
 
 function Partida() {
@@ -87,10 +88,13 @@ function Partida() {
                         />
                     </div>
                     <div className="fixed bottom-5 left-5 max-lg:bottom-1 max-lg:left-auto max-lg:scale-90">
-                        <ButtonAbandonarPartida
-                            idPartida={id_partida}
-                            idJugador={jugador.id}
-                        />
+                        <div className="flex min-w-[200px] flex-col justify-center gap-2 max-lg:flex-row">
+                            <ButtonVolverAlHome />
+                            <ButtonAbandonarPartida
+                                idPartida={id_partida}
+                                idJugador={jugador.id}
+                            />
+                        </div>
                     </div>
                 </div>
             )}

@@ -2,18 +2,14 @@ import { render, screen, act, fireEvent } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
 import { AbandonarPartida } from "@/services/api/abandonar_partida";
-import {
-    RemoveSessionJugador,
-    RemoveSessionPartida,
-} from "@/services/session_browser";
+import { RemoveCurrentSession } from "@/services/session_browser";
 
 vi.mock("@/services/api/abandonar_partida", () => ({
     AbandonarPartida: vi.fn(),
 }));
 
 vi.mock("@/services/session_browser", () => ({
-    RemoveSessionJugador: vi.fn(),
-    RemoveSessionPartida: vi.fn(),
+    RemoveCurrentSession: vi.fn(),
 }));
 
 vi.mock("@/hook/useNotification", () => ({
@@ -56,8 +52,7 @@ describe("Componente ButtonAbandonarPartida", () => {
 
         // Verifico que se llamen a las funciones necesarias
         expect(AbandonarPartida).toHaveBeenCalledWith(123, 321);
-        expect(RemoveSessionJugador).toHaveBeenCalledTimes(1);
-        expect(RemoveSessionPartida).toHaveBeenCalledTimes(1);
+        expect(RemoveCurrentSession).toHaveBeenCalledTimes(1);
         expect(navigateMock).toHaveBeenCalledWith("/#listapartidas");
     });
 
@@ -92,8 +87,7 @@ describe("Componente ButtonAbandonarPartida", () => {
 
         // Verifico que se llamen a las funciones necesarias
         expect(AbandonarPartida).toHaveBeenCalledWith(123, 321);
-        expect(RemoveSessionJugador).toHaveBeenCalled();
-        expect(RemoveSessionPartida).toHaveBeenCalled();
+        expect(RemoveCurrentSession).toHaveBeenCalled();
         expect(navigateMock).toHaveBeenCalledWith("/#listapartidas");
     });
 });

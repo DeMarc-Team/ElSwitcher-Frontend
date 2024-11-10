@@ -14,10 +14,7 @@ import { CircleArrowRight, UserRound, Lock } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import {
-    SaveSessionJugador,
-    SaveSessionPartida,
-} from "@/services/session_browser";
+import { SaveNewSession } from "@/services/session_browser";
 
 interface FormUnirseProps {
     partidaId: number;
@@ -71,14 +68,18 @@ function FormUnirse({
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
             );
-            SaveSessionJugador({
-                id: res.id_jugador,
-                nombre: res.nombre,
-            });
-            SaveSessionPartida({
-                id: partidaId,
-                nombre: partidaName,
-            });
+            SaveNewSession(
+                {
+                    // jugador
+                    id: res.id_jugador,
+                    nombre: res.nombre,
+                },
+                {
+                    // partida
+                    id: partidaId,
+                    nombre: partidaName,
+                }
+            );
             setTimeout(() => {
                 navigate(`/partidas/${partidaId}/sala-espera`);
                 closeToast();

@@ -7,6 +7,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import ButtonAbandonarPartida from "@/components/ButtonAbandonarPartida";
+import ButtonVolverAlHome from "@/components/ButtonVolverAlHome";
 import { Button } from "@/components/ui/button";
 import Loading from "./Loading";
 import {
@@ -18,8 +19,7 @@ import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
 import {
     LoadSessionJugador,
-    RemoveSessionJugador,
-    RemoveSessionPartida,
+    RemoveCurrentSession,
 } from "@/services/session_browser";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
@@ -70,8 +70,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
 
     useEffectSkipFirst(() => {
         closeConnection();
-        RemoveSessionJugador();
-        RemoveSessionPartida();
+        RemoveCurrentSession();
         navigate("/#listapartidas");
     }, [triggerSeCanceloPartida]);
 
@@ -109,11 +108,12 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
             closeToast();
         }, 2000);
     }
+
     const redirectPartida = () => {
         navigate(`/partidas/${id_partida}`);
     };
 
-    if (!nombrePartida) {
+    if (!nombrePartida || partidaIniciada) {
         return (
             <div>
                 <Loading />
@@ -191,6 +191,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
                                 session_jugador?.id == idCreador
                             }
                         />
+                        <ButtonVolverAlHome />
                     </div>
                 </CardContent>
             </Card>

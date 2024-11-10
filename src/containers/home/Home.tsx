@@ -2,8 +2,20 @@ import CrearPartida from "./components/CrearPartida";
 import { ChevronDown } from "lucide-react";
 import Partidas from "./components/Partidas";
 import HeaderHome from "./components/HeaderHome";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 function Home() {
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.hash === "#listapartidas") {
+            const element = document.getElementById("listapartidas");
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [location]);
     return (
         <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-5">
