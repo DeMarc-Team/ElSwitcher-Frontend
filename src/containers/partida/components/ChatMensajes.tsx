@@ -14,7 +14,7 @@ const ChatMensajes: React.FC<ChatMensajeProps> = ({
     messagesEndRef,
 }) => {
     return (
-        <ScrollArea className="mb-1 h-[110px] rounded-lg border-2 border-black bg-white px-1">
+        <ScrollArea className="mb-1 h-[267px] rounded-lg border-2 border-black bg-white px-1">
             <ul>
                 {messagesList.map((msg, i) => (
                     <li

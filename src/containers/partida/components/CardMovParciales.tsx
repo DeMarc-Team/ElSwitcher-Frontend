@@ -63,13 +63,11 @@ const CardMovParciales = () => {
     if (!jugador || !partida) return null;
 
     return (
-        <Card className="w-full border-2 border-black bg-yellow-100 p-4">
+        <Card className="w-full border-2 border-black bg-yellow-100 px-1 py-4">
             <CardContent className="flex flex-col justify-center pb-0">
                 <CardDescription />
-                <div className="flex items-center justify-center gap-2">
-                    <CardTitle className="text-left uppercase">
-                        Historial jugadas
-                    </CardTitle>
+                <div className="flex items-center justify-center">
+                    <CardTitle className="text-left uppercase"></CardTitle>
                     {turno_actual && jugador.id === turno_actual.id ? (
                         <div className="flex min-h-20 w-full items-center justify-center">
                             {cartasMovParciales.length > 0 ? (
