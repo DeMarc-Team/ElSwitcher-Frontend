@@ -1,5 +1,8 @@
 import { createContext, useContext, ReactNode } from "react";
-import { useWebSocketPartida } from "@/services/websockets/websockets_partida";
+import {
+    useWebSocketPartida,
+    ObjectMessagesProps,
+} from "@/services/websockets/websockets_partida";
 import { Jugador } from "@/models/types";
 
 interface PartidaWebsocketContextType {
@@ -16,11 +19,7 @@ interface PartidaWebsocketContextType {
     triggerSeCanceloPartida: boolean;
     triggerActualizarCartasFigura: boolean;
     triggerSincronizarMensaje: boolean;
-    objectMessages: {
-        message: string;
-        id_jugador: number;
-        type_message: "ACTION" | "USER";
-    } | null;
+    objectMessages: ObjectMessagesProps | null;
 }
 
 const PartidaWebsocketContext = createContext<
