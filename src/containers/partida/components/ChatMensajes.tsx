@@ -1,14 +1,14 @@
 import React from "react";
 import { objectMessagesProps } from "./interfaces";
 
-interface ChatMessagesProps {
+interface ChatMensajeProps {
     messagesList: objectMessagesProps[];
     id_jugador: number;
     wrapMessage: (message: string, maxLength: number) => string;
     messagesEndRef: React.RefObject<HTMLDivElement>;
 }
 
-const ChatMensajes: React.FC<ChatMessagesProps> = ({
+const ChatMensajes: React.FC<ChatMensajeProps> = ({
     messagesList,
     id_jugador,
     wrapMessage,
@@ -16,7 +16,7 @@ const ChatMensajes: React.FC<ChatMessagesProps> = ({
 }) => {
     return (
         <ul
-            className="mb-4 max-h-[300px] overflow-y-auto rounded-lg bg-zinc-700 p-2"
+            className="mb-4 max-h-[110px] overflow-y-auto rounded-lg bg-zinc-700 p-2"
             style={{ height: "300px" }}
         >
             {messagesList.map((object_iterator, i) => (

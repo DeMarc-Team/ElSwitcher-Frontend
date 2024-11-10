@@ -1,18 +1,18 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 
-interface MessageInputProps {
+interface MensajeImputProps {
     message: string;
     setMessage: (message: string) => void;
 }
 
-const MensajeImput: React.FC<MessageInputProps> = ({ message, setMessage }) => {
+const MensajeImput: React.FC<MensajeImputProps> = ({ message, setMessage }) => {
     return (
-        <div className="flex space-x-2">
+        <div className="flex space-x-3">
             <input
                 type="text"
-                placeholder="Escribe tu mensaje ..."
-                className="w-full rounded-md border-2 border-zinc-500 p-2"
+                placeholder="Escribe mensaje"
+                className="border-1 w-full rounded-md border-zinc-500 p-1"
                 onChange={(e) => setMessage(e.target.value)}
                 value={message}
             />
