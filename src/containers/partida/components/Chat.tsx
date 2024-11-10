@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { EnviarMensaje } from "@/services/api/enviar_mensaje";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import ChatMensaje from "./ChatMensajes";
-import MensajeImput from "./MensajeInput";
+import MensajeInput from "./MensajeInput";
 import { ObjectMessagesProps } from "@/services/websockets/websockets_partida";
 
 export interface MessageProps {
@@ -13,7 +13,7 @@ export interface MessageProps {
 const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
     const [message, setMessage] = useState<string>("");
     const messagesEndRef = useRef<HTMLDivElement | null>(null); // Ref para el final del chat.
-    const { triggerSincronizarMensaje, objectMessages } =
+    const { triggerSincronizarMensaje, objectMessages, triggerHayGanador } =
         useInsidePartidaWebSocket();
     const [messagesList, setMessagesList] = useState<ObjectMessagesProps[]>([]);
 
@@ -29,6 +29,11 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
             receiverMessages(objectMessages);
         }
     }, [triggerSincronizarMensaje]);
+
+    // Limpia la lista de los mensajes cuando hay un ganador.
+    useEffect(() => {
+        setMessagesList([]);
+    }, [triggerHayGanador]);
 
     // Desplazarse al final del chat.
     const scrollToBottom = () => {
@@ -61,7 +66,7 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
                     messagesEndRef={messagesEndRef}
                 />
 
-                <MensajeImput message={message} setMessage={setMessage} />
+                <MensajeInput message={message} setMessage={setMessage} />
             </form>
         </div>
     );
