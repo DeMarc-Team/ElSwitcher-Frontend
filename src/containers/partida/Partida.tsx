@@ -77,7 +77,7 @@ function Partida() {
                             <CartasDeLosJugadores />
                         </div>
                     </div>
-                    <div className="mt-10 flex scale-90 flex-row gap-10 max-lg:mt-0">
+                    <div className="mt-10 flex scale-90 flex-row gap-10 max-lg:mt-0 max-lg:pb-2">
                         <CartasMovimiento
                             id_partida={partida.id}
                             id_jugador={jugador.id}
