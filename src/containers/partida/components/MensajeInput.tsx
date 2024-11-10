@@ -7,7 +7,7 @@ interface MensajeImputProps {
     setMessage: (message: string) => void;
 }
 
-const MensajeImput: React.FC<MensajeImputProps> = ({ message, setMessage }) => {
+const MensajeInput: React.FC<MensajeImputProps> = ({ message, setMessage }) => {
     return (
         <div className="flex gap-1">
             <input
@@ -29,4 +29,4 @@ const MensajeImput: React.FC<MensajeImputProps> = ({ message, setMessage }) => {
     );
 };
 
-export default MensajeImput;
+export default MensajeInput;

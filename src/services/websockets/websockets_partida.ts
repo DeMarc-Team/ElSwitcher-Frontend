@@ -13,6 +13,8 @@ import { Jugador } from "@/models/types";
  * - `triggerSeCanceloPartida`: Trigger para indicar si se canceló la partida.
  * - `triggerActualizarCartasFigura`: Trigger para actualizar las cartas de figura.
  * - `ganadorInfo`: Información del jugador ganador.
+ * - `triggerSincronizarMensaje` Trigger para indicar si hay mensajes nuevos.
+ * - `objectMessages` Este tiene el objeto guardado que se retorna desde el back.
  * @note También se retorna la información de la conexión WebSocket:
  *  - `message`: El último mensaje recibido.
  *  - `readyState`: El estado de la conexión WebSocket.
@@ -42,7 +44,6 @@ const useWebSocketPartida = () => {
     const [objectMessages, setObjectMessages] =
         useState<ObjectMessagesProps | null>(null);
 
-    // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
 
     const openConnectionToPartida = (
