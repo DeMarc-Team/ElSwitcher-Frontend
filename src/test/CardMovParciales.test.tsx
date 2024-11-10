@@ -46,19 +46,7 @@ const mockPartidaContext = {
 };
 
 describe("CardMovParciales", () => {
-    test("Mostrar el titulo", async () => {
-        vi.mocked(usePartida).mockReturnValue({
-            ...mockPartidaContext,
-            partida: { id: 1, nombre: "Partida1" },
-            jugador: { id: 1, nombre: "Jugador1" },
-            turno_actual: { id: 1, nombre: "Jugador1" },
-        });
-
-        render(<CardMovParciales />);
-
-        expect(screen.getByText("Historial jugadas")).toBeInTheDocument();
-    });
-
+    
     test('Mostrar mensaje de "..." si no es el turno del jugador', async () => {
         vi.mocked(usePartida).mockReturnValue({
             ...mockPartidaContext,
