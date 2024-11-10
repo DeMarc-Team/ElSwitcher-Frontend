@@ -50,20 +50,17 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
         }
     }, [triggerSincronizarMensaje]);
 
-    // Desplazamiento hacia el final del chat cuando se recibe un nuevo mensaje
+    // Desplazarse al final del chat
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({
-                behavior: "smooth",
-            });
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
 
-    // Siempre que cambien los mensajes, se desplaza hacia abajo
+    // Desplazarse al final si la lista de mensajes cambia
     useEffect(() => {
-        // Desplazar hacia el final solo si se han recibido nuevos mensajes
         scrollToBottom();
-    }, [messagesList]); // Cuando los mensajes cambian
+    }, [messagesList]);
 
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
@@ -99,9 +96,8 @@ const Chat: React.FC<MessageProps> = ({ id_jugador, id_partida }) => {
                         messagesList={messagesList}
                         id_jugador={id_jugador}
                         wrapMessage={wrapMessage}
+                        messagesEndRef={messagesEndRef}
                     />
-                    <div ref={messagesEndRef} />{" "}
-                    {/* Este es el "ref" al final del chat */}
                 </div>
                 <MensajeImput message={message} setMessage={setMessage} />
             </form>

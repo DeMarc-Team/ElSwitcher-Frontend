@@ -75,7 +75,7 @@ const useWebSocketPartida = () => {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
         } else if (message.action === "sincronizar_mensaje") {
             setTriggerSincronizarMensaje(!triggerSincronizarMensaje);
-            setObjectMessages(JSON.parse(message.data.replace(/'/g, '"')));
+            setObjectMessages(JSON.parse(message.data));
         }
     }, [message]);
 

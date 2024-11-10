@@ -5,12 +5,14 @@ interface ChatMessagesProps {
     messagesList: objectMessagesProps[];
     id_jugador: number;
     wrapMessage: (message: string, maxLength: number) => string;
+    messagesEndRef: React.RefObject<HTMLDivElement>;
 }
 
 const ChatMensajes: React.FC<ChatMessagesProps> = ({
     messagesList,
     id_jugador,
     wrapMessage,
+    messagesEndRef,
 }) => {
     return (
         <ul
@@ -37,6 +39,7 @@ const ChatMensajes: React.FC<ChatMessagesProps> = ({
                     </span>
                 </li>
             ))}
+            <div ref={messagesEndRef} />
         </ul>
     );
 };
