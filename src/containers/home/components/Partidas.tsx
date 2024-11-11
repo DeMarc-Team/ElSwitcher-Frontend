@@ -12,6 +12,7 @@ import {
 } from "@/services/session_browser";
 import FormVolver from "./FormVolver";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
+import { useEffectSkipFirst } from "@/hooks/useEffectSkipFirst";
 
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
@@ -35,9 +36,10 @@ function Partidas() {
                 RemoveSpecificSession(session.partida.id);
             }
         });
+        fetchPartidas();
     }, []);
 
-    useEffect(() => {
+    useEffectSkipFirst(() => {
         fetchPartidas();
     }, [triggerActualizaPartidas]);
 
