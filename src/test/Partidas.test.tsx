@@ -105,6 +105,7 @@ describe("Partidas Component", () => {
     test("Sin partidas activas", async () => {
         vi.mock("@/services/session_browser", () => ({
             GetAllSessions: vi.fn(() => []),
+            RemoveSpecificSession: vi.fn(),
         }));
         await act(async () => {
             render(<Partidas />);
@@ -127,6 +128,7 @@ describe("Partidas Component", () => {
                 },
             ]),
             SetCurrentSession: vi.fn(),
+            RemoveSpecificSession: vi.fn(),
         }));
 
         await act(async () => {

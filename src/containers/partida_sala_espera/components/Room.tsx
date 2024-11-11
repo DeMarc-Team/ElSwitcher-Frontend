@@ -49,7 +49,7 @@ const Room: React.FC<CardHomeProps> = ({ title, description, id_partida }) => {
 
     useEffect(() => {
         if (!session_jugador) {
-            navigate("/");
+            navigate("/#listapartidas");
         } else {
             openConnectionToPartida(
                 id_partida.toString(),
