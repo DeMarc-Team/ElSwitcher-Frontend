@@ -11,6 +11,7 @@ import {
     type Session,
 } from "@/services/session_browser";
 import FormVolver from "./FormVolver";
+import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
 
 function Partidas() {
     const [partidas, setPartidas] = useState<Partida[]>([]);
@@ -25,7 +26,16 @@ function Partidas() {
     const [partidasFiltradas, setPartidasFiltradas] = useState<Partida[]>([]);
     const [partidasActivas, setPartidasActivas] = useState<Session[]>([]);
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        const sessions = GetAllSessions();
+        sessions.forEach(async (session) => {
+            try {
+                await ObtenerInfoPartida(session.partida.id);
+            } catch (err) {
+                RemoveSpecificSession(session.partida.id);
+            }
+        });
+    }, []);
 
     useEffect(() => {
         fetchPartidas();
