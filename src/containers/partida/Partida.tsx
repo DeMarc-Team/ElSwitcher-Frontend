@@ -28,7 +28,7 @@ function Partida() {
     const session_jugador = LoadSessionJugador();
 
     useEffect(() => {
-        if(!session_jugador){
+        if (!session_jugador) {
             setTimeout(() => {
                 navigate("/#listapartidas");
             }, 100);
@@ -72,13 +72,13 @@ function Partida() {
                     className={`flex h-[100vh] w-full flex-col items-center justify-center transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
                 >
                     <div className="grid h-fit w-full grid-cols-5 items-center justify-items-center max-lg:grid-cols-4">
-                        <div className="col-span-2 flex w-full scale-95 flex-row items-center justify-center gap-2 max-lg:fixed max-lg:top-0 max-lg:h-[180px] max-lg:scale-90 max-lg:flex-row max-lg:justify-normal max-lg:p-1">
+                        <div className="col-span-2 flex w-full scale-95 flex-row items-center justify-center gap-2 max-lg:fixed max-lg:top-0 max-lg:h-[180px] max-lg:scale-90 max-lg:flex-row max-lg:justify-center max-lg:p-1">
                             <Chat
                                 id_jugador={jugador.id}
                                 id_partida={partida.id}
                             />
 
-                            <div className="mr-4 flex w-full max-w-[340px] flex-col gap-2 max-lg:w-auto max-lg:flex-row">
+                            <div className="mr-4 flex w-full max-w-[340px] flex-col gap-2 max-lg:mr-0 max-lg:w-auto max-lg:max-w-max max-lg:flex-row">
                                 <div className="flex w-full flex-col gap-2 max-lg:gap-1">
                                     <CardInfoDelTurno />
                                     <ButtonPasarTurno />
