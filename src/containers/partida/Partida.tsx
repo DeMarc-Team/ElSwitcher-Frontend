@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Board from "./components/Board";
 import CartasMovimiento from "./components/CartasMovimiento";
 import CartasFigura from "./components/CartasFigura";
@@ -15,6 +15,7 @@ import { CartasDeLosJugadores } from "./components/CartasDeLosJugadores";
 import Chat from "./components/Chat";
 import ButtonVolverAlHome from "@/components/ButtonVolverAlHome";
 import CardColorBloqueado from "./components/CardColorBloqueado";
+import { LoadSessionJugador } from "@/services/session_browser";
 
 function Partida() {
     const { jugador, partida, isDataLoaded } = usePartida();
@@ -23,6 +24,16 @@ function Partida() {
     const [isVisible, setIsVisible] = useState(false);
     const { openConnectionToPartida, readyState, triggerHayGanador } =
         useInsidePartidaWebSocket();
+    const navigate = useNavigate();
+    const session_jugador = LoadSessionJugador();
+
+    useEffect(() => {
+        if(!session_jugador){
+            setTimeout(() => {
+                navigate("/#listapartidas");
+            }, 100);
+        }
+    }, [session_jugador]);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
