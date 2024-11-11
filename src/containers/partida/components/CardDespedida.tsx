@@ -12,10 +12,7 @@ import confetti from "canvas-confetti";
 import { usePartida } from "@/context/PartidaContext";
 import { useInsidePartidaWebSocket } from "@/context/PartidaWebsocket";
 import { useEffect, useState } from "react";
-import {
-    RemoveSessionJugador,
-    RemoveSessionPartida,
-} from "@/services/session_browser";
+import { RemoveCurrentSession } from "@/services/session_browser";
 
 const CardDespedida = () => {
     const { jugador } = usePartida();
@@ -34,8 +31,7 @@ const CardDespedida = () => {
                 setTitulo(`Perdiste "${jugador.nombre}"`);
                 setDescripcion("😢 😢 😢");
             }
-            RemoveSessionJugador();
-            RemoveSessionPartida();
+            RemoveCurrentSession();
         }
     }, []);
 

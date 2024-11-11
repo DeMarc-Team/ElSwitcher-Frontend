@@ -10,11 +10,18 @@ import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 
 function App() {
     return (
-        <div className="px-32 max-md:px-10">
+        <div>
             <PartidaWebsocketProvider>
                 <Router>
                     <Routes>
-                        <Route path="/" element={<Home />} />
+                        <Route
+                            path="/"
+                            element={
+                                <div className="px-32 max-md:px-10">
+                                    <Home />
+                                </div>
+                            }
+                        />
                         <Route
                             path="/partidas/:id_partida/sala-espera"
                             element={<SalaEspera />}

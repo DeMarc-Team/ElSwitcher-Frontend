@@ -13,6 +13,8 @@ import { Jugador } from "@/models/types";
  * - `triggerSeCanceloPartida`: Trigger para indicar si se canceló la partida.
  * - `triggerActualizarCartasFigura`: Trigger para actualizar las cartas de figura.
  * - `ganadorInfo`: Información del jugador ganador.
+ * - `triggerSincronizarMensaje` Trigger para indicar si hay mensajes nuevos.
+ * - `objectMessages` Este tiene el objeto guardado que se retorna desde el back.
  * @note También se retorna la información de la conexión WebSocket:
  *  - `message`: El último mensaje recibido.
  *  - `readyState`: El estado de la conexión WebSocket.
@@ -36,8 +38,13 @@ const useWebSocketPartida = () => {
         useState(false);
     const [triggerActualizarCartasFigura, setTriggerActualizarCartasFigura] =
         useState(false);
+    const [triggerSincronizarTurno, setTriggerSincronizarTurno] =
+        useState(false);
+    const [triggerSincronizarMensaje, setTriggerSincronizarMensaje] =
+        useState(false);
+    const [objectMessages, setObjectMessages] =
+        useState<ObjectMessagesProps | null>(null);
 
-    // Información del ganador
     const [ganadorInfo, setGanadorInfo] = useState<Jugador | null>(null);
 
     const openConnectionToPartida = (
@@ -54,7 +61,7 @@ const useWebSocketPartida = () => {
             setTriggerActualizarTurno(!triggerActualizarTurno);
         } else if (message.action === "hay_ganador") {
             setTriggerHayGanador(!triggerHayGanador);
-            setGanadorInfo(JSON.parse(message.data.replace(/'/g, '"')));
+            setGanadorInfo(JSON.parse(message.data));
         } else if (message.action === "actualizar_tablero") {
             setTriggerActualizarTablero(!triggeractualizarTablero);
         } else if (message.action === "actualizar_cartas_movimiento") {
@@ -65,6 +72,11 @@ const useWebSocketPartida = () => {
             setTriggerSeCanceloPartida(!triggerSeCanceloPartida);
         } else if (message.action === "actualizar_cartas_figura") {
             setTriggerActualizarCartasFigura(!triggerActualizarCartasFigura);
+        } else if (message.action === "sincronizar_mensaje") {
+            setTriggerSincronizarMensaje(!triggerSincronizarMensaje);
+            setObjectMessages(JSON.parse(message.data));
+        } else if (message.action === "sincronizar_turno") {
+            setTriggerSincronizarTurno(!triggerSincronizarTurno);
         }
     }, [message]);
 
@@ -81,6 +93,16 @@ const useWebSocketPartida = () => {
         triggerActualizarCartasMovimiento,
         triggerSeCanceloPartida,
         triggerActualizarCartasFigura,
+        triggerSincronizarMensaje,
+        objectMessages,
+        triggerSincronizarTurno,
     };
 };
-export { useWebSocketPartida };
+
+interface ObjectMessagesProps {
+    message: string;
+    id_jugador: number;
+    type_message: "ACTION" | "USER";
+}
+
+export { useWebSocketPartida, type ObjectMessagesProps };

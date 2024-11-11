@@ -7,10 +7,7 @@ import {
 } from "@/services/api/crear_partida";
 import { UnirsePartidaResponse } from "@/services/api/unirse_partida";
 import Room from "@/containers/partida_sala_espera/components/Room";
-import {
-    SaveSessionJugador,
-    SaveSessionPartida,
-} from "@/services/session_browser";
+import { SaveNewSession } from "@/services/session_browser";
 import { Partida, Jugador } from "@/models/types";
 import { ObtenerInfoPartida } from "@/services/api/obtener_info_partida";
 
@@ -90,18 +87,8 @@ const mockPartida: Partida = {
     nombre: "Partida 1",
 };
 
-// vi.mock('@/services/api/iniciarPartida', () => ({
-//     IniciarPartida: vi.fn((partidaId: number = 1): Promise<IniciarPartidaResponse> =>
-//         Promise.resolve({
-//             partidaIniciadaConExito: true,
-//         })
-//     ),
-// }));
-
 describe("Sala de espera", () => {
-    SaveSessionJugador(mockCreador);
-    SaveSessionJugador(mockJugador);
-    SaveSessionPartida(mockPartida);
+    SaveNewSession(mockCreador, mockPartida);
 
     test("Se renderiza y funciona la lista de jugadores del room", async () => {
         render(
@@ -148,5 +135,19 @@ describe("Sala de espera", () => {
         } else {
             expect(screen.findByText("Iniciar partida")).not.toBeDefined();
         }
+    });
+
+    test("Revisamos que se este renderizando el boton de Volver al inicio", async () => {
+        render(
+            <BrowserRouter>
+                <Room
+                    title="Sala de Espera"
+                    description="Esperando a que se unan los jugadores, se paciente."
+                    id_partida={1}
+                />
+            </BrowserRouter>
+        );
+
+        expect(screen.findByText("Volver al inicio")).toBeDefined();
     });
 });
