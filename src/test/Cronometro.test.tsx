@@ -58,7 +58,9 @@ describe("Cronometro", () => {
             duracion: 60,
         });
 
-        render(<Cronometro id_partida={1} />);
+        await act(async () => {
+            render(<Cronometro id_partida={1} />);
+        });
     });
 
     test("Debería mostrar '¡Tiempo terminado!' cuando el tiempo haya llegado a cero", async () => {
@@ -73,7 +75,9 @@ describe("Cronometro", () => {
             duracion: 0,
         });
 
-        render(<Cronometro id_partida={1} />);
+        await act(async () => {
+            render(<Cronometro id_partida={1} />);
+        });
 
         await waitFor(() => {
             expect(screen.getByText("¡Tiempo terminado!")).toBeInTheDocument();
@@ -92,7 +96,9 @@ describe("Cronometro", () => {
             duracion: 60,
         });
 
-        render(<Cronometro id_partida={1} />);
+        await act(async () => {
+            render(<Cronometro id_partida={1} />);
+        });
 
         await waitFor(() => {
             expect(screen.getByText(/seg/)).toBeInTheDocument();
