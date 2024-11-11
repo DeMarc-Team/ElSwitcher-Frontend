@@ -32,6 +32,7 @@ function FormUnirse({
     const MAX_LENGTH_USERNAME = 50;
     const [username, setUsername] = useState("");
     const [uniendose, setUniendose] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
     const [password, setPassword] = useState("");
@@ -58,10 +59,13 @@ function FormUnirse({
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         if (!checkFillds()) return;
+
         if (uniendose) {
             return;
         }
+
         try {
             setUniendose(true);
             const res = await UnirsePartida(partidaId, username, password);
@@ -80,10 +84,7 @@ function FormUnirse({
                     nombre: partidaName,
                 }
             );
-            setTimeout(() => {
-                navigate(`/partidas/${partidaId}/sala-espera`);
-                closeToast();
-            }, 1500);
+            navigate(`/partidas/${partidaId}/sala-espera`);
         } catch (error) {
             const errorMessage = String(error);
             if (errorMessage.includes("Forbidden")) {
@@ -99,8 +100,16 @@ function FormUnirse({
         }
     };
 
+    // Cuando se cierra el componente que se cierren todos los toast
+    const handleDialogClose = () => {
+        setIsOpen(!isOpen);
+        if (isOpen) {
+            closeToast();
+        }
+    };
+
     return (
-        <Dialog>
+        <Dialog onOpenChange={handleDialogClose} open={isOpen}>
             <DialogTrigger asChild>
                 <Button
                     variant="outline"
