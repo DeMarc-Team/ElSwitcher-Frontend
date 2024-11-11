@@ -2,6 +2,8 @@ import { Figura } from "@/services/api/ver_tablero";
 import React, { createContext, useContext, useState } from "react";
 
 interface UsarCartaFiguraContextProps {
+    estoyBloqueando: boolean;
+    idJugadorABloquear: number | undefined;
     existeFigura: string[] | null;
     codigoCartaFigura: string | undefined;
     figuraSeleccionada: Figura | null;
@@ -12,6 +14,8 @@ interface UsarCartaFiguraContextProps {
     setCartaFiguraSeleccionada: (
         cartaFiguraSeleccionada: number | undefined
     ) => void;
+    setEstoyBloqueando: (estoyBloqueando: boolean) => void;
+    setIdJugadorABloquear: (idJugadorABloquear: number | undefined) => void;
     cleanFiguraContexto: () => void;
 }
 
@@ -33,6 +37,11 @@ export const FiguraContextProvider: React.FC<{ children: React.ReactNode }> = ({
         number | undefined
     >(undefined);
 
+    const [estoyBloqueando, setEstoyBloqueando] = useState<boolean>(false);
+    const [idJugadorABloquear, setIdJugadorABloquear] = useState<
+        number | undefined
+    >(undefined);
+
     const cleanFiguraContexto = () => {
         setCodigoCartaFigura(undefined);
         setFiguraSeleccionada(null);
@@ -42,15 +51,19 @@ export const FiguraContextProvider: React.FC<{ children: React.ReactNode }> = ({
     return (
         <FiguraContext.Provider
             value={{
+                estoyBloqueando,
+                idJugadorABloquear,
                 existeFigura,
                 codigoCartaFigura,
                 figuraSeleccionada,
+                cartaFiguraSeleccionada,
                 setExisteFigura,
                 setCodigoCartaFigura,
                 setFiguraSeleccionada,
-                cleanFiguraContexto,
-                cartaFiguraSeleccionada,
                 setCartaFiguraSeleccionada,
+                setEstoyBloqueando,
+                setIdJugadorABloquear,
+                cleanFiguraContexto,
             }}
         >
             {children}

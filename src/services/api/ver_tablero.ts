@@ -55,69 +55,24 @@ const procesarFiguras = (figurasResaltadas: any): Figura[] => {
     const figuras: Figura[] = [];
 
     for (const nombre in figurasResaltadas) {
-        const casillas = figurasResaltadas[nombre];
+        const formaciones = figurasResaltadas[nombre];
 
-        const figura: Figura = {
-            nombre,
-            casillas: [],
-        };
-
-        for (const subArray of casillas) {
-            for (const casilla of subArray) {
+        for (const formacion of formaciones) {
+            // Construir la figura usando las coordenadas
+            const figura: Figura = {
+                nombre,
+                casillas: [],
+            };
+            for (const casilla of formacion) {
                 figura.casillas.push({
-                    // Ver Nota del principio.
                     row: casilla[0] !== null ? casilla[0] : -1,
                     column: casilla[1] !== null ? casilla[1] : -1,
                 });
             }
+            // Pushear la figura construida
+            figuras.push(figura);
         }
-
-        figuras.push(figura);
     }
     return figuras;
 };
 export { ObtenerTablero, type Casilla, type Figura, type Tablero };
-
-//Hardcodeo para probar el destacado de las figuras
-
-// const ObtenerTablero = async (id_partida: number): Promise<Tablero> => {
-//     // Simulando la respuesta hardcoded
-//     const tablero6x6: number[][] = [
-//         [3, 3, 2, 1, 4, 1],
-//         [1, 2, 3, 4, 1, 2],
-//         [2, 3, 4, 1, 2, 3],
-//         [3, 4, 1, 2, 3, 4],
-//         [4, 1, 2, 3, 4, 1],
-//         [1, 2, 3, 4, 1, 2],
-//     ];
-
-//     const figuras: Figura[] = [
-//         {
-//             nombre: "f2",
-//             casillas: [
-//                 { row: 0, column: 0 },
-//                 { row: 0, column: 1 },
-//                 { row: 1, column: 1 },
-//                 { row: 1, column: 2 },
-//                 { row: 1, column: 3 },
-//             ],
-//         },
-//         {
-//             nombre: "f1",
-//             casillas: [
-//                 { row: 3, column: 0 },
-//                 { row: 3, column: 1 },
-//                 { row: 3, column: 2 },
-//                 { row: 4, column: 1 },
-//                 { row: 5, column: 1 },
-//             ],
-//         },
-//     ];
-//     console.log("Lo que fetcheo")
-//         console.log(figuras)
-//     return{
-//             tablero6x6,
-//             figuras,
-//     };
-// };
-// export { ObtenerTablero, type Tablero, type Casilla, type Figura};

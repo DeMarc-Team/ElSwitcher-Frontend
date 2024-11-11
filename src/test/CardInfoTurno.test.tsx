@@ -23,6 +23,22 @@ vi.mock("@/context/PartidaWebsocket", () => ({
     })),
 }));
 
+vi.mock("@/services/api/obtener_tiempo_cronometro", () => ({
+    ObtenerTiempoCronometro: vi.fn(),
+}));
+
+vi.mock("@/context/UsarCartaMovimientoContext", () => ({
+    useMovimientoContext: vi.fn(() => ({
+        cleanMovimientoContexto: vi.fn(),
+    })),
+}));
+
+vi.mock("@/context/UsarCartaFiguraContext", () => ({
+    useFiguraContext: vi.fn(() => ({
+        cleanFiguraContexto: vi.fn(),
+    })),
+}));
+
 const mockPartidaContext = {
     turno_actual: undefined,
     jugador: undefined,

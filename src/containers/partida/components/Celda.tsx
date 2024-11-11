@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/services/shadcn_lib/utils";
+import { usePartida } from "@/context/PartidaContext";
 
 const COLORES: string[] = ["red", "green", "blue", "yellow"];
 
@@ -9,7 +10,7 @@ interface CeldaProps {
     cell: number;
     animar: boolean;
     primeraSeleccion: { row: number; col: number } | null;
-    handleClick: (rowIndex: number, colIndex: number) => void;
+    handleClick: (rowIndex: number, colIndex: number, cell: number) => void;
     esResaltada: (rowIndex: number, colIndex: number) => boolean;
     esParteDeFigura: (rowIndex: number, colIndex: number) => boolean;
     estaDeshabilitado: () => boolean;
@@ -27,34 +28,43 @@ const Celda: React.FC<CeldaProps> = ({
     estaDeshabilitado,
     esParteDeFigura,
     destacarFigura,
-}) => (
-    <button
-        className={cn(
-            "flex h-12 w-12 items-center justify-center rounded-lg border-2 border-black shadow-lg hover:scale-110",
-            `bg-${COLORES[cell - 1]}-400`,
-            {
-                "cursor-not-allowed": estaDeshabilitado(),
-            },
-            {
-                "scale-110 border-[3px] saturate-150":
-                    primeraSeleccion &&
-                    primeraSeleccion.row === rowIndex &&
-                    primeraSeleccion.col === colIndex,
-            },
-            {
-                "animate-bounce-loop border-[3px] border-dashed saturate-150 hover:animate-none":
-                    esResaltada(rowIndex, colIndex),
-            },
-            {
-                shine: animar && esParteDeFigura(rowIndex, colIndex),
-            },
-            {
-                "border-4 border-red-600": destacarFigura(rowIndex, colIndex),
-            }
-        )}
-        onClick={() => handleClick(rowIndex, colIndex)}
-        disabled={estaDeshabilitado()}
-    ></button>
-);
+}) => {
+    const { colorBloqueado } = usePartida();
+    return (
+        <button
+            className={cn(
+                "flex h-12 w-12 items-center justify-center rounded-lg border-2 border-black shadow-lg hover:scale-110",
+                `bg-${COLORES[cell - 1]}-400`,
+                {
+                    "cursor-not-allowed": estaDeshabilitado(),
+                },
+                {
+                    "scale-110 border-[3px] saturate-150":
+                        primeraSeleccion &&
+                        primeraSeleccion.row === rowIndex &&
+                        primeraSeleccion.col === colIndex,
+                },
+                {
+                    "animate-bounce-loop border-[3px] border-dashed saturate-150 hover:animate-none":
+                        esResaltada(rowIndex, colIndex),
+                },
+                {
+                    shine:
+                        animar &&
+                        esParteDeFigura(rowIndex, colIndex) &&
+                        colorBloqueado != cell - 1,
+                },
+                {
+                    "border-4 border-red-600": destacarFigura(
+                        rowIndex,
+                        colIndex
+                    ),
+                }
+            )}
+            onClick={() => handleClick(rowIndex, colIndex, cell)}
+            disabled={estaDeshabilitado()}
+        ></button>
+    );
+};
 
 export default Celda;

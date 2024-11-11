@@ -10,31 +10,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { CircleArrowRight, UserRound } from "lucide-react";
+import { CircleArrowRight, UserRound, Lock } from "lucide-react";
 import { UnirsePartida } from "@/services/api/unirse_partida";
 import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import {
-    SaveSessionJugador,
-    SaveSessionPartida,
-} from "@/services/session_browser";
+import { SaveNewSession } from "@/services/session_browser";
 
 interface FormUnirseProps {
     partidaId: number;
     partidaName: string;
     partidaJugadores: number;
+    es_privada: boolean;
 }
 
 function FormUnirse({
     partidaId,
     partidaName,
     partidaJugadores,
+    es_privada,
 }: Readonly<FormUnirseProps>) {
     const MAX_LENGTH_USERNAME = 50;
     const [username, setUsername] = useState("");
     const [uniendose, setUniendose] = useState(false);
     const navigate = useNavigate();
     const { showToastAlert, showToastSuccess, closeToast } = useNotification();
+    const [password, setPassword] = useState("");
 
     const changeUsername = (e: string) => {
         if (MAX_LENGTH_USERNAME < e.length) {
@@ -44,9 +44,13 @@ function FormUnirse({
         setUsername(e);
     };
 
-    const checkUsername = () => {
+    const checkFillds = () => {
         if (username === "") {
             showToastAlert("El nombre de usuario no puede estar vacio.");
+            return false;
+        }
+        if (password === "" && es_privada) {
+            showToastAlert("La contraseña no puede estar vacia.");
             return false;
         }
         return true;
@@ -54,31 +58,44 @@ function FormUnirse({
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!checkUsername()) return;
+        if (!checkFillds()) return;
         if (uniendose) {
             return;
         }
         try {
             setUniendose(true);
-            const res = await UnirsePartida(partidaId, username);
+            const res = await UnirsePartida(partidaId, username, password);
             showToastSuccess(
                 `Bienvenido "${res.nombre}" a la partida "${partidaName}."`
             );
-            SaveSessionJugador({
-                id: res.id_jugador,
-                nombre: res.nombre,
-            });
-            SaveSessionPartida({
-                id: partidaId,
-                nombre: partidaName,
-            });
+            SaveNewSession(
+                {
+                    // jugador
+                    id: res.id_jugador,
+                    nombre: res.nombre,
+                },
+                {
+                    // partida
+                    id: partidaId,
+                    nombre: partidaName,
+                }
+            );
             setTimeout(() => {
                 navigate(`/partidas/${partidaId}/sala-espera`);
                 closeToast();
             }, 1500);
         } catch (error) {
-            showToastAlert("Error al unirse a la partida.");
+            const errorMessage = String(error);
+            if (errorMessage.includes("Forbidden")) {
+                showToastAlert("La contraseña no es correcta.");
+            } else {
+                showToastAlert("Error al unirse a la partida.");
+            }
             setUniendose(false);
+            setPassword("");
+            setTimeout(() => {
+                closeToast();
+            }, 1500);
         }
     };
 
@@ -93,6 +110,11 @@ function FormUnirse({
                         <b>{partidaName}</b>
                     </span>
                     <div className="flex items-center justify-center gap-2">
+                        {es_privada && (
+                            <span className="flex h-[1.3rem] items-center justify-center gap-2 rounded-lg border-2 border-black px-2">
+                                <Lock className="w-4" />
+                            </span>
+                        )}
                         <span className="mr-5 flex h-[1.3rem] items-center justify-center gap-2 rounded-lg border-2 border-black px-2">
                             <span className="font font-bold">
                                 {partidaJugadores}
@@ -127,12 +149,32 @@ function FormUnirse({
                                 value={username}
                                 onChange={(e) => changeUsername(e.target.value)}
                             />
+                            {es_privada && (
+                                <>
+                                    <Label htmlFor="username">
+                                        Contraseña de partida
+                                    </Label>
+                                    <Input
+                                        className="mt-1"
+                                        type="text"
+                                        id="password"
+                                        autoFocus={false}
+                                        placeholder="Ingrese la contraseña de la partida"
+                                        autoComplete="off"
+                                        tabIndex={-1}
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
                     <div>
                         <Button
                             onClick={() => {
-                                checkUsername();
+                                checkFillds();
                             }}
                             type="submit"
                             className="mt-5 w-full"
