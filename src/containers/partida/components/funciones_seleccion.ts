@@ -105,7 +105,7 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
                             );
                         }
                     }
-                    cleanFiguraContexto();
+                    //cleanFiguraContexto();
                 } else {
                     console.error("Partida o jugador no definido");
                 }
@@ -152,14 +152,16 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
 
     // Verificar si la figura seleccionada incluye la celda
     const figuraElegida = (rowIndex: number, colIndex: number): boolean => {
-        return figuras.some((figura) =>
+        const casillaEnFigura = figuras.some((figura) =>
             figura.casillas.some(
                 (casilla) =>
                     casilla.row === rowIndex &&
                     casilla.column === colIndex &&
-                    figura === figuraSeleccionada
+                    figura.nombre === figuraSeleccionada?.nombre &&
+                    figura.casillas === figuraSeleccionada.casillas
             )
         );
+        return casillaEnFigura
     };
 
     // Resaltar casillas para los movimientos
