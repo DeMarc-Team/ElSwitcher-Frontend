@@ -10,32 +10,34 @@ import { FiguraContextProvider } from "@/context/UsarCartaFiguraContext";
 import { useEffect, useState } from "react";
 
 interface CtrlAComponentProps {
-    setIsCtrlA: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsCtrlA: (value: boolean) => void;
+    esCtrlA: boolean;
 }
 
-const CtrlAComponent: React.FC<CtrlAComponentProps> = ({ setIsCtrlA }) => {
+const CtrlAComponent: React.FC<CtrlAComponentProps> = ({ setIsCtrlA, esCtrlA }) => {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             // Verifica si Ctrl + A fue presionado
             if (event.ctrlKey && event.key === 'a') {
-                event.preventDefault(); 
-                setIsCtrlA(true);
+                event.preventDefault();
+                setIsCtrlA(!esCtrlA); 
             }
         };
+
         window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [setIsCtrlA]);
+    }, [setIsCtrlA, esCtrlA]); // Asegura que se vuelva a ejecutar el efecto cuando esCtrlA cambie
+
     return null;
 };
 
 function App() {
     const [isCtrlA, setIsCtrlA] = useState(false);
-
     return (
-        <div className={`px-32 max-md:px-10 ${isCtrlA ? 'emoji-cursor' : ''}`}>
-            <CtrlAComponent setIsCtrlA={setIsCtrlA} />
+        <div className={`px-32 max-md:px-10 ${isCtrlA ? 'emoji-cursor bg-[url("https://media.tenor.com/8lP1muGrKjUAAAAM/fire-pixel.gif")] bg-contain' : 'cursor-auto'}`}>
+            <CtrlAComponent setIsCtrlA={setIsCtrlA} esCtrlA={isCtrlA} />
             <PartidaWebsocketProvider>
                 <Router>
                     <Routes>
