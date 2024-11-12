@@ -161,7 +161,7 @@ export const useFuncionesSeleccion = (figuras: Figura[]) => {
                     figura.casillas === figuraSeleccionada.casillas
             )
         );
-        return casillaEnFigura
+        return casillaEnFigura;
     };
 
     // Resaltar casillas para los movimientos
